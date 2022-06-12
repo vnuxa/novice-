@@ -1735,6 +1735,7 @@ FE.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%7CFREE%5D%20FE%20Skateboard"] = "[PAID|FREE] FE Skateboard",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Kinetic%20Gun"] = "FE Kinetic Gun",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Giant%20M40%20Gun"] = "FE Giant M40 Gun",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Winged%20Master"] = "FE Winged Master",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
