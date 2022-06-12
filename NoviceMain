@@ -1520,14 +1520,13 @@ function mainLibrary()
 				task.wait(1.8)
 				game.CoreGui["novice+"]:Destroy() end
 
-			notify3:Play()
 			if mainButton.BackgroundColor3 == Color3.fromRGB(55,55,55) then
 				isVisible = false
 			else 
 				isVisible = true
 			end
 			if not isVisible then
-
+				errorSound:Play()
 				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
 				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(55,55,55)})
 
@@ -1535,6 +1534,7 @@ function mainLibrary()
 
 				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
 				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(194,194,194)})
+				notify3:Play()
 			end
 			for i,v in pairs(Frame_2:GetChildren()) do
 				if v:IsA("TextButton") and v.Name ~= mainButton.Name then
