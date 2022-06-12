@@ -170,14 +170,15 @@ if Root.Velocity.y > 1 then -- jump
 elseif Root.Velocity.y < -1 then -- fall
 --fall clerp here
 elseif Root.Velocity.Magnitude < 2 then -- idle
-hatset('WDW_FoamFinger','Torso',CFrame.new(),reanim['WDW_FoamFinger'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),0.8+0*math.cos(sine/13),-0.8+0*math.cos(sine/13))*ANGLES(RAD(20+5*math.cos(sine/13)),RAD(0+10*math.cos(sine/13)),RAD(0+10*math.cos(sine/13))),1),false)
-NECK.C0 = NECK.C0:Lerp(CF(0+0*math.cos(sine/13),1+0*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13))),.3)
-RJ.C0 = RJ.C0:Lerp(CF(0+0*math.cos(sine/15),-0.6+0.05*math.cos(sine/15),0+0*math.cos(sine/15))*ANGLES(RAD(-45+0*math.cos(sine/15)),RAD(0+0*math.cos(sine/15)),RAD(0+0*math.cos(sine/15))),.3)
-RS.C0 = RS.C0:Lerp(CF(1+0*math.cos(sine/30),0+0.1*math.cos(sine/30),-0.5+0*math.cos(sine/30))*ANGLES(RAD(145+0*math.cos(sine/30)),RAD(0+0*math.cos(sine/30)),RAD(0+0*math.cos(sine/30))),.3)
-LS.C0 = LS.C0:Lerp(CF(-1+0*math.cos(sine/13),0+0*math.cos(sine/13),-1+0*math.cos(sine/13))*ANGLES(RAD(45+0*math.cos(sine/13)),RAD(-5+0*math.cos(sine/13)),RAD(4+0*math.cos(sine/13))),.3)
-RH.C0 = RH.C0:Lerp(CF(1+0*math.cos(sine/13),-1+0.05*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(44+0*math.cos(sine/13)),RAD(69+0*math.cos(sine/13)),RAD(-36+0*math.cos(sine/13))),.3)
-LH.C0 = LH.C0:Lerp(CF(-1+0*math.cos(sine/13),-1+0.05*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(64+0*math.cos(sine/13)),RAD(131+0*math.cos(sine/13)),RAD(-25+0*math.cos(sine/13))),.3)
-hatset('Back_AccAccessory','Right Arm',CFrame.new(),reanim['Back_AccAccessory'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),1.6+0*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(-90+0*math.cos(sine/13)),RAD(-3+0*math.cos(sine/13)),RAD(90+0*math.cos(sine/13))),1),false)
+    hatset('WDW_FoamFinger','Torso',CFrame.new(),reanim['WDW_FoamFinger'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),0.8+0*math.cos(sine/13),-0.8+0*math.cos(sine/13))*ANGLES(RAD(20+5*math.cos(sine/13)),RAD(0+10*math.cos(sine/13)),RAD(0+10*math.cos(sine/13))),1),false)
+    NECK.C0 = NECK.C0:Lerp(CF(0+0*math.cos(sine/13),1+0*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13))),.3)
+    RJ.C0 = RJ.C0:Lerp(CF(0+0*math.cos(sine/90),-0.1+0.1*math.cos(sine/90),0+0*math.cos(sine/90))*ANGLES(RAD(10+-3*math.cos(sine/90)),RAD(0+0*math.cos(sine/90)),RAD(0+0*math.cos(sine/90))),.3)
+    RS.C0 = RS.C0:Lerp(CF(1+0*math.cos(sine/30),0+-0.2*math.cos(sine/30),0+0*math.cos(sine/30))*ANGLES(RAD(200+0*math.cos(sine/30)),RAD(20+0*math.cos(sine/30)),RAD(0+0*math.cos(sine/30))),.3)
+    LS.C0 = LS.C0:Lerp(CF(-1+0*math.cos(sine/30),0.5+-0.2*math.cos(sine/30),0+0*math.cos(sine/30))*ANGLES(RAD(13+0*math.cos(sine/30)),RAD(49+0*math.cos(sine/30)),RAD(4+0*math.cos(sine/30))),.3)
+    RH.C0 = RH.C0:Lerp(CF(0.7+0*math.cos(sine/40),-1+0.006*math.cos(sine/40),-0.5+0*math.cos(sine/40))*ANGLES(RAD(-10+0*math.cos(sine/40)),RAD(-45+0*math.cos(sine/40)),RAD(0+0*math.cos(sine/40))),.3)
+    LH.C0 = LH.C0:Lerp(CF(-0.7+0*math.cos(sine/40),-1+0.06*math.cos(sine/40),-0.5+0*math.cos(sine/40))*ANGLES(RAD(-10+0*math.cos(sine/40)),RAD(45+0*math.cos(sine/40)),RAD(0+0*math.cos(sine/40))),.3)
+    hatset('InternationalFedora','Left Arm',CFrame.new(),reanim['InternationalFedora'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),0.7+0*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13))),1),false)
+    hatset('Back_AccAccessory','Right Arm',CFrame.new(),reanim['Back_AccAccessory'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),2+0*math.cos(sine/13),-0+0*math.cos(sine/13))*ANGLES(RAD(-27+0*math.cos(sine/13)),RAD(20+0*math.cos(sine/13)),RAD(57+0*math.cos(sine/13))),1),false)
 elseif Root.Velocity.Magnitude < 20 then -- walk
 hatset('WDW_FoamFinger','Torso',CFrame.new(),reanim['WDW_FoamFinger'].Handle.AccessoryWeld.C0:Lerp(CF(0+0*math.cos(sine/13),0.8+0*math.cos(sine/13),-0.8+0*math.cos(sine/13))*ANGLES(RAD(20+5*math.cos(sine/13)),RAD(0+10*math.cos(sine/13)),RAD(0+10*math.cos(sine/13))),1),false)
 NECK.C0 = NECK.C0:Lerp(CF(0+0*math.cos(sine/13),1+0*math.cos(sine/13),0+0*math.cos(sine/13))*ANGLES(RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13)),RAD(0+0*math.cos(sine/13))),.3)
