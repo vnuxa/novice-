@@ -151,7 +151,7 @@ Source.ClearTextOnFocus = false
 Source.Font = Enum.Font.Code
 Source.MultiLine = true
 Source.PlaceholderColor3 = Color3.fromRGB(204, 204, 204)
-Source.Text = "print(\"ya yeet 1 2 3 4 \")"
+Source.Text = "--Thank you for using novice+. Not all of the FE scripts have been tested proprely by the way"
 Source.TextColor3 = Color3.fromRGB(204, 204, 204)
 Source.TextSize = 15.000
 Source.TextWrapped = false
@@ -1516,6 +1516,7 @@ function mainLibrary()
 		mainButton.MouseButton1Click:Connect(function()
 			
 			if linkedFrame == "Exit" then 
+				shutdown:Play()
 				task.wait(1.8)
 				game.CoreGui["novice+"]:Destroy() end
 
@@ -1738,6 +1739,28 @@ FE.MouseButton1Click:Connect(function()
 	end
 
 	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
+	
+	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
+	for i,v in pairs(Frame_2:GetChildren()) do
+		if v:IsA("TextButton") and v.Name ~= "Executer" then
+			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
+		end
+	end
+	for i,v in pairs(Window:GetChildren()) do
+		if v:IsA("Frame") then
+			v.Visible = false
+		end
+	end
+
+
+	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
+	task.wait(0.15)
+	Window.Visible = true
+	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
+	task.wait(0.5 - 0.1)
+	Executer.Visible = true
 end)
 Classic.MouseButton1Click:Connect(function()
 	shutdown:Play()
@@ -1756,6 +1779,28 @@ Classic.MouseButton1Click:Connect(function()
 	end
 
 	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
+	
+	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
+	for i,v in pairs(Frame_2:GetChildren()) do
+		if v:IsA("TextButton") and v.Name ~= "Executer" then
+			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
+		end
+	end
+	for i,v in pairs(Window:GetChildren()) do
+		if v:IsA("Frame") then
+			v.Visible = false
+		end
+	end
+
+
+	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
+	task.wait(0.15)
+	Window.Visible = true
+	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
+	task.wait(0.5 - 0.1)
+	Executer.Visible = true
 end)
 Revamped.MouseButton1Click:Connect(function()
 	shutdown:Play()
@@ -1774,4 +1819,26 @@ Revamped.MouseButton1Click:Connect(function()
 	end
 
 	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
+	
+	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
+	for i,v in pairs(Frame_2:GetChildren()) do
+		if v:IsA("TextButton") and v.Name ~= "Executer" then
+			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
+		end
+	end
+	for i,v in pairs(Window:GetChildren()) do
+		if v:IsA("Frame") then
+			v.Visible = false
+		end
+	end
+
+
+	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
+	task.wait(0.15)
+	Window.Visible = true
+	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
+	task.wait(0.5 - 0.1)
+	Executer.Visible = true
 end)
