@@ -37,7 +37,6 @@ local UIListLayout_3 = Instance.new("UIListLayout")
 
 
 local Frame_4 = Instance.new("Frame")
-local Run_3 = Instance.new("TextButton")
 local UICorner_10 = Instance.new("UICorner")
 local UIPadding_9 = Instance.new("UIPadding")
 local right_3 = Instance.new("ImageLabel")
@@ -287,33 +286,7 @@ Frame_4.BackgroundTransparency = 1.000
 Frame_4.Position = UDim2.new(0, 0, 1, 25)
 Frame_4.Size = UDim2.new(1, 0, 0, 25)
 
-Run_3.Name = "Run"
-Run_3.Parent = Frame_4
-Run_3.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-Run_3.Position = UDim2.new(0, 0, 1.22649574, -35)
-Run_3.Size = UDim2.new(0, 35, 0, 35)
-Run_3.Text = ""
 
-UICorner_10.Parent = Run_3
-
-UIPadding_9.Parent = Run_3
-UIPadding_9.PaddingBottom = UDim.new(0, 5)
-UIPadding_9.PaddingLeft = UDim.new(0, 5)
-UIPadding_9.PaddingRight = UDim.new(0, 5)
-UIPadding_9.PaddingTop = UDim.new(0, 5)
-
-right_3.Name = "right"
-right_3.Parent = Run_3
-right_3.Active = true
-right_3.BackgroundTransparency = 1.000
-right_3.LayoutOrder = 8
-right_3.Selectable = true
-right_3.Size = UDim2.new(1, 0, 1, 0)
-right_3.ZIndex = 2
-right_3.Image = "rbxassetid://6764432408"
-right_3.ImageColor3 = Color3.fromRGB(194, 194, 194)
-right_3.ImageRectOffset = Vector2.new(100, 150)
-right_3.ImageRectSize = Vector2.new(50, 50)
 
 UIListLayout_4.Parent = Frame_4
 UIListLayout_4.FillDirection = Enum.FillDirection.Horizontal
@@ -1479,8 +1452,13 @@ TextLabel.Visible = true
 Run_2.MouseButton1Click:Connect(function()
 	local callback = Source.Text
 	local callback = callback or function() end
-	background:Play()
 	pcall(loadstring(callback))
+
+end)
+
+Clear_2.MouseButton1Click:Connect(function()
+	background:Play()
+	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
 
 end)
 Clear.MouseButton1Click:Connect(function()
@@ -1536,11 +1514,12 @@ function mainLibrary()
 		transition(false,mainImage,{ImageTransparency = 0},0.5)
 		local isVisible = false
 		mainButton.MouseButton1Click:Connect(function()
-			notify3:Play()
 			
 			if linkedFrame == "Exit" then 
 				task.wait(1.8)
 				game.CoreGui["novice+"]:Destroy() end
+
+			notify3:Play()
 			if mainButton.BackgroundColor3 == Color3.fromRGB(55,55,55) then
 				isVisible = false
 			else 
