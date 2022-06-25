@@ -5,9 +5,7 @@ te=table.insert
 
 HumanDied=false
 
-if char.Humanoid.RigType == "R15" then
-	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
-end
+
 
 for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
 if v:IsA("BasePart") then 
