@@ -1451,7 +1451,8 @@ TextLabel.Visible = true
 
 Clear_2.MouseButton1Click:Connect(function()
 	background:Play()
-	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
+--	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
+	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
 
 end)
 Clear.MouseButton1Click:Connect(function()
@@ -1747,6 +1748,7 @@ FE.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Achromatic"] = "FE Achromatic",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gravity%20Contorl"] = "FE Gravity Control",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Blue%20flame%20hoverboard"] = "FE Blue flame hoverboard",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Friend%20bike"] = "FE Friend bike",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
