@@ -1744,6 +1744,8 @@ FE.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Telekinesis%20V2"] = "FE Telekinesis V2",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Nullioner"] = "FE Nullioner",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Resize"] = "FE Resize",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Achromatic"] = "FE Achromatic",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gravity%20Contorl"] = "FE Gravity Control",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
