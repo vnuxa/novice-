@@ -1749,6 +1749,7 @@ FE.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gravity%20Contorl"] = "FE Gravity Control",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Blue%20flame%20hoverboard"] = "FE Blue flame hoverboard",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Friend%20bike"] = "FE Friend bike",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Free%20giant"] = "FE Free giant",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
