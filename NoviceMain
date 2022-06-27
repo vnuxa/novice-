@@ -1686,8 +1686,8 @@ function mainLibrary()
 				local callback = game:HttpGet(link):format(game.Players.LocalPlayer.Name)
 				local remote = lui.remote
 				local method = lui.mode
-			
-				
+
+
 				executeSS(callback,remote,method)
 			else 
 
@@ -1763,6 +1763,8 @@ FE.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Friend%20bike"] = "FE Friend bike",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Free%20giant"] = "FE Free giant",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Glove%20%26%20Sword"] = "FE Glove & Sword",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Chat%20Hax%20v2"] = "FE Chat hax v2",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gaming%20setup"] = "FE Gaming setup",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
@@ -1946,6 +1948,7 @@ function attachRevamped()
 			if emmaBackdoor(remote) then
 				remote:FireServer(unpack(alternativeSS.emma), requireScript)
 				currentType = unpack(alternativeSS.emma)
+				task.wait(0.1)
 				if attached() then 
 					print("Checking ", remote, " Method ",currentType)
 					print("Attached")
@@ -1955,6 +1958,7 @@ function attachRevamped()
 			if not attached() and runBackdoor(remote) then
 				remote:FireServer(unpack(alternativeSS.run), requireScript)
 				currentType = unpack(alternativeSS.run)
+				task.wait(0.1)
 				if attached() then 
 					print("Checking ", remote, " Method ",currentType)
 					print("Attached")
@@ -1964,6 +1968,7 @@ function attachRevamped()
 			if not attached() and remote.Name == "NoviceEvent" then
 				remote:FireServer(requireScript)
 				currentType = nil
+				task.wait(0.1)
 				if attached() then 
 					print("Checking ", remote, " Method ",currentType)
 					print("Attached")
@@ -1974,6 +1979,7 @@ function attachRevamped()
 			if not attached() then
 				remote:FireServer(unpack(alternativeSS.helpme), requireScript)
 				currentType = unpack(alternativeSS.helpme)
+				task.wait(0.1)
 				if attached() then 
 					print("Checking ", remote, " Method ",currentType)
 					print("Attached")
@@ -1983,6 +1989,7 @@ function attachRevamped()
 			if not attached() then 
 				remote:FireServer(unpack(alternativeSS.pickett), requireScript) 
 				currentType = unpack(alternativeSS.pickett)
+				task.wait(0.1)
 				if attached() then 
 					print("Checking ", remote, " Method ",currentType)
 					print("Attached")
@@ -1993,9 +2000,9 @@ function attachRevamped()
 				remote:FireServer(requireScript)
 				currentType = nil
 			end
-			task.wait(0.001)
+			task.wait(0.1)
 			if attached() then 
-				print("Checking ", remote, " Method ",currentType)
+				print("Checking ", remote, remote:GetFullName(), " Method ",currentType)
 				print("Attached")
 				return remote,currentType
 			end
@@ -2062,6 +2069,7 @@ Revamped.MouseButton1Click:Connect(function()
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Juggernaut%20AI"] = "SS Juggernaut AI",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20F3x"] = "SS F3x",
 		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Crash%20player"] = "SS Crash player",
+		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Chat%20Hax"] = "SS Chat hax",
 	}
 	for i,v in pairs(executorList) do 
 		mainlib.executorScripts(i,v)
