@@ -1,2 +1,2 @@
---RTHRO PACKAGE NEEDED
+--RTHRO PACKAGE NEEDED, R15, HEAD SIZE TO 100
 loadstring(game:HttpGet("https://raw.githubusercontent.com/sysGhost-aka-BiKode/Scripts2022/main/BigHeadV3_Unpatched", true))()
