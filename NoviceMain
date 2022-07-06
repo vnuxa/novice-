@@ -2,7 +2,7 @@
 -- Version: 3.2
 
 -- Instances:
-
+if game.CoreGui:FindFirstChild("noviceOS") then return end
 local noviceOS = {
 	noviceOS = Instance.new("ScreenGui"),
 	Taskbar = Instance.new("Frame"),
