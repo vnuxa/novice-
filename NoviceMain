@@ -4206,7 +4206,8 @@ noviceModule = function()
 				end
 				local txt = "off"
 				if bool then txt = "on" end
-				console.makeLines("[Pr] ESP is ".. txt..".")
+				console.makeLines("[Pr] First person is ".. txt..".")
+				console.makeLines("[Pr] On will toggle back to default settings")
 
 				if bool then
 					for index,value in pairs(savedThings) do
@@ -4281,8 +4282,8 @@ noviceModule = function()
 					bool = true
 				end
 				local txt = "off"
-				console.makeLines("[Pr] Humanoid ESP is ".. txt..".")
 				if bool then txt = "on" end
+				console.makeLines("[Pr] Humanoid ESP is ".. txt..".")
 
 				if bool then
 					local ws=workspace
