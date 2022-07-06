@@ -1,10 +1,12 @@
-	  ["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Ultimate%20Trolling%20Gui%20v6"] = "SS Ultimate Trolling Gui v6",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Fatherless%20hub"] = "SS Fatherless hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/LES%20GO"] = "SS Dababy",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Krono%20hub"] = "SS Krono hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Astro%20hub"] = "SS Astro hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Minecraft"] = "SS Minecraft",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Juggernaut%20AI"] = "SS Juggernaut AI",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20F3x"] = "SS F3x",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Crash%20player"] = "SS Crash player",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Chat%20Hax"] = "SS Chat hax",
+{
+	 	 "https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Ultimate%20Trolling%20Gui%20v6": "SS Ultimate Trolling Gui v6",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Fatherless%20hub": "SS Fatherless hub",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/LES%20GO": "SS Dababy",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Krono%20hub": "SS Krono hub",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Astro%20hub": "SS Astro hub",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Minecraft": "SS Minecraft",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Juggernaut%20AI": "SS Juggernaut AI",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20F3x": "SS F3x",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Crash%20player": "SS Crash player",
+		"https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Chat%20Hax": "SS Chat hax"
+}
