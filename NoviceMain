@@ -3,400 +3,1594 @@
 
 -- Instances:
 
-local novice = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local UIGradient = Instance.new("UIGradient")
-local TextLabel = Instance.new("TextLabel")
-local Frame_2 = Instance.new("Frame")
-local UIListLayout = Instance.new("UIListLayout")
-local UIPadding_2 = Instance.new("UIPadding")
-local Window = Instance.new("Frame")
-local UICorner_5 = Instance.new("UICorner")
-local UIGradient_2 = Instance.new("UIGradient")
-local Executer = Instance.new("Frame")
-local LuaLexer = Instance.new("ScrollingFrame")
-local Source = Instance.new("TextBox")
-local Lines = Instance.new("TextLabel")
-local UIPadding_5 = Instance.new("UIPadding")
-local Frame_3 = Instance.new("Frame")
-local Run_2 = Instance.new("TextButton")
-local UICorner_6 = Instance.new("UICorner")
-local UIPadding_6 = Instance.new("UIPadding")
-local right_2 = Instance.new("ImageLabel")
-local UIListLayout_2 = Instance.new("UIListLayout")
-local Clear = Instance.new("TextButton")
-local UICorner_7 = Instance.new("UICorner")
-local UIPadding_7 = Instance.new("UIPadding")
-local clear = Instance.new("ImageLabel")
-local Scritps = Instance.new("Frame")
-local UIPadding_8 = Instance.new("UIPadding")
-local ScrollingFrame = Instance.new("ScrollingFrame")
-local UICorner_8 = Instance.new("UICorner")
-local UIListLayout_3 = Instance.new("UIListLayout")
-
-
-local Frame_4 = Instance.new("Frame")
-local UICorner_10 = Instance.new("UICorner")
-local UIPadding_9 = Instance.new("UIPadding")
-local right_3 = Instance.new("ImageLabel")
-local UIListLayout_4 = Instance.new("UIListLayout")
-local Clear_2 = Instance.new("TextButton")
-local UICorner_11 = Instance.new("UICorner")
-local UIPadding_10 = Instance.new("UIPadding")
-local opacity = Instance.new("ImageLabel")
-local Attacher = Instance.new("Frame")
-local UIPadding_11 = Instance.new("UIPadding")
-local Classic = Instance.new("TextButton")
-local UICorner_12 = Instance.new("UICorner")
-local UIGradient_4 = Instance.new("UIGradient")
-local Revamped = Instance.new("TextButton")
-local UICorner_13 = Instance.new("UICorner")
-local UIGradient_5 = Instance.new("UIGradient")
-local FE = Instance.new("TextButton")
-local UICorner_14 = Instance.new("UICorner")
-local UIGradient_6 = Instance.new("UIGradient")
-local UITableLayout = Instance.new("UITableLayout")
-local ScreenGui = Instance.new("ScreenGui")
+local noviceOS = {
+	noviceOS = Instance.new("ScreenGui"),
+	Taskbar = Instance.new("Frame"),
+	UICorner = Instance.new("UICorner"),
+	deco = Instance.new("Frame"),
+	deco_2 = Instance.new("Frame"),
+	Frame = Instance.new("Frame"),
+	UIListLayout = Instance.new("UIListLayout"),
+	OpenExecutor = Instance.new("TextButton"),
+	UICorner_2 = Instance.new("UICorner"),
+	UIPadding = Instance.new("UIPadding"),
+	right = Instance.new("ImageLabel"),
+	Scripts = Instance.new("TextButton"),
+	UICorner_3 = Instance.new("UICorner"),
+	UIPadding_2 = Instance.new("UIPadding"),
+	menuList = Instance.new("ImageLabel"),
+	UIPadding_3 = Instance.new("UIPadding"),
+	Console = Instance.new("TextButton"),
+	UICorner_4 = Instance.new("UICorner"),
+	UIPadding_4 = Instance.new("UIPadding"),
+	menuList_2 = Instance.new("ImageLabel"),
+	RFinder = Instance.new("TextButton"),
+	UICorner_5 = Instance.new("UICorner"),
+	UIPadding_5 = Instance.new("UIPadding"),
+	menuList_3 = Instance.new("ImageLabel"),
+	Exit = Instance.new("TextButton"),
+	UICorner_6 = Instance.new("UICorner"),
+	UIPadding_6 = Instance.new("UIPadding"),
+	menuList_4 = Instance.new("ImageLabel"),
+	Title = Instance.new("TextLabel"),
+	UITextSizeConstraint = Instance.new("UITextSizeConstraint"),
+	UIPadding_7 = Instance.new("UIPadding"),
+	Desktop = Instance.new("Frame"),
+	Executor = Instance.new("Frame"),
+	Shadow = Instance.new("ImageLabel"),
+	UICorner_7 = Instance.new("UICorner"),
+	TopBar = Instance.new("Frame"),
+	Title_2 = Instance.new("TextLabel"),
+	UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint"),
+	UIPadding_8 = Instance.new("UIPadding"),
+	UIPadding_9 = Instance.new("UIPadding"),
+	buttons1 = Instance.new("Frame"),
+	_2Maximize = Instance.new("TextButton"),
+	UICorner_8 = Instance.new("UICorner"),
+	UIPadding_10 = Instance.new("UIPadding"),
+	menuListExpand = Instance.new("ImageLabel"),
+	menuListLess = Instance.new("ImageLabel"),
+	UIListLayout_2 = Instance.new("UIListLayout"),
+	UIPadding_11 = Instance.new("UIPadding"),
+	UICorner_9 = Instance.new("UICorner"),
+	UIPadding_12 = Instance.new("UIPadding"),
+	menuList_5 = Instance.new("ImageLabel"),
+	_1Minimize = Instance.new("TextButton"),
+	UICorner_10 = Instance.new("UICorner"),
+	UIPadding_13 = Instance.new("UIPadding"),
+	menuList_6 = Instance.new("ImageLabel"),
+	MainExecutor = Instance.new("Frame"),
+	LuaLexer = Instance.new("ScrollingFrame"),
+	Lines = Instance.new("TextLabel"),
+	SourceFrame = Instance.new("Frame"),
+	Source = Instance.new("TextBox"),
+	UISizeConstraint = Instance.new("UISizeConstraint"),
+	UITableLayout = Instance.new("UITableLayout"),
+	UIPadding_14 = Instance.new("UIPadding"),
+	Buttons = Instance.new("Frame"),
+	Run = Instance.new("TextButton"),
+	UICorner_11 = Instance.new("UICorner"),
+	UIPadding_15 = Instance.new("UIPadding"),
+	right_2 = Instance.new("ImageLabel"),
+	UIListLayout_3 = Instance.new("UIListLayout"),
+	Clear = Instance.new("TextButton"),
+	UICorner_12 = Instance.new("UICorner"),
+	UIPadding_16 = Instance.new("UIPadding"),
+	clear = Instance.new("ImageLabel"),
+	Copy = Instance.new("TextButton"),
+	UICorner_13 = Instance.new("UICorner"),
+	UIPadding_17 = Instance.new("UIPadding"),
+	clear_2 = Instance.new("ImageLabel"),
+	ExecuteCopied = Instance.new("TextButton"),
+	UICorner_14 = Instance.new("UICorner"),
+	UIPadding_18 = Instance.new("UIPadding"),
+	clear_3 = Instance.new("ImageLabel"),
+	Scripts_2 = Instance.new("Frame"),
+	Shadow_2 = Instance.new("ImageLabel"),
+	UICorner_15 = Instance.new("UICorner"),
+	TopBar_2 = Instance.new("Frame"),
+	Title_3 = Instance.new("TextLabel"),
+	UITextSizeConstraint_3 = Instance.new("UITextSizeConstraint"),
+	UIPadding_19 = Instance.new("UIPadding"),
+	UIPadding_20 = Instance.new("UIPadding"),
+	buttons = Instance.new("Frame"),
+	_2Maximize_2 = Instance.new("TextButton"),
+	UICorner_16 = Instance.new("UICorner"),
+	UIPadding_21 = Instance.new("UIPadding"),
+	menuListExpand_2 = Instance.new("ImageLabel"),
+	menuListLess_2 = Instance.new("ImageLabel"),
+	UIListLayout_4 = Instance.new("UIListLayout"),
+	UIPadding_22 = Instance.new("UIPadding"),
+	UICorner_17 = Instance.new("UICorner"),
+	UIPadding_23 = Instance.new("UIPadding"),
+	menuList_7 = Instance.new("ImageLabel"),
+	_1Minimize_2 = Instance.new("TextButton"),
+	UICorner_18 = Instance.new("UICorner"),
+	UIPadding_24 = Instance.new("UIPadding"),
+	menuList_8 = Instance.new("ImageLabel"),
+	tabs = Instance.new("Frame"),
+	_2Maximize_3 = Instance.new("TextButton"),
+	UICorner_19 = Instance.new("UICorner"),
+	_2Maximize_31 = Instance.new("TextButton"),
+	UICorner_191 = Instance.new("UICorner"),
+	UIListLayout_5 = Instance.new("UIListLayout"),
+	UIPadding_25 = Instance.new("UIPadding"),
+	UICorner_20 = Instance.new("UICorner"),
+	_1Minimize_3 = Instance.new("TextButton"),
+	UICorner_21 = Instance.new("UICorner"),
+	ScrollingFrame = Instance.new("ScrollingFrame"),
+	UIPadding_26 = Instance.new("UIPadding"),
+	UIListLayout_6 = Instance.new("UIListLayout"),
+	Template_2 = Instance.new("Frame"),
+	UICorner_23 = Instance.new("UICorner"),
+	itemName_2 = Instance.new("TextLabel"),
+	View_2 = Instance.new("TextButton"),
+	Execute_2 = Instance.new("TextButton"),
+	UIGradient_2 = Instance.new("UIGradient"),
+	Template_3 = Instance.new("Frame"),
+	UICorner_24 = Instance.new("UICorner"),
+	itemName_3 = Instance.new("TextLabel"),
+	View_3 = Instance.new("TextButton"),
+	Execute_3 = Instance.new("TextButton"),
+	UIGradient_3 = Instance.new("UIGradient"),
+	TextBox = Instance.new("TextBox"),
+	UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint"),
+	Executer = Instance.new("Frame"),
+	UIPadding_27 = Instance.new("UIPadding"),
+	RFinder_2 = Instance.new("Frame"),
+	Shadow_3 = Instance.new("ImageLabel"),
+	UICorner_25 = Instance.new("UICorner"),
+	TopBar_3 = Instance.new("Frame"),
+	Title_4 = Instance.new("TextLabel"),
+	UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint"),
+	UIPadding_28 = Instance.new("UIPadding"),
+	UIPadding_29 = Instance.new("UIPadding"),
+	buttons_2 = Instance.new("Frame"),
+	_2Maximize_4 = Instance.new("TextButton"),
+	UICorner_26 = Instance.new("UICorner"),
+	UIPadding_30 = Instance.new("UIPadding"),
+	menuListExpand_3 = Instance.new("ImageLabel"),
+	menuListLess_3 = Instance.new("ImageLabel"),
+	UIListLayout_7 = Instance.new("UIListLayout"),
+	UIPadding_31 = Instance.new("UIPadding"),
+	UICorner_27 = Instance.new("UICorner"),
+	UIPadding_32 = Instance.new("UIPadding"),
+	menuList_9 = Instance.new("ImageLabel"),
+	_1Minimize_4 = Instance.new("TextButton"),
+	UICorner_28 = Instance.new("UICorner"),
+	UIPadding_33 = Instance.new("UIPadding"),
+	menuList_10 = Instance.new("ImageLabel"),
+	ScrollingFrame_2 = Instance.new("ScrollingFrame"),
+	RemoteTemplate = Instance.new("Frame"),
+	UICorner_29 = Instance.new("UICorner"),
+	itemName_4 = Instance.new("TextLabel"),
+	UIPadding_34 = Instance.new("UIPadding"),
+	UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint"),
+	Copy_2 = Instance.new("TextButton"),
+	UIGradient_4 = Instance.new("UIGradient"),
+	UIPadding_35 = Instance.new("UIPadding"),
+	UIListLayout_8 = Instance.new("UIListLayout"),
+	TextBox_2 = Instance.new("TextBox"),
+	UITextSizeConstraint_7 = Instance.new("UITextSizeConstraint"),
+	Executer_2 = Instance.new("Frame"),
+	UIPadding_36 = Instance.new("UIPadding"),
+	Console_2 = Instance.new("Frame"),
+	Shadow_4 = Instance.new("ImageLabel"),
+	UICorner_30 = Instance.new("UICorner"),
+	ScrollingFrame_3 = Instance.new("ScrollingFrame"),
+	UIPadding_37 = Instance.new("UIPadding"),
+	UIListLayout_9 = Instance.new("UIListLayout"),
+	Executer_3 = Instance.new("Frame"),
+	UIPadding_39 = Instance.new("UIPadding"),
+	TopBar_4 = Instance.new("Frame"),
+	Title_5 = Instance.new("TextLabel"),
+	UITextSizeConstraint_9 = Instance.new("UITextSizeConstraint"),
+	UIPadding_40 = Instance.new("UIPadding"),
+	UIPadding_41 = Instance.new("UIPadding"),
+	buttons_3 = Instance.new("Frame"),
+	_2Maximize_5 = Instance.new("TextButton"),
+	UICorner_31 = Instance.new("UICorner"),
+	UIPadding_42 = Instance.new("UIPadding"),
+	menuListExpand_4 = Instance.new("ImageLabel"),
+	menuListLess_4 = Instance.new("ImageLabel"),
+	UIListLayout_10 = Instance.new("UIListLayout"),
+	UIPadding_43 = Instance.new("UIPadding"),
+	UICorner_32 = Instance.new("UICorner"),
+	UIPadding_44 = Instance.new("UIPadding"),
+	menuList_11 = Instance.new("ImageLabel"),
+	_1Minimize_5 = Instance.new("TextButton"),
+	UICorner_33 = Instance.new("UICorner"),
+	UIPadding_45 = Instance.new("UIPadding"),
+	menuList_12 = Instance.new("ImageLabel"),
+	TextBox_3 = Instance.new("TextBox"),
+	UITextSizeConstraint_10 = Instance.new("UITextSizeConstraint"),
+	UICorner_34 = Instance.new("UICorner"),
+	UISizeConstraint_2 = Instance.new("UISizeConstraint"),
+	Notification = Instance.new("Frame"),
+	UICorner_35 = Instance.new("UICorner"),
+	deco_3 = Instance.new("Frame"),
+	Title_6 = Instance.new("TextLabel"),
+	UITextSizeConstraint_11 = Instance.new("UITextSizeConstraint"),
+	UIPadding_46 = Instance.new("UIPadding"),
+	UIPadding_47 = Instance.new("UIPadding"),
+	MainText = Instance.new("TextLabel"),
+	UITextSizeConstraint_12 = Instance.new("UITextSizeConstraint"),
+	UIPadding_48 = Instance.new("UIPadding"),
+}
 
 --Properties:
 
-novice.Name = "novice+"
-novice.Parent = game.CoreGui
-novice.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+noviceOS.noviceOS.Name = "noviceOS"
+noviceOS.noviceOS.Parent = game.CoreGui
+noviceOS.noviceOS.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-Frame.Parent = novice
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Position = UDim2.new(0.323327065, 0, -0.0113895219, 0)
-Frame.Size = UDim2.new(0, 564, 0, 68)
+noviceOS.Taskbar.Name = "Taskbar"
+noviceOS.Taskbar.Parent = noviceOS.noviceOS
+noviceOS.Taskbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.Taskbar.Position = UDim2.new(0, 0, 0.935227275, 0)
+noviceOS.Taskbar.Size = UDim2.new(0.451017797, 0, 0.0647727251, 0)
 
-UICorner.CornerRadius = UDim.new(0, 7)
-UICorner.Parent = Frame
+noviceOS.UICorner.Parent = noviceOS.Taskbar
 
-UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(166, 166, 166))}
-UIGradient.Rotation = 50
-UIGradient.Parent = Frame
+noviceOS.deco.Name = "deco"
+noviceOS.deco.Parent = noviceOS.Taskbar
+noviceOS.deco.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.deco.BorderSizePixel = 0
+noviceOS.deco.Size = UDim2.new(0.141043723, 0, 1.75438595, 0)
 
-TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.BackgroundTransparency = 1.000
-TextLabel.Position = UDim2.new(0, 0, 0.220588237, 0)
-TextLabel.Size = UDim2.new(0.0140845114, 100, 0.522058845, 0)
-TextLabel.Font = Enum.Font.GothamMedium
-TextLabel.Text = "Novice+"
-TextLabel.TextColor3 = Color3.fromRGB(194, 194, 194)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 20.000
-TextLabel.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextWrapped = true
+noviceOS.deco_2.Name = "deco"
+noviceOS.deco_2.Parent = noviceOS.Taskbar
+noviceOS.deco_2.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.deco_2.BorderSizePixel = 0
+noviceOS.deco_2.Position = UDim2.new(0.858956277, 0, 0.649122834, 0)
+noviceOS.deco_2.Size = UDim2.new(0.141043723, 0, 1.75438595, 0)
 
-Frame_2.Parent = Frame
-Frame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Frame_2.BackgroundTransparency = 1.000
-Frame_2.Position = UDim2.new(0.248826295, 0, 0, 0)
-Frame_2.Size = UDim2.new(0, 320, 1, 0)
+noviceOS.Frame.Parent = noviceOS.Taskbar
+noviceOS.Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Frame.BackgroundTransparency = 1.000
+noviceOS.Frame.Position = UDim2.new(0.140995041, 0, 0, 0)
+noviceOS.Frame.Size = UDim2.new(0.859004974, 0, 1, 0)
 
+noviceOS.UIListLayout.Parent = noviceOS.Frame
+noviceOS.UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+noviceOS.UIListLayout.Padding = UDim.new(0, 5)
 
+noviceOS.OpenExecutor.Name = "OpenExecutor"
+noviceOS.OpenExecutor.Parent = noviceOS.Frame
+noviceOS.OpenExecutor.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.OpenExecutor.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+noviceOS.OpenExecutor.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.OpenExecutor.Text = ""
 
+noviceOS.UICorner_2.Parent = noviceOS.OpenExecutor
 
-UIListLayout.Parent = Frame_2
-UIListLayout.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-UIListLayout.Padding = UDim.new(0, 10)
+noviceOS.UIPadding.Parent = noviceOS.OpenExecutor
+noviceOS.UIPadding.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding.PaddingTop = UDim.new(0, 5)
 
-UIPadding_2.Parent = Frame_2
-UIPadding_2.PaddingBottom = UDim.new(0, 2)
-UIPadding_2.PaddingLeft = UDim.new(0, 10)
+noviceOS.right.Name = "menuList"
+noviceOS.right.Parent = noviceOS.OpenExecutor
+noviceOS.right.Active = true
+noviceOS.right.BackgroundTransparency = 1.000
+noviceOS.right.LayoutOrder = 8
+noviceOS.right.Selectable = true
+noviceOS.right.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.right.ZIndex = 2
+noviceOS.right.Image = "rbxassetid://6764432408"
+noviceOS.right.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.right.ImageRectOffset = Vector2.new(100, 150)
+noviceOS.right.ImageRectSize = Vector2.new(50, 50)
 
-Window.Name = "Window"
-Window.Parent = Frame
-Window.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Window.Position = UDim2.new(0, 0, 1, 10)
-Window.Size = UDim2.new(1, 0, 3.7352941, 0)
-Window.Visible = false
+noviceOS.Scripts.Name = "Scripts"
+noviceOS.Scripts.Parent = noviceOS.Frame
+noviceOS.Scripts.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Scripts.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+noviceOS.Scripts.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Scripts.Text = ""
 
-UICorner_5.CornerRadius = UDim.new(0, 7)
-UICorner_5.Parent = Window
+noviceOS.UICorner_3.Parent = noviceOS.Scripts
 
-UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(166, 166, 166))}
-UIGradient_2.Rotation = -90
-UIGradient_2.Parent = Window
+noviceOS.UIPadding_2.Parent = noviceOS.Scripts
+noviceOS.UIPadding_2.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_2.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_2.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_2.PaddingTop = UDim.new(0, 5)
 
-Executer.Name = "Executer"
-Executer.Parent = Window
-Executer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Executer.BackgroundTransparency = 1.000
-Executer.Size = UDim2.new(1, 0, 1, 0)
-Executer.Visible = false
+noviceOS.menuList.Name = "menuList"
+noviceOS.menuList.Parent = noviceOS.Scripts
+noviceOS.menuList.Active = true
+noviceOS.menuList.BackgroundTransparency = 1.000
+noviceOS.menuList.LayoutOrder = 5
+noviceOS.menuList.Selectable = true
+noviceOS.menuList.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList.ZIndex = 2
+noviceOS.menuList.Image = "rbxassetid://6764432408"
+noviceOS.menuList.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList.ImageRectOffset = Vector2.new(150, 0)
+noviceOS.menuList.ImageRectSize = Vector2.new(50, 50)
 
-LuaLexer.Name = "LuaLexer"
-LuaLexer.Parent = Executer
-LuaLexer.Active = true
-LuaLexer.BackgroundColor3 = Color3.fromRGB(37, 37, 37)
-LuaLexer.BorderColor3 = Color3.fromRGB(61, 61, 61)
-LuaLexer.Size = UDim2.new(1, 0, 1, 0)
-LuaLexer.ZIndex = 3
-LuaLexer.CanvasSize = UDim2.new(1, 0, 1000, 0)
-LuaLexer.AutomaticCanvasSize = Enum.AutomaticSize.X
+noviceOS.UIPadding_3.Parent = noviceOS.Frame
+noviceOS.UIPadding_3.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_3.PaddingTop = UDim.new(0, 10)
 
-Source.Name = "Source"
-Source.Parent = LuaLexer
-Source.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Source.BackgroundTransparency = 1.000
-Source.Position = UDim2.new(0, 30, 0, 0)
-Source.Size = UDim2.new(1, 0, 1, 0)
-Source.ZIndex = 3
-Source.ClearTextOnFocus = false
-Source.Font = Enum.Font.Code
-Source.MultiLine = true
-Source.PlaceholderColor3 = Color3.fromRGB(204, 204, 204)
-Source.Text = "--Thank you for using novice+. Not all of the FE scripts have been tested proprely by the way"
-Source.TextColor3 = Color3.fromRGB(204, 204, 204)
-Source.TextSize = 15.000
-Source.TextWrapped = false
-Source.TextXAlignment = Enum.TextXAlignment.Left
-Source.TextYAlignment = Enum.TextYAlignment.Top
-Source.AutomaticSize = Enum.AutomaticSize.X
+noviceOS.Console.Name = "Console"
+noviceOS.Console.Parent = noviceOS.Frame
+noviceOS.Console.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Console.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+noviceOS.Console.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Console.Text = ""
 
-Lines.Name = "Lines"
-Lines.Parent = LuaLexer
-Lines.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Lines.BackgroundTransparency = 1.000
-Lines.Size = UDim2.new(0, 30, 1, 0)
-Lines.ZIndex = 4
-Lines.Font = Enum.Font.Code
-Lines.Text = "1"
-Lines.TextColor3 = Color3.fromRGB(255, 255, 255)
-Lines.TextSize = 15.000
-Lines.TextYAlignment = Enum.TextYAlignment.Top
+noviceOS.UICorner_4.Parent = noviceOS.Console
 
+noviceOS.UIPadding_4.Parent = noviceOS.Console
+noviceOS.UIPadding_4.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_4.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_4.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_4.PaddingTop = UDim.new(0, 5)
 
-UIPadding_5.Parent = Executer
-UIPadding_5.PaddingBottom = UDim.new(0, 10)
-UIPadding_5.PaddingLeft = UDim.new(0, 10)
-UIPadding_5.PaddingRight = UDim.new(0, 10)
-UIPadding_5.PaddingTop = UDim.new(0, 10)
+noviceOS.menuList_2.Name = "menuList"
+noviceOS.menuList_2.Parent = noviceOS.Console
+noviceOS.menuList_2.Active = true
+noviceOS.menuList_2.BackgroundTransparency = 1.000
+noviceOS.menuList_2.LayoutOrder = 5
+noviceOS.menuList_2.Selectable = true
+noviceOS.menuList_2.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_2.ZIndex = 2
+noviceOS.menuList_2.Image = "rbxassetid://3926305904"
+noviceOS.menuList_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_2.ImageRectOffset = Vector2.new(764, 84)
+noviceOS.menuList_2.ImageRectSize = Vector2.new(36, 36)
 
-Frame_3.Parent = Executer
-Frame_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Frame_3.BackgroundTransparency = 1.000
-Frame_3.Position = UDim2.new(0, 0, 1, 25)
-Frame_3.Size = UDim2.new(1, 0, 0, 25)
+noviceOS.RFinder.Name = "RFinder"
+noviceOS.RFinder.Parent = noviceOS.Frame
+noviceOS.RFinder.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.RFinder.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+noviceOS.RFinder.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.RFinder.Text = ""
 
-Run_2.Name = "Run"
-Run_2.Parent = Frame_3
-Run_2.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-Run_2.Position = UDim2.new(0, 0, 1.22649574, -35)
-Run_2.Size = UDim2.new(0, 35, 0, 35)
-Run_2.Text = ""
+noviceOS.UICorner_5.Parent = noviceOS.RFinder
 
-UICorner_6.Parent = Run_2
+noviceOS.UIPadding_5.Parent = noviceOS.RFinder
+noviceOS.UIPadding_5.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_5.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_5.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_5.PaddingTop = UDim.new(0, 5)
 
-UIPadding_6.Parent = Run_2
-UIPadding_6.PaddingBottom = UDim.new(0, 5)
-UIPadding_6.PaddingLeft = UDim.new(0, 5)
-UIPadding_6.PaddingRight = UDim.new(0, 5)
-UIPadding_6.PaddingTop = UDim.new(0, 5)
+noviceOS.menuList_3.Name = "menuList"
+noviceOS.menuList_3.Parent = noviceOS.RFinder
+noviceOS.menuList_3.Active = true
+noviceOS.menuList_3.BackgroundTransparency = 1.000
+noviceOS.menuList_3.LayoutOrder = 5
+noviceOS.menuList_3.Selectable = true
+noviceOS.menuList_3.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_3.ZIndex = 2
+noviceOS.menuList_3.Image = "rbxassetid://3926305904"
+noviceOS.menuList_3.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_3.ImageRectOffset = Vector2.new(964, 324)
+noviceOS.menuList_3.ImageRectSize = Vector2.new(36, 36)
 
-right_2.Name = "right"
-right_2.Parent = Run_2
-right_2.Active = true
-right_2.BackgroundTransparency = 1.000
-right_2.LayoutOrder = 8
-right_2.Selectable = true
-right_2.Size = UDim2.new(1, 0, 1, 0)
-right_2.ZIndex = 2
-right_2.Image = "rbxassetid://6764432408"
-right_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
-right_2.ImageRectOffset = Vector2.new(100, 150)
-right_2.ImageRectSize = Vector2.new(50, 50)
+noviceOS.Exit.Name = "Exit"
+noviceOS.Exit.Parent = noviceOS.Frame
+noviceOS.Exit.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Exit.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+noviceOS.Exit.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Exit.Text = ""
 
-UIListLayout_2.Parent = Frame_3
-UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout_2.VerticalAlignment = Enum.VerticalAlignment.Center
-UIListLayout_2.Padding = UDim.new(0, 10)
+noviceOS.UICorner_6.Parent = noviceOS.Exit
 
-Clear.Name = "Clear"
-Clear.Parent = Frame_3
-Clear.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-Clear.Position = UDim2.new(0, 0, 1.22649574, -35)
-Clear.Size = UDim2.new(0, 35, 0, 35)
-Clear.Text = ""
+noviceOS.UIPadding_6.Parent = noviceOS.Exit
+noviceOS.UIPadding_6.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_6.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_6.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_6.PaddingTop = UDim.new(0, 5)
 
-UICorner_7.Parent = Clear
+noviceOS.menuList_4.Name = "menuList"
+noviceOS.menuList_4.Parent = noviceOS.Exit
+noviceOS.menuList_4.Active = true
+noviceOS.menuList_4.BackgroundTransparency = 1.000
+noviceOS.menuList_4.LayoutOrder = 5
+noviceOS.menuList_4.Selectable = true
+noviceOS.menuList_4.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_4.ZIndex = 2
+noviceOS.menuList_4.Image = "rbxassetid://6764432408"
+noviceOS.menuList_4.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_4.ImageRectOffset = Vector2.new(100, 400)
+noviceOS.menuList_4.ImageRectSize = Vector2.new(50, 50)
 
-UIPadding_7.Parent = Clear
-UIPadding_7.PaddingBottom = UDim.new(0, 5)
-UIPadding_7.PaddingLeft = UDim.new(0, 5)
-UIPadding_7.PaddingRight = UDim.new(0, 5)
-UIPadding_7.PaddingTop = UDim.new(0, 5)
+noviceOS.Title.Name = "Title"
+noviceOS.Title.Parent = noviceOS.Taskbar
+noviceOS.Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title.BackgroundTransparency = 1.000
+noviceOS.Title.Size = UDim2.new(0.0140556907, 100, 1, 0)
+noviceOS.Title.Font = Enum.Font.GothamBold
+noviceOS.Title.Text = "00:00"
+noviceOS.Title.TextColor3 = Color3.fromRGB(124, 124, 124)
+noviceOS.Title.TextScaled = true
+noviceOS.Title.TextSize = 25.000
+noviceOS.Title.TextWrapped = true
 
-clear.Name = "clear"
-clear.Parent = Clear
-clear.Active = true
-clear.BackgroundTransparency = 1.000
-clear.LayoutOrder = 5
-clear.Selectable = true
-clear.Size = UDim2.new(1, 0, 1, 0)
-clear.ZIndex = 2
-clear.Image = "rbxassetid://3926305904"
-clear.ImageColor3 = Color3.fromRGB(194, 194, 194)
-clear.ImageRectOffset = Vector2.new(924, 724)
-clear.ImageRectSize = Vector2.new(36, 36)
+noviceOS.UITextSizeConstraint.Parent = noviceOS.Title
+noviceOS.UITextSizeConstraint.MaxTextSize = 20
 
-Scritps.Name = "Scritps"
-Scritps.Parent = Window
-Scritps.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Scritps.BackgroundTransparency = 1.000
-Scritps.Size = UDim2.new(1, 0, 1, 0)
-Scritps.Visible = false
+noviceOS.UIPadding_7.Parent = noviceOS.Title
+noviceOS.UIPadding_7.PaddingLeft = UDim.new(0, 7)
 
-UIPadding_8.Parent = Scritps
-UIPadding_8.PaddingBottom = UDim.new(0, 10)
-UIPadding_8.PaddingLeft = UDim.new(0, 10)
-UIPadding_8.PaddingRight = UDim.new(0, 10)
-UIPadding_8.PaddingTop = UDim.new(0, 10)
+noviceOS.Desktop.Name = "Desktop"
+noviceOS.Desktop.Parent = noviceOS.noviceOS
+noviceOS.Desktop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+noviceOS.Desktop.BackgroundTransparency = 1.000
+noviceOS.Desktop.Size = UDim2.new(1, 0, 1, -57)
 
-ScrollingFrame.Parent = Scritps
-ScrollingFrame.Active = true
-ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ScrollingFrame.BackgroundTransparency = 1.000
-ScrollingFrame.BorderSizePixel = 0
-ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
-ScrollingFrame.ZIndex = 2
-ScrollingFrame.BottomImage = "rbxassetid://5614579544"
-ScrollingFrame.MidImage = "rbxassetid://5614579544"
-ScrollingFrame.TopImage = "rbxassetid://5614579544"
-ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
-UICorner_8.CornerRadius = UDim.new(0, 5)
-UICorner_8.Parent = ScrollingFrame
-
-UIListLayout_3.Parent = ScrollingFrame
-UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout_3.Padding = UDim.new(0, 5)
+noviceOS.Executor.Name = "Executor"
+noviceOS.Executor.Parent = noviceOS.Desktop
+noviceOS.Executor.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+noviceOS.Executor.BorderSizePixel = 0
+noviceOS.Executor.Position = UDim2.new(0.0063393712, 0, 0.0157958455, 0)
+noviceOS.Executor.Size = UDim2.new(0, 632, 0, 340)
 
 
+noviceOS.Shadow.Name = "Shadow"
+noviceOS.Shadow.Parent = noviceOS.Executor
+noviceOS.Shadow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Shadow.BackgroundTransparency = 1.000
+noviceOS.Shadow.Position = UDim2.new(0, -12, 0, -12)
+noviceOS.Shadow.Size = UDim2.new(1, 24, 1, 24)
+noviceOS.Shadow.ZIndex = -1
+noviceOS.Shadow.Image = "rbxassetid://405124116"
+noviceOS.Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+noviceOS.Shadow.ImageTransparency = 0.700
+noviceOS.Shadow.ScaleType = Enum.ScaleType.Slice
+noviceOS.Shadow.SliceCenter = Rect.new(12, 12, 115, 115)
 
-Frame_4.Parent = Scritps
-Frame_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Frame_4.BackgroundTransparency = 1.000
-Frame_4.Position = UDim2.new(0, 0, 1, 25)
-Frame_4.Size = UDim2.new(1, 0, 0, 25)
+noviceOS.UICorner_7.CornerRadius = UDim.new(0, 5)
+noviceOS.UICorner_7.Parent = noviceOS.Executor
+
+noviceOS.TopBar.Name = "TopBar"
+noviceOS.TopBar.Parent = noviceOS.Executor
+noviceOS.TopBar.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+noviceOS.TopBar.BorderSizePixel = 0
+noviceOS.TopBar.Size = UDim2.new(1, 0, 0, 29)
+
+noviceOS.Title_2.Name = "Title"
+noviceOS.Title_2.Parent = noviceOS.TopBar
+noviceOS.Title_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_2.BackgroundTransparency = 1.000
+noviceOS.Title_2.Size = UDim2.new(0.045886077, 100, 1, 0)
+noviceOS.Title_2.Font = Enum.Font.GothamMedium
+noviceOS.Title_2.Text = "Executor"
+noviceOS.Title_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_2.TextScaled = true
+noviceOS.Title_2.TextSize = 25.000
+noviceOS.Title_2.TextWrapped = true
+noviceOS.Title_2.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UITextSizeConstraint_2.Parent = noviceOS.Title_2
+noviceOS.UITextSizeConstraint_2.MaxTextSize = 20
+
+noviceOS.UIPadding_8.Parent = noviceOS.Title_2
+noviceOS.UIPadding_8.PaddingLeft = UDim.new(0, 7)
+
+noviceOS.UIPadding_9.Parent = noviceOS.TopBar
+noviceOS.UIPadding_9.PaddingTop = UDim.new(0, 2)
+noviceOS.UIPadding_9.PaddingRight = UDim.new(0, 20)
+
+noviceOS.buttons1.Parent = noviceOS.TopBar
+noviceOS.buttons1.Name = "buttons"
+noviceOS.buttons1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.buttons1.BackgroundTransparency = 1.000
+noviceOS.buttons1.Position = UDim2.new(0.287220418, 0, -0.0344827585, 0)
+noviceOS.buttons1.Size = UDim2.new(0.729430377, 0, 1.03448272, 0)
+
+noviceOS._2Maximize.Name = "2Maximize"
+noviceOS._2Maximize.Parent = noviceOS.buttons1
+noviceOS._2Maximize.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize.ZIndex = 5
+noviceOS._2Maximize.Text = ""
+
+noviceOS.UICorner_8.Parent = noviceOS._2Maximize
+
+noviceOS.UIPadding_10.Parent = noviceOS._2Maximize
+noviceOS.UIPadding_10.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_10.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_10.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_10.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuListExpand.Name = "menuListExpand"
+noviceOS.menuListExpand.Parent = noviceOS._2Maximize
+noviceOS.menuListExpand.Active = true
+noviceOS.menuListExpand.BackgroundTransparency = 1.000
+noviceOS.menuListExpand.LayoutOrder = 5
+noviceOS.menuListExpand.Selectable = true
+noviceOS.menuListExpand.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListExpand.ZIndex = 2
+noviceOS.menuListExpand.Image = "rbxassetid://3926305904"
+noviceOS.menuListExpand.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListExpand.ImageRectOffset = Vector2.new(764, 684)
+noviceOS.menuListExpand.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.menuListLess.Name = "menuListLess"
+noviceOS.menuListLess.Parent = noviceOS._2Maximize
+noviceOS.menuListLess.Active = true
+noviceOS.menuListLess.BackgroundTransparency = 1.000
+noviceOS.menuListLess.LayoutOrder = 5
+noviceOS.menuListLess.Selectable = true
+noviceOS.menuListLess.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListLess.Visible = false
+noviceOS.menuListLess.ZIndex = 2
+noviceOS.menuListLess.Image = "rbxassetid://3926305904"
+noviceOS.menuListLess.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListLess.ImageRectOffset = Vector2.new(564, 524)
+noviceOS.menuListLess.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.UIListLayout_2.Parent = noviceOS.buttons1
+noviceOS.UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Right
+noviceOS.UIListLayout_2.Padding = UDim.new(0, 4)
+
+noviceOS.UIPadding_11.Parent = noviceOS.buttons1
+noviceOS.UIPadding_11.PaddingTop = UDim.new(0, 2)
+noviceOS.UIPadding_11.PaddingRight = UDim.new(0, 20)
+
+
+noviceOS._1Minimize.Name = "1Minimize"
+noviceOS._1Minimize.Parent = noviceOS.buttons1
+noviceOS._1Minimize.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._1Minimize.Position = UDim2.new(0.934523106, 0, 0.0383700691, 0)
+noviceOS._1Minimize.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._1Minimize.ZIndex = 5
+noviceOS._1Minimize.Text = ""
+
+noviceOS.UICorner_10.Parent = noviceOS._1Minimize
+
+noviceOS.UIPadding_13.Parent = noviceOS._1Minimize
+noviceOS.UIPadding_13.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_13.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_13.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_13.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuList_6.Name = "menuList"
+noviceOS.menuList_6.Parent = noviceOS._1Minimize
+noviceOS.menuList_6.Active = true
+noviceOS.menuList_6.BackgroundTransparency = 1.000
+noviceOS.menuList_6.LayoutOrder = 5
+noviceOS.menuList_6.Selectable = true
+noviceOS.menuList_6.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_6.ZIndex = 2
+noviceOS.menuList_6.Image = "rbxassetid://3926307971"
+noviceOS.menuList_6.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_6.ImageRectOffset = Vector2.new(884, 284)
+noviceOS.menuList_6.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.MainExecutor.Name = "MainExecutor"
+noviceOS.MainExecutor.Parent = noviceOS.Executor
+noviceOS.MainExecutor.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.MainExecutor.BackgroundTransparency = 1.000
+noviceOS.MainExecutor.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.MainExecutor.Size = UDim2.new(1.00000012, 0, 1, -85)
+
+noviceOS.LuaLexer.Name = "LuaLexer"
+noviceOS.LuaLexer.Parent = noviceOS.MainExecutor
+noviceOS.LuaLexer.Active = true
+noviceOS.LuaLexer.BackgroundColor3 = Color3.fromRGB(37, 37, 37)
+noviceOS.LuaLexer.ScrollBarImageColor3 = Color3.fromRGB(149, 149, 149)
+noviceOS.LuaLexer.BorderColor3 = Color3.fromRGB(61, 61, 61)
+noviceOS.LuaLexer.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.LuaLexer.ZIndex = 3
+noviceOS.LuaLexer.BottomImage = "rbxassetid://5614579544"
+noviceOS.LuaLexer.CanvasSize = UDim2.new(1, 0, 1, 0)
+noviceOS.LuaLexer.MidImage = "rbxassetid://5614579544"
+noviceOS.LuaLexer.TopImage = "rbxassetid://5614579544"
+noviceOS.LuaLexer.AutomaticCanvasSize = Enum.AutomaticSize.XY
+
+noviceOS.Lines.Name = "Lines"
+noviceOS.Lines.Parent = noviceOS.LuaLexer
+noviceOS.Lines.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Lines.BackgroundTransparency = 1.000
+noviceOS.Lines.Size = UDim2.new(0, 30, 1, 0)
+noviceOS.Lines.ZIndex = 4
+noviceOS.Lines.Font = Enum.Font.Code
+noviceOS.Lines.Text = "1"
+noviceOS.Lines.TextColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Lines.TextSize = 15.000
+noviceOS.Lines.TextYAlignment = Enum.TextYAlignment.Top
+
+noviceOS.SourceFrame.Name = "SourceFrame"
+noviceOS.SourceFrame.Parent = noviceOS.LuaLexer
+noviceOS.SourceFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.SourceFrame.BackgroundTransparency = 1.000
+noviceOS.SourceFrame.Position = UDim2.new(0, 30, 0, 0)
+noviceOS.SourceFrame.Size = UDim2.new(1, 0, 1, 0)
+
+noviceOS.Source.Name = "Source"
+noviceOS.Source.Parent = noviceOS.LuaLexer
+noviceOS.Source.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Source.BackgroundTransparency = 1.000
+noviceOS.Source.Position = UDim2.new(0, 30, 0, 0)
+noviceOS.Source.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.Source.ZIndex = 3
+noviceOS.Source.ClearTextOnFocus = false
+noviceOS.Source.Font = Enum.Font.Code
+noviceOS.Source.MultiLine = true
+noviceOS.Source.PlaceholderColor3 = Color3.fromRGB(204, 204, 204)
+noviceOS.Source.Text = "--Thank you for using novice+. Not all of the FE scripts have been tested proprely by the way"
+noviceOS.Source.TextColor3 = Color3.fromRGB(204, 204, 204)
+noviceOS.Source.TextSize = 15.000
+noviceOS.Source.TextWrapped = false
+noviceOS.Source.TextXAlignment = Enum.TextXAlignment.Left
+noviceOS.Source.TextYAlignment = Enum.TextYAlignment.Top
+noviceOS.Source.AutomaticSize = Enum.AutomaticSize.XY
+
+noviceOS.UISizeConstraint.Parent = noviceOS.Source
+noviceOS.UISizeConstraint.MinSize = Vector2.new(612, 235)
+
+noviceOS.UITableLayout.Parent = noviceOS.SourceFrame
+noviceOS.UITableLayout.SortOrder = Enum.SortOrder.LayoutOrder
+noviceOS.UITableLayout.FillEmptySpaceRows = true
+
+noviceOS.UIPadding_14.Parent = noviceOS.MainExecutor
+noviceOS.UIPadding_14.PaddingBottom = UDim.new(0, 10)
+noviceOS.UIPadding_14.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_14.PaddingRight = UDim.new(0, 10)
+noviceOS.UIPadding_14.PaddingTop = UDim.new(0, 10)
+
+noviceOS.Buttons.Name = "Buttons"
+noviceOS.Buttons.Parent = noviceOS.MainExecutor
+noviceOS.Buttons.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Buttons.BackgroundTransparency = 1.000
+noviceOS.Buttons.Position = UDim2.new(0, 0, 1, 25)
+noviceOS.Buttons.Size = UDim2.new(1, 0, 0, 25)
+
+noviceOS.Run.Name = "Run"
+noviceOS.Run.Parent = noviceOS.Buttons
+noviceOS.Run.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Run.Position = UDim2.new(0, 0, 1.22649574, -35)
+noviceOS.Run.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Run.Text = ""
+
+noviceOS.UICorner_11.Parent = noviceOS.Run
+
+noviceOS.UIPadding_15.Parent = noviceOS.Run
+noviceOS.UIPadding_15.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_15.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_15.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_15.PaddingTop = UDim.new(0, 5)
+
+noviceOS.right_2.Name = "right"
+noviceOS.right_2.Parent = noviceOS.Run
+noviceOS.right_2.Active = true
+noviceOS.right_2.BackgroundTransparency = 1.000
+noviceOS.right_2.LayoutOrder = 8
+noviceOS.right_2.Selectable = true
+noviceOS.right_2.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.right_2.ZIndex = 2
+noviceOS.right_2.Image = "rbxassetid://6764432408"
+noviceOS.right_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.right_2.ImageRectOffset = Vector2.new(100, 150)
+noviceOS.right_2.ImageRectSize = Vector2.new(50, 50)
+
+noviceOS.UIListLayout_3.Parent = noviceOS.Buttons
+noviceOS.UIListLayout_3.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+noviceOS.UIListLayout_3.VerticalAlignment = Enum.VerticalAlignment.Center
+noviceOS.UIListLayout_3.Padding = UDim.new(0, 10)
+
+noviceOS.Clear.Name = "Clear"
+noviceOS.Clear.Parent = noviceOS.Buttons
+noviceOS.Clear.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Clear.Position = UDim2.new(0, 0, 1.22649574, -35)
+noviceOS.Clear.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Clear.Text = ""
+
+noviceOS.UICorner_12.Parent = noviceOS.Clear
+
+noviceOS.UIPadding_16.Parent = noviceOS.Clear
+noviceOS.UIPadding_16.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_16.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_16.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_16.PaddingTop = UDim.new(0, 5)
+
+noviceOS.clear.Name = "clear"
+noviceOS.clear.Parent = noviceOS.Clear
+noviceOS.clear.Active = true
+noviceOS.clear.BackgroundTransparency = 1.000
+noviceOS.clear.LayoutOrder = 5
+noviceOS.clear.Selectable = true
+noviceOS.clear.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.clear.ZIndex = 2
+noviceOS.clear.Image = "rbxassetid://3926305904"
+noviceOS.clear.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.clear.ImageRectOffset = Vector2.new(924, 724)
+noviceOS.clear.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.Copy.Name = "Copy"
+noviceOS.Copy.Parent = noviceOS.Buttons
+noviceOS.Copy.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.Copy.Position = UDim2.new(0, 0, 1.22649574, -35)
+noviceOS.Copy.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.Copy.Text = ""
+
+noviceOS.UICorner_13.Parent = noviceOS.Copy
+
+noviceOS.UIPadding_17.Parent = noviceOS.Copy
+noviceOS.UIPadding_17.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_17.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_17.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_17.PaddingTop = UDim.new(0, 5)
+
+noviceOS.clear_2.Name = "clear"
+noviceOS.clear_2.Parent = noviceOS.Copy
+noviceOS.clear_2.Active = true
+noviceOS.clear_2.BackgroundTransparency = 1.000
+noviceOS.clear_2.LayoutOrder = 5
+noviceOS.clear_2.Selectable = true
+noviceOS.clear_2.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.clear_2.ZIndex = 2
+noviceOS.clear_2.Image = "rbxassetid://3926305904"
+noviceOS.clear_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.clear_2.ImageRectOffset = Vector2.new(44, 164)
+noviceOS.clear_2.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.ExecuteCopied.Name = "ExecuteCopied"
+noviceOS.ExecuteCopied.Parent = noviceOS.Buttons
+noviceOS.ExecuteCopied.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS.ExecuteCopied.Position = UDim2.new(0, 0, 1.22649574, -35)
+noviceOS.ExecuteCopied.Size = UDim2.new(0, 35, 0, 35)
+noviceOS.ExecuteCopied.Text = ""
+
+noviceOS.UICorner_14.Parent = noviceOS.ExecuteCopied
+
+noviceOS.UIPadding_18.Parent = noviceOS.ExecuteCopied
+noviceOS.UIPadding_18.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_18.PaddingLeft = UDim.new(0, 5)
+noviceOS.UIPadding_18.PaddingRight = UDim.new(0, 5)
+noviceOS.UIPadding_18.PaddingTop = UDim.new(0, 5)
+
+noviceOS.clear_3.Name = "clear"
+noviceOS.clear_3.Parent = noviceOS.ExecuteCopied
+noviceOS.clear_3.Active = true
+noviceOS.clear_3.BackgroundTransparency = 1.000
+noviceOS.clear_3.LayoutOrder = 5
+noviceOS.clear_3.Selectable = true
+noviceOS.clear_3.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.clear_3.ZIndex = 2
+noviceOS.clear_3.Image = "rbxassetid://3926307971"
+noviceOS.clear_3.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.clear_3.ImageRectOffset = Vector2.new(484, 444)
+noviceOS.clear_3.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.Scripts_2.Name = "Scripts"
+noviceOS.Scripts_2.Parent = noviceOS.Desktop
+noviceOS.Scripts_2.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+noviceOS.Scripts_2.BorderSizePixel = 0
+noviceOS.Scripts_2.Position = UDim2.new(0.415372491, 0, 0.0157958567, 0)
+noviceOS.Scripts_2.Size = UDim2.new(0, 632, 0, 340)
+
+noviceOS.Shadow_2.Name = "Shadow"
+noviceOS.Shadow_2.Parent = noviceOS.Scripts_2
+noviceOS.Shadow_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Shadow_2.BackgroundTransparency = 1.000
+noviceOS.Shadow_2.Position = UDim2.new(0, -12, 0, -12)
+noviceOS.Shadow_2.Size = UDim2.new(1, 24, 1, 24)
+noviceOS.Shadow_2.ZIndex = -1
+noviceOS.Shadow_2.Image = "rbxassetid://405124116"
+noviceOS.Shadow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+noviceOS.Shadow_2.ImageTransparency = 0.700
+noviceOS.Shadow_2.ScaleType = Enum.ScaleType.Slice
+noviceOS.Shadow_2.SliceCenter = Rect.new(12, 12, 115, 115)
+
+noviceOS.UICorner_15.CornerRadius = UDim.new(0, 5)
+noviceOS.UICorner_15.Parent = noviceOS.Scripts_2
+
+noviceOS.TopBar_2.Name = "TopBar"
+noviceOS.TopBar_2.Parent = noviceOS.Scripts_2
+noviceOS.TopBar_2.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+noviceOS.TopBar_2.BorderSizePixel = 0
+noviceOS.TopBar_2.Size = UDim2.new(1, 0, 0, 29)
+
+noviceOS.Title_3.Name = "Title"
+noviceOS.Title_3.Parent = noviceOS.TopBar_2
+noviceOS.Title_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_3.BackgroundTransparency = 1.000
+noviceOS.Title_3.Size = UDim2.new(0.045886077, 100, 1, 0)
+noviceOS.Title_3.Font = Enum.Font.GothamMedium
+noviceOS.Title_3.Text = "Universal scripts"
+noviceOS.Title_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_3.TextScaled = true
+noviceOS.Title_3.TextSize = 25.000
+noviceOS.Title_3.TextWrapped = true
+noviceOS.Title_3.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UITextSizeConstraint_3.Parent = noviceOS.Title_3
+noviceOS.UITextSizeConstraint_3.MaxTextSize = 20
+
+noviceOS.UIPadding_19.Parent = noviceOS.Title_3
+noviceOS.UIPadding_19.PaddingLeft = UDim.new(0, 7)
+
+noviceOS.UIPadding_20.Parent = noviceOS.TopBar_2
+noviceOS.UIPadding_20.PaddingRight = UDim.new(0, 20)
+
+noviceOS.buttons.Name = "buttons"
+noviceOS.buttons.Parent = noviceOS.TopBar_2
+noviceOS.buttons.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.buttons.BackgroundTransparency = 1.000
+noviceOS.buttons.Position = UDim2.new(0.733298898, 0, 0, 0)
+noviceOS.buttons.Size = UDim2.new(0.283351928, 0, 0.99999994, 0)
+
+noviceOS._2Maximize_2.Name = "2Maximize"
+noviceOS._2Maximize_2.Parent = noviceOS.buttons
+noviceOS._2Maximize_2.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize_2.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize_2.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize_2.ZIndex = 5
+noviceOS._2Maximize_2.Text = ""
+
+noviceOS.UICorner_16.Parent = noviceOS._2Maximize_2
+
+noviceOS.UIPadding_21.Parent = noviceOS._2Maximize_2
+noviceOS.UIPadding_21.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_21.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_21.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_21.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuListExpand_2.Name = "menuListExpand"
+noviceOS.menuListExpand_2.Parent = noviceOS._2Maximize_2
+noviceOS.menuListExpand_2.Active = true
+noviceOS.menuListExpand_2.BackgroundTransparency = 1.000
+noviceOS.menuListExpand_2.LayoutOrder = 5
+noviceOS.menuListExpand_2.Selectable = true
+noviceOS.menuListExpand_2.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListExpand_2.ZIndex = 2
+noviceOS.menuListExpand_2.Image = "rbxassetid://3926305904"
+noviceOS.menuListExpand_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListExpand_2.ImageRectOffset = Vector2.new(764, 684)
+noviceOS.menuListExpand_2.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.menuListLess_2.Name = "menuListLess"
+noviceOS.menuListLess_2.Parent = noviceOS._2Maximize_2
+noviceOS.menuListLess_2.Active = true
+noviceOS.menuListLess_2.BackgroundTransparency = 1.000
+noviceOS.menuListLess_2.LayoutOrder = 5
+noviceOS.menuListLess_2.Selectable = true
+noviceOS.menuListLess_2.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListLess_2.Visible = false
+noviceOS.menuListLess_2.ZIndex = 2
+noviceOS.menuListLess_2.Image = "rbxassetid://3926305904"
+noviceOS.menuListLess_2.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListLess_2.ImageRectOffset = Vector2.new(564, 524)
+noviceOS.menuListLess_2.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.UIListLayout_4.Parent = noviceOS.buttons
+noviceOS.UIListLayout_4.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_4.HorizontalAlignment = Enum.HorizontalAlignment.Right
+noviceOS.UIListLayout_4.Padding = UDim.new(0, 4)
+
+noviceOS.UIPadding_22.Parent = noviceOS.buttons
+noviceOS.UIPadding_22.PaddingTop = UDim.new(0, 2)
+noviceOS.UIPadding_22.PaddingRight = UDim.new(0, 20)
 
 
 
-UIListLayout_4.Parent = Frame_4
-UIListLayout_4.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout_4.VerticalAlignment = Enum.VerticalAlignment.Center
-UIListLayout_4.Padding = UDim.new(0, 10)
+noviceOS._1Minimize_2.Name = "1Minimize"
+noviceOS._1Minimize_2.Parent = noviceOS.buttons
+noviceOS._1Minimize_2.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._1Minimize_2.Position = UDim2.new(0.934523106, 0, 0.0383700691, 0)
+noviceOS._1Minimize_2.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._1Minimize_2.ZIndex = 5
+noviceOS._1Minimize_2.Text = ""
 
-Clear_2.Name = "Clear"
-Clear_2.Parent = Frame_4
-Clear_2.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-Clear_2.Position = UDim2.new(0, 0, 1.22649574, -35)
-Clear_2.Size = UDim2.new(0, 35, 0, 35)
-Clear_2.Text = ""
+noviceOS.UICorner_18.Parent = noviceOS._1Minimize_2
 
-UICorner_11.Parent = Clear_2
+noviceOS.UIPadding_24.Parent = noviceOS._1Minimize_2
+noviceOS.UIPadding_24.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_24.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_24.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_24.PaddingTop = UDim.new(0, 2)
 
-UIPadding_10.Parent = Clear_2
-UIPadding_10.PaddingBottom = UDim.new(0, 5)
-UIPadding_10.PaddingLeft = UDim.new(0, 5)
-UIPadding_10.PaddingRight = UDim.new(0, 5)
-UIPadding_10.PaddingTop = UDim.new(0, 5)
+noviceOS.menuList_8.Name = "menuList"
+noviceOS.menuList_8.Parent = noviceOS._1Minimize_2
+noviceOS.menuList_8.Active = true
+noviceOS.menuList_8.BackgroundTransparency = 1.000
+noviceOS.menuList_8.LayoutOrder = 5
+noviceOS.menuList_8.Selectable = true
+noviceOS.menuList_8.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_8.ZIndex = 2
+noviceOS.menuList_8.Image = "rbxassetid://3926307971"
+noviceOS.menuList_8.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_8.ImageRectOffset = Vector2.new(884, 284)
+noviceOS.menuList_8.ImageRectSize = Vector2.new(36, 36)
 
-opacity.Name = "opacity"
-opacity.Parent = Clear_2
-opacity.Active = true
-opacity.BackgroundTransparency = 1.000
-opacity.LayoutOrder = 5
-opacity.Selectable = true
-opacity.Size = UDim2.new(1, 0, 1, 0)
-opacity.ZIndex = 2
-opacity.Image = "rbxassetid://3926305904"
-opacity.ImageColor3 = Color3.fromRGB(194, 194, 194)
-opacity.ImageRectOffset = Vector2.new(884, 564)
-opacity.ImageRectSize = Vector2.new(36, 36)
+noviceOS.tabs.Name = "tabs"
+noviceOS.tabs.Parent = noviceOS.TopBar_2
+noviceOS.tabs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.tabs.BackgroundTransparency = 1.000
+noviceOS.tabs.Position = UDim2.new(0.208789095, 0, 0, 0)
+noviceOS.tabs.Size = UDim2.new(0.524509788, 0, 1.03448272, 0)
 
-Attacher.Name = "Attacher"
-Attacher.Parent = Window
-Attacher.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Attacher.BackgroundTransparency = 1.000
-Attacher.Size = UDim2.new(1, 0, 1, 0)
-Attacher.Visible = false
+noviceOS._2Maximize_3.Name = "2FE"
+noviceOS._2Maximize_3.Parent = noviceOS.tabs
+noviceOS._2Maximize_3.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize_3.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize_3.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize_3.ZIndex = 5
+noviceOS._2Maximize_3.Font = Enum.Font.RobotoCondensed
+noviceOS._2Maximize_3.Text = "2"
+noviceOS._2Maximize_3.TextColor3 = Color3.fromRGB(112, 112, 112)
+noviceOS._2Maximize_3.TextScaled = true
+noviceOS._2Maximize_3.TextWrapped = true
+noviceOS.UICorner_19.Parent = noviceOS._2Maximize_3
 
-UIPadding_11.Parent = Attacher
-UIPadding_11.PaddingBottom = UDim.new(0, 10)
-UIPadding_11.PaddingLeft = UDim.new(0, 10)
-UIPadding_11.PaddingRight = UDim.new(0, 10)
-UIPadding_11.PaddingTop = UDim.new(0, 10)
+noviceOS._2Maximize_31.Name = "3SS"
+noviceOS._2Maximize_31.Parent = noviceOS.tabs
+noviceOS._2Maximize_31.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize_31.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize_31.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize_31.ZIndex = 5
+noviceOS._2Maximize_31.Font = Enum.Font.RobotoCondensed
+noviceOS._2Maximize_31.Text = "3"
+noviceOS._2Maximize_31.TextColor3 = Color3.fromRGB(112, 112, 112)
+noviceOS._2Maximize_31.TextScaled = true
+noviceOS._2Maximize_31.TextWrapped = true
+noviceOS.UICorner_191.Parent = noviceOS._2Maximize_31
 
-Classic.Name = "Classic"
-Classic.Parent = Attacher
-Classic.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
-Classic.ClipsDescendants = true
-Classic.Size = UDim2.new(0, 200, 0, 50)
-Classic.Font = Enum.Font.GothamMedium
-Classic.Text = "SS Classic"
-Classic.TextColor3 = Color3.fromRGB(255, 255, 255)
-Classic.TextSize = 25.000
-Classic.TextWrapped = true
+noviceOS.UIListLayout_5.Parent = noviceOS.tabs
+noviceOS.UIListLayout_5.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_5.HorizontalAlignment = Enum.HorizontalAlignment.Center
+noviceOS.UIListLayout_5.Padding = UDim.new(0, 4)
 
-UICorner_12.Parent = Classic
+noviceOS.UIPadding_25.Parent = noviceOS.tabs
+noviceOS.UIPadding_25.PaddingTop = UDim.new(0, 2)
 
-UIGradient_4.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(152, 152, 152))}
-UIGradient_4.Rotation = 90
-UIGradient_4.Parent = Classic
+noviceOS._1Minimize_3.Name = "1Universal"
+noviceOS._1Minimize_3.Parent = noviceOS.tabs
+noviceOS._1Minimize_3.Position = UDim2.new(0.934523106, 0, 0.0383700691, 0)
+noviceOS._1Minimize_3.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._1Minimize_3.ZIndex = 5
+noviceOS._1Minimize_3.Font = Enum.Font.RobotoCondensed
+noviceOS._1Minimize_3.Text = "1"
+noviceOS._1Minimize_3.TextColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._1Minimize_3.TextScaled = true
+noviceOS._1Minimize_3.TextWrapped = true
 
-Revamped.Name = "Revamped"
-Revamped.Parent = Attacher
-Revamped.BackgroundColor3 = Color3.fromRGB(85, 85, 255)
-Revamped.ClipsDescendants = true
-Revamped.Size = UDim2.new(0, 200, 0, 50)
-Revamped.Font = Enum.Font.GothamMedium
-Revamped.Text = "SS Revamped"
-Revamped.TextColor3 = Color3.fromRGB(255, 255, 255)
-Revamped.TextSize = 25.000
-Revamped.TextWrapped = true
+noviceOS.UICorner_21.Parent = noviceOS._1Minimize_3
 
-UICorner_13.Parent = Revamped
+noviceOS.ScrollingFrame.Parent = noviceOS.Scripts_2
+noviceOS.ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(149, 149, 149)
+noviceOS.ScrollingFrame.BackgroundTransparency = 1.000
+noviceOS.ScrollingFrame.BorderSizePixel = 0
+noviceOS.ScrollingFrame.Position = UDim2.new(0, 0, 0, 55)
+noviceOS.ScrollingFrame.Selectable = false
+noviceOS.ScrollingFrame.Size = UDim2.new(1.00000012, 0, 1.08823538, -85)
+noviceOS.ScrollingFrame.BottomImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame.MidImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame.TopImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
-UIGradient_5.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(152, 152, 152))}
-UIGradient_5.Rotation = 90
-UIGradient_5.Parent = Revamped
+noviceOS.UIPadding_26.Parent = noviceOS.ScrollingFrame
+noviceOS.UIPadding_26.PaddingRight = UDim.new(0, -5)
 
-FE.Name = "FE"
-FE.Parent = Attacher
-FE.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
-FE.ClipsDescendants = true
-FE.Size = UDim2.new(0, 200, 0, 50)
-FE.Font = Enum.Font.GothamMedium
-FE.Text = "Novice FE"
-FE.TextColor3 = Color3.fromRGB(255, 255, 255)
-FE.TextSize = 25.000
-FE.TextWrapped = true
+noviceOS.UIListLayout_6.Parent = noviceOS.ScrollingFrame
+noviceOS.UIListLayout_6.SortOrder = Enum.SortOrder.LayoutOrder
 
-UICorner_14.Parent = FE
+noviceOS.Template_2.Name = "Template"
+noviceOS.Template_2.Parent = noviceOS.ScrollingFrame
+noviceOS.Template_2.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
+noviceOS.Template_2.Size = UDim2.new(0.949999988, 15, 0, 75)
 
-UIGradient_6.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(152, 152, 152))}
-UIGradient_6.Rotation = 90
-UIGradient_6.Parent = FE
+noviceOS.UICorner_23.CornerRadius = UDim.new(0, 2)
+noviceOS.UICorner_23.Parent = noviceOS.Template_2
 
-UITableLayout.Parent = Attacher
-UITableLayout.FillDirection = Enum.FillDirection.Horizontal
-UITableLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-UITableLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UITableLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-UITableLayout.FillEmptySpaceColumns = true
-UITableLayout.FillEmptySpaceRows = true
-UITableLayout.Padding = UDim2.new(0, 25, 0, 0)
+noviceOS.itemName_2.Name = "itemName"
+noviceOS.itemName_2.Parent = noviceOS.Template_2
+noviceOS.itemName_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.itemName_2.BackgroundTransparency = 1.000
+noviceOS.itemName_2.Size = UDim2.new(0, 215, 0, 72)
+noviceOS.itemName_2.Font = Enum.Font.GothamMedium
+noviceOS.itemName_2.Text = "FE AMogus"
+noviceOS.itemName_2.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.itemName_2.TextSize = 14.000
 
-ScreenGui.Parent = Frame
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+noviceOS.View_2.Name = "View"
+noviceOS.View_2.Parent = noviceOS.Template_2
+noviceOS.View_2.Active = false
+noviceOS.View_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.View_2.BackgroundTransparency = 1.000
+noviceOS.View_2.Position = UDim2.new(0.605490804, 0, 0.119999997, 0)
+noviceOS.View_2.Selectable = false
+noviceOS.View_2.Size = UDim2.new(0, 104, 0, 57)
+noviceOS.View_2.Font = Enum.Font.GothamMedium
+noviceOS.View_2.Text = "View"
+noviceOS.View_2.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.View_2.TextSize = 25.000
+
+noviceOS.Execute_2.Name = "Execute"
+noviceOS.Execute_2.Parent = noviceOS.Template_2
+noviceOS.Execute_2.Active = false
+noviceOS.Execute_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Execute_2.BackgroundTransparency = 1.000
+noviceOS.Execute_2.Position = UDim2.new(0.801053047, 0, 0.119999997, 0)
+noviceOS.Execute_2.Selectable = false
+noviceOS.Execute_2.Size = UDim2.new(0, 91, 0, 57)
+noviceOS.Execute_2.Font = Enum.Font.GothamMedium
+noviceOS.Execute_2.Text = "Execute"
+noviceOS.Execute_2.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.Execute_2.TextSize = 25.000
+
+noviceOS.UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
+noviceOS.UIGradient_2.Rotation = 180
+noviceOS.UIGradient_2.Parent = noviceOS.Template_2
+
+noviceOS.Template_3.Name = "Template"
+noviceOS.Template_3.Parent = noviceOS.ScrollingFrame
+noviceOS.Template_3.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+noviceOS.Template_3.Size = UDim2.new(0.949999988, 15, 0, 75)
+
+noviceOS.UICorner_24.CornerRadius = UDim.new(0, 2)
+noviceOS.UICorner_24.Parent = noviceOS.Template_3
+
+noviceOS.itemName_3.Name = "itemName"
+noviceOS.itemName_3.Parent = noviceOS.Template_3
+noviceOS.itemName_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.itemName_3.BackgroundTransparency = 1.000
+noviceOS.itemName_3.Size = UDim2.new(0, 215, 0, 72)
+noviceOS.itemName_3.Font = Enum.Font.GothamMedium
+noviceOS.itemName_3.Text = "SS chat hax"
+noviceOS.itemName_3.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.itemName_3.TextSize = 14.000
+
+noviceOS.View_3.Name = "View"
+noviceOS.View_3.Parent = noviceOS.Template_3
+noviceOS.View_3.Active = false
+noviceOS.View_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.View_3.BackgroundTransparency = 1.000
+noviceOS.View_3.Position = UDim2.new(0.605490804, 0, 0.119999997, 0)
+noviceOS.View_3.Selectable = false
+noviceOS.View_3.Size = UDim2.new(0, 104, 0, 57)
+noviceOS.View_3.Font = Enum.Font.GothamMedium
+noviceOS.View_3.Text = "View"
+noviceOS.View_3.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.View_3.TextSize = 25.000
+
+noviceOS.Execute_3.Name = "Execute"
+noviceOS.Execute_3.Parent = noviceOS.Template_3
+noviceOS.Execute_3.Active = false
+noviceOS.Execute_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Execute_3.BackgroundTransparency = 1.000
+noviceOS.Execute_3.Position = UDim2.new(0.801053047, 0, 0.119999997, 0)
+noviceOS.Execute_3.Selectable = false
+noviceOS.Execute_3.Size = UDim2.new(0, 91, 0, 57)
+noviceOS.Execute_3.Font = Enum.Font.GothamMedium
+noviceOS.Execute_3.Text = "Execute"
+noviceOS.Execute_3.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.Execute_3.TextSize = 25.000
+
+noviceOS.UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
+noviceOS.UIGradient_3.Rotation = 180
+noviceOS.UIGradient_3.Parent = noviceOS.Template_3
+
+noviceOS.TextBox.Parent = noviceOS.Scripts_2
+noviceOS.TextBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.TextBox.BorderSizePixel = 0
+noviceOS.TextBox.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.TextBox.Size = UDim2.new(1,0, 0, 26)
+noviceOS.TextBox.Font = Enum.Font.GothamBold
+noviceOS.TextBox.PlaceholderColor3 = Color3.fromRGB(98, 98, 98)
+noviceOS.TextBox.PlaceholderText = "Search"
+noviceOS.TextBox.Text = ""
+noviceOS.TextBox.TextColor3 = Color3.fromRGB(204, 204, 204)
+noviceOS.TextBox.TextScaled = true
+noviceOS.TextBox.TextSize = 14.000
+noviceOS.TextBox.TextWrapped = true
+
+noviceOS.UITextSizeConstraint_4.Parent = noviceOS.TextBox
+noviceOS.UITextSizeConstraint_4.MaxTextSize = 20
+
+noviceOS.Executer.Name = "Executer"
+noviceOS.Executer.Parent = noviceOS.Scripts_2
+noviceOS.Executer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Executer.BackgroundTransparency = 1.000
+noviceOS.Executer.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.Executer.Size = UDim2.new(1.00000012, 0, 1, -85)
+
+noviceOS.UIPadding_27.Parent = noviceOS.Executer
+noviceOS.UIPadding_27.PaddingBottom = UDim.new(0, 10)
+noviceOS.UIPadding_27.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_27.PaddingRight = UDim.new(0, 10)
+noviceOS.UIPadding_27.PaddingTop = UDim.new(0, 10)
+
+noviceOS.RFinder_2.Name = "RFinder"
+noviceOS.RFinder_2.Parent = noviceOS.Desktop
+noviceOS.RFinder_2.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+noviceOS.RFinder_2.BorderSizePixel = 0
+noviceOS.RFinder_2.Position = UDim2.new(0.00570327044, 0, 0.443499386, 0)
+noviceOS.RFinder_2.Size = UDim2.new(0, 632, 0, 340)
+
+noviceOS.Shadow_3.Name = "Shadow"
+noviceOS.Shadow_3.Parent = noviceOS.RFinder_2
+noviceOS.Shadow_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Shadow_3.BackgroundTransparency = 1.000
+noviceOS.Shadow_3.Position = UDim2.new(0, -12, 0, -12)
+noviceOS.Shadow_3.Size = UDim2.new(1, 24, 1, 24)
+noviceOS.Shadow_3.ZIndex = -1
+noviceOS.Shadow_3.Image = "rbxassetid://405124116"
+noviceOS.Shadow_3.ImageColor3 = Color3.fromRGB(0, 0, 0)
+noviceOS.Shadow_3.ImageTransparency = 0.700
+noviceOS.Shadow_3.ScaleType = Enum.ScaleType.Slice
+noviceOS.Shadow_3.SliceCenter = Rect.new(12, 12, 115, 115)
+
+noviceOS.UICorner_25.CornerRadius = UDim.new(0, 5)
+noviceOS.UICorner_25.Parent = noviceOS.RFinder_2
+
+noviceOS.TopBar_3.Name = "TopBar"
+noviceOS.TopBar_3.Parent = noviceOS.RFinder_2
+noviceOS.TopBar_3.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+noviceOS.TopBar_3.BorderSizePixel = 0
+noviceOS.TopBar_3.Size = UDim2.new(1, 0, 0, 29)
+
+noviceOS.Title_4.Name = "Title"
+noviceOS.Title_4.Parent = noviceOS.TopBar_3
+noviceOS.Title_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_4.BackgroundTransparency = 1.000
+noviceOS.Title_4.Size = UDim2.new(0.045886077, 100, 1, 0)
+noviceOS.Title_4.Font = Enum.Font.GothamMedium
+noviceOS.Title_4.Text = "Remote Finder"
+noviceOS.Title_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_4.TextScaled = true
+noviceOS.Title_4.TextSize = 25.000
+noviceOS.Title_4.TextWrapped = true
+noviceOS.Title_4.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UITextSizeConstraint_5.Parent = noviceOS.Title_4
+noviceOS.UITextSizeConstraint_5.MaxTextSize = 20
+
+noviceOS.UIPadding_28.Parent = noviceOS.Title_4
+noviceOS.UIPadding_28.PaddingLeft = UDim.new(0, 7)
+
+noviceOS.UIPadding_29.Parent = noviceOS.TopBar_3
+noviceOS.UIPadding_29.PaddingRight = UDim.new(0, 20)
+
+noviceOS.buttons_2.Name = "buttons"
+noviceOS.buttons_2.Parent = noviceOS.TopBar_3
+noviceOS.buttons_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.buttons_2.BackgroundTransparency = 1.000
+noviceOS.buttons_2.Position = UDim2.new(0.733298898, 0, 0, 0)
+noviceOS.buttons_2.Size = UDim2.new(0.283351928, 0, 0.99999994, 0)
+
+noviceOS._2Maximize_4.Name = "2Maximize"
+noviceOS._2Maximize_4.Parent = noviceOS.buttons_2
+noviceOS._2Maximize_4.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize_4.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize_4.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize_4.ZIndex = 5
+noviceOS._2Maximize_4.Text = ""
+
+noviceOS.UICorner_26.Parent = noviceOS._2Maximize_4
+
+noviceOS.UIPadding_30.Parent = noviceOS._2Maximize_4
+noviceOS.UIPadding_30.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_30.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_30.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_30.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuListExpand_3.Name = "menuListExpand"
+noviceOS.menuListExpand_3.Parent = noviceOS._2Maximize_4
+noviceOS.menuListExpand_3.Active = true
+noviceOS.menuListExpand_3.BackgroundTransparency = 1.000
+noviceOS.menuListExpand_3.LayoutOrder = 5
+noviceOS.menuListExpand_3.Selectable = true
+noviceOS.menuListExpand_3.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListExpand_3.ZIndex = 2
+noviceOS.menuListExpand_3.Image = "rbxassetid://3926305904"
+noviceOS.menuListExpand_3.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListExpand_3.ImageRectOffset = Vector2.new(764, 684)
+noviceOS.menuListExpand_3.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.menuListLess_3.Name = "menuListLess"
+noviceOS.menuListLess_3.Parent = noviceOS._2Maximize_4
+noviceOS.menuListLess_3.Active = true
+noviceOS.menuListLess_3.BackgroundTransparency = 1.000
+noviceOS.menuListLess_3.LayoutOrder = 5
+noviceOS.menuListLess_3.Selectable = true
+noviceOS.menuListLess_3.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListLess_3.Visible = false
+noviceOS.menuListLess_3.ZIndex = 2
+noviceOS.menuListLess_3.Image = "rbxassetid://3926305904"
+noviceOS.menuListLess_3.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListLess_3.ImageRectOffset = Vector2.new(564, 524)
+noviceOS.menuListLess_3.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.UIListLayout_7.Parent = noviceOS.buttons_2
+noviceOS.UIListLayout_7.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_7.HorizontalAlignment = Enum.HorizontalAlignment.Right
+noviceOS.UIListLayout_7.Padding = UDim.new(0, 4)
+
+noviceOS.UIPadding_31.Parent = noviceOS.buttons_2
+noviceOS.UIPadding_31.PaddingTop = UDim.new(0, 2)
+noviceOS.UIPadding_31.PaddingRight = UDim.new(0, 20)
+
+
+
+noviceOS._1Minimize_4.Name = "1Minimize"
+noviceOS._1Minimize_4.Parent = noviceOS.buttons_2
+noviceOS._1Minimize_4.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._1Minimize_4.Position = UDim2.new(0.934523106, 0, 0.0383700691, 0)
+noviceOS._1Minimize_4.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._1Minimize_4.ZIndex = 5
+noviceOS._1Minimize_4.Text = ""
+
+noviceOS.UICorner_28.Parent = noviceOS._1Minimize_4
+
+noviceOS.UIPadding_33.Parent = noviceOS._1Minimize_4
+noviceOS.UIPadding_33.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_33.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_33.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_33.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuList_10.Name = "menuList"
+noviceOS.menuList_10.Parent = noviceOS._1Minimize_4
+noviceOS.menuList_10.Active = true
+noviceOS.menuList_10.BackgroundTransparency = 1.000
+noviceOS.menuList_10.LayoutOrder = 5
+noviceOS.menuList_10.Selectable = true
+noviceOS.menuList_10.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_10.ZIndex = 2
+noviceOS.menuList_10.Image = "rbxassetid://3926307971"
+noviceOS.menuList_10.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_10.ImageRectOffset = Vector2.new(884, 284)
+noviceOS.menuList_10.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.ScrollingFrame_2.Parent = noviceOS.RFinder_2
+noviceOS.ScrollingFrame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.ScrollingFrame_2.ScrollBarImageColor3 = Color3.fromRGB(149, 149, 149)
+noviceOS.ScrollingFrame_2.BackgroundTransparency = 1.000
+noviceOS.ScrollingFrame_2.BorderSizePixel = 0
+noviceOS.ScrollingFrame_2.Position = UDim2.new(0, 0, 0, 55)
+noviceOS.ScrollingFrame_2.Selectable = false
+noviceOS.ScrollingFrame_2.Size = UDim2.new(1.00000012, 0, 1.08823538, -85)
+noviceOS.ScrollingFrame_2.BottomImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_2.MidImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_2.TopImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_2.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+
+noviceOS.RemoteTemplate.Name = "RemoteTemplate"
+noviceOS.RemoteTemplate.Parent = noviceOS.ScrollingFrame_2
+noviceOS.RemoteTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.RemoteTemplate.Size = UDim2.new(0.949999988, 15, 0, 75)
+
+noviceOS.UICorner_29.CornerRadius = UDim.new(0, 2)
+noviceOS.UICorner_29.Parent = noviceOS.RemoteTemplate
+
+noviceOS.itemName_4.Name = "itemName"
+noviceOS.itemName_4.Parent = noviceOS.RemoteTemplate
+noviceOS.itemName_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.itemName_4.BackgroundTransparency = 1.000
+noviceOS.itemName_4.Size = UDim2.new(0, 446, 0, 72)
+noviceOS.itemName_4.Font = Enum.Font.GothamMedium
+noviceOS.itemName_4.Text = "game.Players.XedvedDev.PlayerScripts.RemoteHandlerClient"
+noviceOS.itemName_4.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.itemName_4.TextScaled = true
+noviceOS.itemName_4.TextSize = 14.000
+noviceOS.itemName_4.TextWrapped = true
+noviceOS.itemName_4.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UIPadding_34.Parent = noviceOS.itemName_4
+noviceOS.UIPadding_34.PaddingLeft = UDim.new(0, 15)
+
+noviceOS.UITextSizeConstraint_6.Parent = noviceOS.itemName_4
+noviceOS.UITextSizeConstraint_6.MaxTextSize = 14
+
+noviceOS.Copy_2.Name = "Copy"
+noviceOS.Copy_2.Parent = noviceOS.RemoteTemplate
+noviceOS.Copy_2.Active = false
+noviceOS.Copy_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Copy_2.BackgroundTransparency = 1.000
+noviceOS.Copy_2.Position = UDim2.new(0.719979227, 0, 0.119999997, 0)
+noviceOS.Copy_2.Selectable = false
+noviceOS.Copy_2.Size = UDim2.new(0, 154, 0, 57)
+noviceOS.Copy_2.Font = Enum.Font.GothamMedium
+noviceOS.Copy_2.Text = "Copy script"
+noviceOS.Copy_2.TextColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.Copy_2.TextSize = 25.000
+
+noviceOS.UIGradient_4.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
+noviceOS.UIGradient_4.Rotation = 180
+noviceOS.UIGradient_4.Parent = noviceOS.RemoteTemplate
+
+noviceOS.UIPadding_35.Parent = noviceOS.ScrollingFrame_2
+noviceOS.UIPadding_35.PaddingRight = UDim.new(0, -5)
+
+noviceOS.UIListLayout_8.Parent = noviceOS.ScrollingFrame_2
+noviceOS.UIListLayout_8.SortOrder = Enum.SortOrder.LayoutOrder
+
+noviceOS.TextBox_2.Parent = noviceOS.RFinder_2
+noviceOS.TextBox_2.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.TextBox_2.BorderSizePixel = 0
+noviceOS.TextBox_2.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.TextBox_2.Size = UDim2.new(0, 632, 0, 26)
+noviceOS.TextBox_2.Font = Enum.Font.GothamBold
+noviceOS.TextBox_2.PlaceholderColor3 = Color3.fromRGB(98, 98, 98)
+noviceOS.TextBox_2.PlaceholderText = "Search"
+noviceOS.TextBox_2.Text = ""
+noviceOS.TextBox_2.TextColor3 = Color3.fromRGB(204, 204, 204)
+noviceOS.TextBox_2.TextScaled = true
+noviceOS.TextBox_2.TextSize = 14.000
+noviceOS.TextBox_2.TextWrapped = true
+
+noviceOS.UITextSizeConstraint_7.Parent = noviceOS.TextBox_2
+noviceOS.UITextSizeConstraint_7.MaxTextSize = 20
+
+noviceOS.UIPadding_36.Parent = noviceOS.Executer_2
+noviceOS.UIPadding_36.PaddingBottom = UDim.new(0, 10)
+noviceOS.UIPadding_36.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_36.PaddingRight = UDim.new(0, 10)
+noviceOS.UIPadding_36.PaddingTop = UDim.new(0, 10)
+
+noviceOS.Console_2.Name = "Console"
+noviceOS.Console_2.Parent = noviceOS.Desktop
+noviceOS.Console_2.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+noviceOS.Console_2.BorderSizePixel = 0
+noviceOS.Console_2.Position = UDim2.new(0.426822871, 0, 0.443499386, 0)
+noviceOS.Console_2.Size = UDim2.new(0, 632, 0, 340)
+
+noviceOS.Shadow_4.Name = "Shadow"
+noviceOS.Shadow_4.Parent = noviceOS.Console_2
+noviceOS.Shadow_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Shadow_4.BackgroundTransparency = 1.000
+noviceOS.Shadow_4.Position = UDim2.new(0, -12, 0, -12)
+noviceOS.Shadow_4.Size = UDim2.new(1, 24, 1, 24)
+noviceOS.Shadow_4.ZIndex = -1
+noviceOS.Shadow_4.Image = "rbxassetid://405124116"
+noviceOS.Shadow_4.ImageColor3 = Color3.fromRGB(0, 0, 0)
+noviceOS.Shadow_4.ImageTransparency = 0.700
+noviceOS.Shadow_4.ScaleType = Enum.ScaleType.Slice
+noviceOS.Shadow_4.SliceCenter = Rect.new(12, 12, 115, 115)
+
+noviceOS.UICorner_30.CornerRadius = UDim.new(0, 5)
+noviceOS.UICorner_30.Parent = noviceOS.Console_2
+
+noviceOS.ScrollingFrame_3.Parent = noviceOS.Console_2
+noviceOS.ScrollingFrame_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.ScrollingFrame_3.ScrollBarImageColor3 = Color3.fromRGB(149, 149, 149)
+noviceOS.ScrollingFrame_3.BackgroundTransparency = 1.000
+noviceOS.ScrollingFrame_3.BorderSizePixel = 0
+noviceOS.ScrollingFrame_3.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.ScrollingFrame_3.Selectable = false
+noviceOS.ScrollingFrame_3.Size = UDim2.new(1, 0, 1, -85)
+noviceOS.ScrollingFrame_3.BottomImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_3.MidImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_3.TopImage = "rbxassetid://5614579544"
+noviceOS.ScrollingFrame_3.CanvasSize = UDim2.new(0, 0, 0,0)
+noviceOS.ScrollingFrame_3.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+noviceOS.UIPadding_37.Parent = noviceOS.ScrollingFrame_3
+noviceOS.UIPadding_37.PaddingRight = UDim.new(0, -5)
+
+noviceOS.UIListLayout_9.Parent = noviceOS.ScrollingFrame_3
+noviceOS.UIListLayout_9.SortOrder = Enum.SortOrder.LayoutOrder
+
+
+
+noviceOS.Executer_3.Name = "Executer"
+noviceOS.Executer_3.Parent = noviceOS.Console_2
+noviceOS.Executer_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Executer_3.BackgroundTransparency = 1.000
+noviceOS.Executer_3.Position = UDim2.new(0, 0, 0, 29)
+noviceOS.Executer_3.Size = UDim2.new(1.00000012, 0, 1.0529412, -85)
+
+noviceOS.UIPadding_39.Parent = noviceOS.Executer_3
+noviceOS.UIPadding_39.PaddingBottom = UDim.new(0, 10)
+noviceOS.UIPadding_39.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_39.PaddingRight = UDim.new(0, 10)
+noviceOS.UIPadding_39.PaddingTop = UDim.new(0, 10)
+
+noviceOS.TopBar_4.Name = "TopBar"
+noviceOS.TopBar_4.Parent = noviceOS.Console_2
+noviceOS.TopBar_4.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+noviceOS.TopBar_4.BorderSizePixel = 0
+noviceOS.TopBar_4.Size = UDim2.new(1, 0, 0, 29)
+
+noviceOS.Title_5.Name = "Title"
+noviceOS.Title_5.Parent = noviceOS.TopBar_4
+noviceOS.Title_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_5.BackgroundTransparency = 1.000
+noviceOS.Title_5.Size = UDim2.new(0.045886077, 100, 1, 0)
+noviceOS.Title_5.Font = Enum.Font.GothamMedium
+noviceOS.Title_5.Text = "Console"
+noviceOS.Title_5.TextColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_5.TextScaled = true
+noviceOS.Title_5.TextSize = 25.000
+noviceOS.Title_5.TextWrapped = true
+noviceOS.Title_5.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UITextSizeConstraint_9.Parent = noviceOS.Title_5
+noviceOS.UITextSizeConstraint_9.MaxTextSize = 20
+
+noviceOS.UIPadding_40.Parent = noviceOS.Title_5
+noviceOS.UIPadding_40.PaddingLeft = UDim.new(0, 7)
+
+noviceOS.UIPadding_41.Parent = noviceOS.TopBar_4
+noviceOS.UIPadding_41.PaddingRight = UDim.new(0, 20)
+
+noviceOS.buttons_3.Name = "buttons"
+noviceOS.buttons_3.Parent = noviceOS.TopBar_4
+noviceOS.buttons_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.buttons_3.BackgroundTransparency = 1.000
+noviceOS.buttons_3.Position = UDim2.new(0.733298898, 0, 0, 0)
+noviceOS.buttons_3.Size = UDim2.new(0.283351928, 0, 0.99999994, 0)
+
+noviceOS._2Maximize_5.Name = "2Maximize"
+noviceOS._2Maximize_5.Parent = noviceOS.buttons_3
+noviceOS._2Maximize_5.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._2Maximize_5.Position = UDim2.new(0.949324369, 0, -0.0305954479, 0)
+noviceOS._2Maximize_5.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._2Maximize_5.ZIndex = 5
+noviceOS._2Maximize_5.Text = ""
+
+noviceOS.UICorner_31.Parent = noviceOS._2Maximize_5
+
+noviceOS.UIPadding_42.Parent = noviceOS._2Maximize_5
+noviceOS.UIPadding_42.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_42.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_42.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_42.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuListExpand_4.Name = "menuListExpand"
+noviceOS.menuListExpand_4.Parent = noviceOS._2Maximize_5
+noviceOS.menuListExpand_4.Active = true
+noviceOS.menuListExpand_4.BackgroundTransparency = 1.000
+noviceOS.menuListExpand_4.LayoutOrder = 5
+noviceOS.menuListExpand_4.Selectable = true
+noviceOS.menuListExpand_4.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListExpand_4.ZIndex = 2
+noviceOS.menuListExpand_4.Image = "rbxassetid://3926305904"
+noviceOS.menuListExpand_4.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListExpand_4.ImageRectOffset = Vector2.new(764, 684)
+noviceOS.menuListExpand_4.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.menuListLess_4.Name = "menuListLess"
+noviceOS.menuListLess_4.Parent = noviceOS._2Maximize_5
+noviceOS.menuListLess_4.Active = true
+noviceOS.menuListLess_4.BackgroundTransparency = 1.000
+noviceOS.menuListLess_4.LayoutOrder = 5
+noviceOS.menuListLess_4.Selectable = true
+noviceOS.menuListLess_4.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuListLess_4.Visible = false
+noviceOS.menuListLess_4.ZIndex = 2
+noviceOS.menuListLess_4.Image = "rbxassetid://3926305904"
+noviceOS.menuListLess_4.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuListLess_4.ImageRectOffset = Vector2.new(564, 524)
+noviceOS.menuListLess_4.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.UIListLayout_10.Parent = noviceOS.buttons_3
+noviceOS.UIListLayout_10.FillDirection = Enum.FillDirection.Horizontal
+noviceOS.UIListLayout_10.HorizontalAlignment = Enum.HorizontalAlignment.Right
+noviceOS.UIListLayout_10.Padding = UDim.new(0, 4)
+
+noviceOS.UIPadding_43.Parent = noviceOS.buttons_3
+noviceOS.UIPadding_43.PaddingTop = UDim.new(0, 2)
+noviceOS.UIPadding_43.PaddingRight = UDim.new(0, 20)
+
+noviceOS._1Minimize_5.Name = "1Minimize"
+noviceOS._1Minimize_5.Parent = noviceOS.buttons_3
+noviceOS._1Minimize_5.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+noviceOS._1Minimize_5.Position = UDim2.new(0.934523106, 0, 0.0383700691, 0)
+noviceOS._1Minimize_5.Size = UDim2.new(0, 27, 0, 27)
+noviceOS._1Minimize_5.ZIndex = 5
+noviceOS._1Minimize_5.Text = ""
+
+noviceOS.UICorner_33.Parent = noviceOS._1Minimize_5
+
+noviceOS.UIPadding_45.Parent = noviceOS._1Minimize_5
+noviceOS.UIPadding_45.PaddingBottom = UDim.new(0, 2)
+noviceOS.UIPadding_45.PaddingLeft = UDim.new(0, 2)
+noviceOS.UIPadding_45.PaddingRight = UDim.new(0, 2)
+noviceOS.UIPadding_45.PaddingTop = UDim.new(0, 2)
+
+noviceOS.menuList_12.Name = "menuList"
+noviceOS.menuList_12.Parent = noviceOS._1Minimize_5
+noviceOS.menuList_12.Active = true
+noviceOS.menuList_12.BackgroundTransparency = 1.000
+noviceOS.menuList_12.LayoutOrder = 5
+noviceOS.menuList_12.Selectable = true
+noviceOS.menuList_12.Size = UDim2.new(1, 0, 1, 0)
+noviceOS.menuList_12.ZIndex = 2
+noviceOS.menuList_12.Image = "rbxassetid://3926307971"
+noviceOS.menuList_12.ImageColor3 = Color3.fromRGB(194, 194, 194)
+noviceOS.menuList_12.ImageRectOffset = Vector2.new(884, 284)
+noviceOS.menuList_12.ImageRectSize = Vector2.new(36, 36)
+
+noviceOS.TextBox_3.Parent = noviceOS.Console_2
+noviceOS.TextBox_3.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.TextBox_3.BorderSizePixel = 0
+noviceOS.TextBox_3.Position = UDim2.new(0.120253168, 0, 0.864705861, 0)
+noviceOS.TextBox_3.Size = UDim2.new(0.765822768, 0, 0.0764705911, 0)
+noviceOS.TextBox_3.Font = Enum.Font.GothamBold
+noviceOS.TextBox_3.PlaceholderColor3 = Color3.fromRGB(98, 98, 98)
+noviceOS.TextBox_3.PlaceholderText = "Awaiting input"
+noviceOS.TextBox_3.Text = ""
+noviceOS.TextBox_3.TextColor3 = Color3.fromRGB(204, 204, 204)
+noviceOS.TextBox_3.TextScaled = true
+noviceOS.TextBox_3.TextSize = 14.000
+noviceOS.TextBox_3.TextWrapped = true
+
+noviceOS.UITextSizeConstraint_10.Parent = noviceOS.TextBox_3
+noviceOS.UITextSizeConstraint_10.MaxTextSize = 20
+
+noviceOS.UICorner_34.Parent = noviceOS.TextBox_3
+
+noviceOS.UISizeConstraint_2.Parent = noviceOS.TextBox_3
+noviceOS.UISizeConstraint_2.MaxSize = Vector2.new(math.huge, 40)
+
+noviceOS.Notification.Name = "Notification"
+noviceOS.Notification.Parent = noviceOS.noviceOS
+noviceOS.Notification.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.Notification.Position = UDim2.new(1, 0, 0.014, 0)
+noviceOS.Notification.Size = UDim2.new(0, 632, 0, 70)
+
+noviceOS.UICorner_35.CornerRadius = UDim.new(0, 4)
+noviceOS.UICorner_35.Parent = noviceOS.Notification
+
+noviceOS.deco_3.Name = "deco"
+noviceOS.deco_3.Parent = noviceOS.Notification
+noviceOS.deco_3.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+noviceOS.deco_3.BorderSizePixel = 0
+noviceOS.deco_3.Position = UDim2.new(0.903911293, 0, -0.0833333358, 0)
+noviceOS.deco_3.Size = UDim2.new(0, 69, 0, 70)
+
+noviceOS.Title_6.Name = "Title"
+noviceOS.Title_6.Parent = noviceOS.Notification
+noviceOS.Title_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.Title_6.BackgroundTransparency = 1.000
+noviceOS.Title_6.Size = UDim2.new(0.55606401, 100, 0.399999708, 0)
+noviceOS.Title_6.Font = Enum.Font.GothamBold
+noviceOS.Title_6.Text = "Novice SS"
+noviceOS.Title_6.TextColor3 = Color3.fromRGB(124, 124, 124)
+noviceOS.Title_6.TextScaled = true
+noviceOS.Title_6.TextSize = 25.000
+noviceOS.Title_6.TextWrapped = true
+noviceOS.Title_6.TextXAlignment = Enum.TextXAlignment.Left
+
+noviceOS.UITextSizeConstraint_11.Parent = noviceOS.Title_6
+noviceOS.UITextSizeConstraint_11.MaxTextSize = 20
+
+noviceOS.UIPadding_46.Parent = noviceOS.Title_6
+noviceOS.UIPadding_46.PaddingLeft = UDim.new(0, 7)
+
+noviceOS.UIPadding_47.Parent = noviceOS.Notification
+noviceOS.UIPadding_47.PaddingBottom = UDim.new(0, 5)
+noviceOS.UIPadding_47.PaddingLeft = UDim.new(0, 10)
+noviceOS.UIPadding_47.PaddingTop = UDim.new(0, 5)
+
+noviceOS.MainText.Name = "MainText"
+noviceOS.MainText.Parent = noviceOS.Notification
+noviceOS.MainText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+noviceOS.MainText.BackgroundTransparency = 1.000
+noviceOS.MainText.Position = UDim2.new(0, 0, 0.376623392, 0)
+noviceOS.MainText.Size = UDim2.new(0.55606401, 100, 0.528571486, 0)
+noviceOS.MainText.Font = Enum.Font.Gotham
+noviceOS.MainText.Text = "Novice SS has been attached"
+noviceOS.MainText.TextColor3 = Color3.fromRGB(159, 159, 159)
+noviceOS.MainText.TextScaled = true
+noviceOS.MainText.TextSize = 25.000
+noviceOS.MainText.TextWrapped = true
+noviceOS.MainText.TextXAlignment = Enum.TextXAlignment.Left
+noviceOS.MainText.TextYAlignment = Enum.TextYAlignment.Top
+
+noviceOS.UITextSizeConstraint_12.Parent = noviceOS.MainText
+noviceOS.UITextSizeConstraint_12.MaxTextSize = 18
+
+noviceOS.UIPadding_48.Parent = noviceOS.MainText
+noviceOS.UIPadding_48.PaddingLeft = UDim.new(0, 7)
+noviceOS.UIPadding_48.PaddingTop = UDim.new(0, 2)
+
+-- Scripts:
+
 
 -- Module Scripts:
 local function language()
@@ -893,6 +2087,277 @@ local function language()
 
 	return language
 end
+
+
+--SOURCE CODE
+local sourceCode = {}
+
+local function textboxPlus()
+	local module	= {}
+	local Inputs	= {}
+	local Ignores	= {}
+	local WaypointStack	= {}
+
+	local UIS	= game:GetService("UserInputService")
+	local TS	= game:GetService("TextService")
+	local RS	= game:GetService("RunService")
+
+
+	UIS.InputBegan:Connect(function(Input,GP)
+		if not GP then return end
+		if not Input.UserInputType == Enum.UserInputType.Keyboard then return end
+
+		local TextBox = UIS:GetFocusedTextBox()
+
+		local isEnabled = false
+		if Inputs[TextBox] then
+
+			wait() -- Let the keypress be handle by the TextBox
+
+				--[=[
+				TODO: Figure out how to determine lines when LineWrapped so Up/Down is possible
+				--]=]
+
+			if Input.KeyCode == Enum.KeyCode.Up then
+				-- Go to line above
+				if isEnabled and TextBox.MultiLine and not TextBox.TextWrapped then
+
+					local TextLines = string.split(TextBox.Text, "\n")
+
+					local CurrentLineNumber = #string.split(string.sub(TextBox.Text,1,TextBox.CursorPosition-1), "\n")
+					print("CURRENT LINE NUMBER IS ".. CurrentLineNumber)
+
+					if CurrentLineNumber>1 then
+
+						local CurrentLinePos = {
+							Start = #table.concat(TextLines,"\n",1,CurrentLineNumber-1)+2;
+							End = #table.concat(TextLines,"\n",1,CurrentLineNumber)+1;
+						}
+
+						local CursorPosRelativeInLine = TextBox.CursorPosition-CurrentLinePos.Start
+
+						local PreviousLinePos = {
+							Start = #table.concat(TextLines,"\n",1,CurrentLineNumber-2)+2;
+							End = #table.concat(TextLines,"\n",1,CurrentLineNumber-1)+1;
+						}
+
+						TextBox.CursorPosition = math.clamp(PreviousLinePos.Start + CursorPosRelativeInLine, PreviousLinePos.Start, PreviousLinePos.End)
+
+					end
+
+				end	
+
+			elseif isEnabled and Input.KeyCode == Enum.KeyCode.Down then
+				-- Go to line below
+
+				if TextBox.MultiLine and not TextBox.TextWrapped then
+
+					local TextLines = string.split(TextBox.Text, "\n")
+
+					local CurrentLineNumber = #string.split(string.sub(TextBox.Text,1,TextBox.CursorPosition-1), "\n")
+
+
+					if CurrentLineNumber<#TextLines then
+
+						local CurrentLinePos = {
+							Start = #table.concat(TextLines,"\n",1,CurrentLineNumber-1)+2;
+							End = #table.concat(TextLines,"\n",1,CurrentLineNumber)+1;
+						}
+
+						local CursorPosRelativeInLine = TextBox.CursorPosition-CurrentLinePos.Start
+
+						local NextLinePos = {
+							Start = #table.concat(TextLines,"\n",1,CurrentLineNumber)+2;
+							End = #table.concat(TextLines,"\n",1,CurrentLineNumber+1)+1;
+						}
+
+						TextBox.CursorPosition = math.clamp(NextLinePos.Start + CursorPosRelativeInLine, NextLinePos.Start, NextLinePos.End)
+					end
+
+				end
+
+			elseif UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+				-- Handle shortcuts
+
+				if Input.KeyCode == Enum.KeyCode.D then
+					-- Select current word
+
+					local _,w2 = string.find(string.sub(TextBox.Text, TextBox.CursorPosition), "^%w+")
+					local w3 = string.find(string.sub(TextBox.Text, 1,TextBox.CursorPosition), "%w+$")
+
+					if w2 and w3 then
+						TextBox.SelectionStart = w3
+						TextBox.CursorPosition = w2+TextBox.CursorPosition
+					end
+
+				elseif Input.KeyCode == Enum.KeyCode.Z then
+					-- Undo
+
+					WaypointStack[TextBox]:Undo()
+
+				elseif Input.KeyCode == Enum.KeyCode.Y then
+					-- Redo
+
+					WaypointStack[TextBox]:Redo()
+
+				end
+
+			end
+
+		end
+
+	end)
+	function module.new(Frame,Object, Settings)
+
+		if not (Frame and typeof(Frame)=="Instance" and Frame:IsA("GuiObject")) then
+			warn("Invalid frame for TextPlus")
+			return
+		end
+
+
+		local Scroller = Frame
+
+		local Input = Object
+
+		local LastTextChange	= tick()
+		local LastSnapshot		= tick()
+		local LastText			= ""
+
+		local HistoryController = {
+			UndoStack = {}; RedoStack = {};
+		};
+
+		function HistoryController:TakeSnapshot()
+
+			--print("Take snapshot")
+
+			--Add to undo
+			self.UndoStack[#self.UndoStack+1] = {
+				Text			= Input.Text;
+				CursorPosition	= Input.CursorPosition;
+				SelectionStart	= Input.SelectionStart;
+			};
+
+			-- Clear redo
+			if #self.RedoStack > 0 then
+				self.RedoStack = {}
+			end
+
+			-- Limit undo size
+			while #self.UndoStack > 30 do -- max of 30 snapshots (except for ones that come back from the redo stack)
+				table.remove(self.UndoStack,1)
+			end
+		end
+
+		function HistoryController:Undo()
+			if #self.UndoStack > 1 then
+
+				--print("Undo")
+
+				Ignores[Input] = true
+
+				local Waypoint = self.UndoStack[#self.UndoStack - 1]
+				for Prop, Value in pairs(Waypoint) do
+					Input[Prop] = Value
+				end
+
+				self.RedoStack[#self.RedoStack + 1] = self.UndoStack[#self.UndoStack]
+				self.UndoStack[#self.UndoStack] = nil
+			end
+		end
+
+		function HistoryController:Redo()
+			if #self.RedoStack > 0 then
+
+				--print("Redo")
+
+				Ignores[Input] = true
+
+				local Waypoint = self.RedoStack[#self.RedoStack]
+				for Prop, Value in pairs(Waypoint) do
+					Input[Prop] = Value
+				end
+
+				self.UndoStack[#self.UndoStack + 1] = Waypoint
+				self.RedoStack[#self.RedoStack] = nil
+			end
+		end
+
+		function HistoryController:Clear()
+
+			--print("Clear history")
+
+			self.UndoStack = {}
+			self.RedoStack = {}
+		end
+
+		local TextPlus = {
+			TextBox = Input;
+		}
+
+		function TextPlus.Write(Text,Start,End)
+			Input.Text = string.sub(Input.Text,1,Start).. Text .. string.sub(Input.Text,End+1)
+		end
+
+		function TextPlus.SetContent(Text)
+			Input.Text = Text
+			HistoryController:Clear()
+		end
+
+		function TextPlus:Undo()
+			HistoryController:Undo()
+		end
+
+		function TextPlus:Redo()
+			HistoryController:Redo()
+		end
+--[[ UNNEEDED AS ROBLOX HAS ITS OWN CUSTOM AUTOMATIC SIZE
+		Input:GetPropertyChangedSignal("Text"):Connect(function()
+
+			LastTextChange = tick()
+
+			local TextBounds = TS:GetTextSize(Input.Text,Input.TextSize,Input.Font, Vector2.new(Object.TextWrapped and Scroller.AbsoluteWindowSize.X or 99999,99999))
+			Scroller.CanvasSize = UDim2.new(
+				0,TextBounds.X,
+				0,TextBounds.Y+(false and Scroller.AbsoluteWindowSize.Y-Object.TextSize or 0)
+			)
+		end)
+]]
+
+		Inputs[Input] = TextPlus
+		WaypointStack[Input] = HistoryController
+
+		--Have the first snap be the blank GUI
+		HistoryController:TakeSnapshot()
+
+		RS.Heartbeat:Connect(function()
+			if LastText == Input.Text then
+				return
+			end
+
+			if Ignores[Input] then
+				Ignores[Input] = nil
+				LastText = Input.Text
+				return
+			end
+
+			if (tick()-LastTextChange > 0.5) or (tick()-LastSnapshot > 2) or (math.abs(#LastText-#Input.Text)>10) then
+
+				HistoryController:TakeSnapshot()
+
+				LastSnapshot = tick()
+				LastText = Input.Text
+			end
+
+		end)
+
+		return TextPlus,WaypointStack
+	end
+
+	return module
+
+end
+
 local function Lexer()
 		--[=[
 			Lexical scanner for creating a sequence of tokens from Lua source code.
@@ -1144,6 +2609,12 @@ local function Lexer()
 
 	return lexer
 end
+local tbObject,historyStack = textboxPlus().new(noviceOS.LuaLexer,noviceOS.Source)
+
+--[=[
+	TEST: ok look heres the thing
+--]=]
+
 
 local function Highlighter()
 
@@ -1170,6 +2641,92 @@ local function Highlighter()
 	local function SanitizeControl(s: string): string
 		return string.gsub(s, "[\0\1\2\3\4\5\6\7\8\11\12\13\14\15\16\17\18\19\20\21\22\23\24\25\26\27\28\29\30\31]+", "")
 	end
+	local function splitString()
+		local lui = {}
+		local splitLength = 200000
+
+		local function splitString(str)
+			local sendString = {}
+			for i = 0, math.floor(string.len(str) / splitLength) do
+				table.insert(sendString, string.sub(str, 1+(i*splitLength), (i+1)*splitLength))
+			end
+			return sendString
+		end
+		local function combineString(splitString)
+			local str = ""
+			for _, split in ipairs(splitString) do
+				str = str .. split
+			end
+			return str
+		end
+		function lui.combineLines(strTable)
+			local newStr = ""
+		end
+
+		function lui.splitLines(splitSTring)
+			local lines = {};
+			local str = "";
+			local strTable = {}
+
+			for i = 1, string.len(splitSTring) do
+				if (string.sub(splitSTring, i, i) == "\n") then
+					--lines[#lines+1] = str;
+					table.insert(strTable,splitString(str))
+					table.insert(lines,strTable)
+					str = "";
+					strTable = {}
+				else
+					str = str..string.sub(splitSTring, i, i);	
+				end
+			end
+
+			if (str ~= "") then
+				lines[#lines+1] = {splitString(str)};
+			end
+			for i,v in pairs(lines) do
+				print(i,v)
+			end
+			return lines;
+		end
+		--[[ UNNEEDED FOR NOW, MAYBE WOULD BE USED LATER
+		lui.splitSource = function(strTable, lineCount)
+			local count = 0
+
+			for i,v in pairs(strTable) do
+				local ValueWithNoDecimals = math.floor(i/lineCount)
+				if lineCount == i or i == 1 then --the number does not contain a decimal, it repeated or whatever
+					count = count + 1
+
+					local obj
+					if SourceFrame:FindFirstCHild("Source"..count) then
+						obj = SourceFrame:FindFirstCHild("Source"..count)
+					
+					else 
+						local clone = Source:Clone()
+						obj = clone
+						clone.Name = "Source"..count
+						clone.Parent = ScrollingFrame
+
+						clone:GetPropertyChangedSignal("Text"):Connect(function()
+							if clone.Text == "" then clone:Destroy() return end
+							Highlighter().UpdateColors()
+							Highlighter()(clone,clone.Text)
+						end)
+					end
+
+
+					for index = 1,lineCount + 1 do
+						if strTable[index] then 
+							obj.Text = strTable[index][1]
+						end
+					end
+
+				end
+
+			end
+		end ]]
+		return lui
+	end
 
 	local function highlight(textObject, src: string?, forceUpdate: boolean?)
 		src = SanitizeTabs(SanitizeControl(src or textObject.Text))
@@ -1195,8 +2752,30 @@ local function Highlighter()
 
 		local _, numLines = string.gsub(src, "\n", "")
 		numLines += 1
+		local function getLines(s)
 
+			local lines = {};
+			local str = "";
+
+			for i = 1, string.len(s) do
+				if (string.sub(s, i, i) == "\n") then
+					lines[#lines+1] = str;
+					str = "";
+				else
+					str = str..string.sub(s, i, i);
+				end
+			end
+
+			if (str ~= "") or (str == "")  then
+				lines[#lines+1] = str;
+			end
+			return lines;
+		end
+		local linesTable = getLines(src)
+		numLines = #getLines(src)
+		local currentLine = #string.split(string.sub(textObject.Text,1,textObject.CursorPosition-1), "\n")
 		local textHeight = textObject.TextSize
+		print("CURRENT LINE NUMBER IS ".. currentLine)
 
 		local lineLabels = lineFolder:GetChildren()
 		if not lineLabels then
@@ -1223,69 +2802,125 @@ local function Highlighter()
 
 				lineLabel.Parent = lineFolder
 				lineLabels[i] = lineLabel
+
+				lineLabel.Text = ""
+				lineLabel.TextSize = textObject.TextSize
+				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
+				lineLabel.Position = UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
 			end
 		else
-			for i=1, math.max(numLines, #lineLabels) do
-				local label = lineLabels[i]
-				if not label then
-					label = Instance.new("TextLabel")
-					label.Name = "Line_" .. i
-					label.RichText = true
-					label.ZIndex = textObject.ZIndex + 1
-					label.BackgroundTransparency = 1
-					label.TextXAlignment = Enum.TextXAlignment.Left
-					label.TextYAlignment = Enum.TextYAlignment.Top
-					label.TextColor3 = TokenColors.iden
-					label.Font = textObject.Font
-					label.Parent = lineFolder
-					lineLabels[i] = label
+			for i,v in pairs(lineLabels) do
+				v:Destroy()
+			end
+			lineLabels = table.create(numLines)
+			for i = 1, numLines do
+				local position = (i * textHeight)
+				if i == 1 then
+					position = 0
 				end
+				local lineLabel = Instance.new("TextLabel")
+				lineLabel.Name = "Line_" .. i
+				lineLabel.RichText = true
+				lineLabel.ZIndex = textObject.ZIndex + 1
+				lineLabel.BackgroundTransparency = 1
+				lineLabel.TextXAlignment = Enum.TextXAlignment.Left
+				lineLabel.TextYAlignment = Enum.TextYAlignment.Top
+				lineLabel.TextColor3 = TokenColors.iden
+				lineLabel.Font = textObject.Font
+				lineLabel.TextSize = textObject.TextSize
+				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
+				lineLabel.Position = UDim2.new(0,0,0,position)
+				lineLabel.Text = ""
 
-				label.Text = ""
-				label.TextSize = textObject.TextSize
-				label.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-				label.Position = UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
+				lineLabel.Parent = lineFolder
+				lineLabels[i] = lineLabel
+
+				lineLabel.Text = ""
+				lineLabel.TextSize = textObject.TextSize
+				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
+				lineLabel.Position = UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
 			end
 		end
 
 		local richText, index, lineNumber = {}, 0, 1
 		for token, content in Lexer().scan(src) do
-			local Color = TokenColors[token] or TokenColors.iden
+			local Color = TokenColors[token] or	 TokenColors.iden
+			--[[OLD METHOD
+			if textObject.SelectionStart == -1 then
+				local label = lineLabels[currentLine]
+				label.Text = table.concat(richText)
+				lineNumber += 1
+				
+			else
+				local lines = string.split(SanitizeRichText(content), "\n")
+				for l, line in ipairs(lines) do
+					if l > 1 then
+						-- Set line
+						lineLabels[lineNumber].Text = table.concat(richText)
+						-- Move to next line
+						lineNumber += 1
+						index = 0
+						table.clear(richText)
+					end
 
+					index += 1
+					if Color ~= TokenColors.iden and string.find(line, "[%S%C]") then
+						richText[index] = string.format(TokenFormats[token], line)
+					else
+						richText[index] = line
+					end
+				end
+			end]]
+			--NEW METHOD
+			local lines = string.split(SanitizeRichText(content), "\n")
+
+			local beforeStr = ""
+			for _,tabl in pairs(historyStack) do
+				for index,tabl2 in pairs(tabl.UndoStack) do
+					beforeStr = tabl2.Text
+					break
+				end
+			end
+			local beforeTable = getLines(beforeStr)
 			local lines = string.split(SanitizeRichText(content), "\n")
 			for l, line in ipairs(lines) do
-				if l > 1 then
-					-- Set line
-					lineLabels[lineNumber].Text = table.concat(richText)
-					-- Move to next line
-					lineNumber += 1
-					index = 0
-					table.clear(richText)
-				end
+				if beforeTable[l] == line then
+				else 
+					if l > 1 then
+						-- Set line
+						lineLabels[lineNumber].Text = table.concat(richText)
+						-- Move to next line
+						lineNumber += 1
+						index = 0
+						table.clear(richText)
+					end
 
-				index += 1
-				if Color ~= TokenColors.iden and string.find(line, "[%S%C]") then
-					richText[index] = string.format(TokenFormats[token], line)
-				else
-					richText[index] = line
+					index += 1
+					if Color ~= TokenColors.iden and string.find(line, "[%S%C]") then
+						richText[index] = string.format(TokenFormats[token], line)
+					else
+						richText[index] = line
+					end
 				end
 			end
 
 		end
-		local linesText = ""
-		LuaLexer.CanvasSize = UDim2.new(1, 0, 1000, 0)
-		if lineLabels then
+		local linesText = ""	
+
+		if numLines then
 			for i= 1,numLines do 
-				LuaLexer.CanvasSize = LuaLexer.CanvasSize + UDim2.new(0, 0, 0, math.ceil(textHeight))
-				linesText = linesText..i.."\n"
+				--LuaLexer.CanvasSize = LuaLexer.CanvasSize + UDim2.new(0, 0, 0, math.ceil(textHeight))
+				linesText = linesText..tostring(i).."\n"
+
 			end
 
 		else 
-			linesText = "1\n"
+			--linesText = "1\n"
 		end
-		Lines.Text = linesText
+
+		noviceOS.Lines.Text = linesText
 		-- Set final line
-		lineLabels[lineNumber].Text = table.concat(richText)
+		lineLabels[numLines].Text = table.concat(richText)
 
 		ActiveLabels[textObject] = lineLabels
 
@@ -1369,505 +3004,108 @@ local function Highlighter()
 	})
 end
 
+tbObject.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+	Highlighter().UpdateColors()
+	Highlighter()(tbObject.TextBox,noviceOS.Source.Text)
+end)
+
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
 
 
 
+--Properties:
 
 
 
+-- Module Scripts:
 
--- Scripts:
-
-
-local function ZEUSVK_fake_script() -- LuaLexer.LocalScript 
-	wait(3)
-	local textBox = Source
-
-	textBox:GetPropertyChangedSignal("Text"):Connect(function()
-		Highlighter().UpdateColors()
-		Highlighter()(textBox,textBox.Text)
-	end)
-end
-coroutine.wrap(ZEUSVK_fake_script)()
-
-
-local startup = Instance.new("Sound",novice)
+local startup = Instance.new("Sound",noviceOS.noviceOS)
 startup.SoundId =  "rbxassetid://3101925304"
 startup.Name = "Startup"
-local notify = Instance.new("Sound",novice)
-notify.Name = "Notify"
-notify.SoundId = "rbxassetid://5515669992"
-local shutdown = Instance.new("Sound",novice)
+local NotifySound = Instance.new("Sound",noviceOS.noviceOS)
+NotifySound.Name = "Notify"
+NotifySound.SoundId = "rbxassetid://5515669992"
+local shutdown = Instance.new("Sound",noviceOS.noviceOS)
 shutdown.Name = "Shutdown"
 shutdown.SoundId = "rbxassetid://3101925827"
-local notify2 = Instance.new("Sound",novice)
+local notify2 = Instance.new("Sound",noviceOS.noviceOS)
 notify2.Name = "Notify2"
 notify2.SoundId = "rbxassetid://8183296024"
-local errorSound = Instance.new("Sound",novice)
+local errorSound = Instance.new("Sound",noviceOS.noviceOS)
 errorSound.Name = "ErrorSound"
 errorSound.SoundId = "rbxassetid://8499261098"
-local notify3 = Instance.new("Sound",novice)
+local notify3 = Instance.new("Sound",noviceOS.noviceOS)
 notify3.Name = "Notify3"
 notify3.SoundId = "rbxassetid://8503529943"
-local notify4 = Instance.new("Sound",novice)
+local notify4 = Instance.new("Sound",noviceOS.noviceOS)
 notify4.Name = "Notify4"
 notify4.SoundId = "rbxassetid://8503529139"
-local background = Instance.new("Sound",novice)
+local background = Instance.new("Sound",noviceOS.noviceOS)
 background.Name = "background"
 background.SoundId = "rbxassetid://8503530582"
-local function transition(custom : boolean, object, propretyTable, timer : number?)
-	if custom then
-		local tweenService = game:GetService("TweenService")
-		local tweenInfo = TweenInfo.new(
-			0.15,
-			Enum.EasingStyle.Sine,
-			Enum.EasingDirection.In
-		)
-		local tween  = tweenService:Create(object,tweenInfo,propretyTable)
-		tween:Play()
-	else 
-		local tweenService = game:GetService("TweenService")
-		local tweenInfo = TweenInfo.new(
-			timer,
-			Enum.EasingStyle.Sine,
-			Enum.EasingDirection.In
-		)
+local balloon = Instance.new("Sound",noviceOS.noviceOS)
+balloon.Name = "balloon"
+balloon.Volume = 3
+balloon.SoundId = "rbxassetid://255881176"
 
-		local tween  = tweenService:Create(object,tweenInfo,propretyTable)
-		tween:Play()
+function notify(title,text,duration)
+
+	if title == nil or text == nil then 
+		game.StarterGui:SetCore(
+			"SendNotification",
+			{
+				Title = "Novice+",
+				Duration = 3,
+				Text = "no title or text sent"
+			}
+		)
 	end
 
-end
-
-Frame_2.Visible = false
-TextLabel.Visible = false
-Window.Visible = false
-transition(true,Frame,{Transparency = 1, Size = UDim2.new(0, 564 - 50,0, 68 - 50),Position = UDim2.new(0.323, 0,-0.011, 0)},0.5)
-task.wait(0.15)
-startup:Play()
-transition(false,Frame,{Transparency = 0, Size = UDim2.new(0, 564,0, 68 ),Position = UDim2.new(0.323, 0,-0.011, 0)},0.5)
-Frame_2.Visible = true
-TextLabel.Visible = true
-
-Clear_2.MouseButton1Click:Connect(function()
-	background:Play()
-	--	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/nexoPD")))
-	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
-
-end)
-Clear.MouseButton1Click:Connect(function()
-	Source.Text = ""
-	notify4:Play()
-
-end)
-function executeSS(code,remote,method)
-	if method == nil then
-		remote:FireServer(code)
-	else 
-		remote:FireServer(method,code)
-	end
-end
-
-function mainLibrary()
-	local lui = {}
-	lui.mode = nil
-	lui.remote = nil
-	function lui.makeTabs(linkedFrame,image,imageRect,imageSize)
-		local mainButton = Instance.new("TextButton")
-		local buttonCorner = Instance.new("UICorner")
-		local buttonPadding = Instance.new("UIPadding")
-		local mainImage = Instance.new("ImageLabel")
-		if typeof(linkedFrame) ~= "string"  then
-			mainButton.Name = linkedFrame.Name
+	local function transition(custom : boolean, object, propretyTable, timer : number?)
+		if custom then
+			local tweenService = game:GetService("TweenService")
+			local tweenInfo = TweenInfo.new(
+				0.15,
+				Enum.EasingStyle.Sine,
+				Enum.EasingDirection.In
+			)
+			local tween  = tweenService:Create(object,tweenInfo,propretyTable)
+			tween:Play()
 		else 
-			mainButton.Name = linkedFrame
+			local tweenService = game:GetService("TweenService")
+			local tweenInfo = TweenInfo.new(
+				timer,
+				Enum.EasingStyle.Sine,
+				Enum.EasingDirection.In
+			)
+
+			local tween  = tweenService:Create(object,tweenInfo,propretyTable)
+			tween:Play()
 		end
-		mainButton.Parent = Frame_2
-		mainButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-		mainButton.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
-		mainButton.Size = UDim2.new(0, 35, 0, 35)
-		mainButton.Text = ""
-		mainButton.AutoButtonColor = false
-		mainButton.Transparency = 1
-
-		buttonCorner.Parent = mainButton
-
-		buttonPadding.Parent = mainButton
-		buttonPadding.PaddingBottom = UDim.new(0, 5)
-		buttonPadding.PaddingLeft = UDim.new(0, 5)
-		buttonPadding.PaddingRight = UDim.new(0, 5)
-		buttonPadding.PaddingTop = UDim.new(0, 5)
-
-		mainImage.Name = "menuList"
-		mainImage.Parent = mainButton
-		mainImage.Active = true
-		mainImage.BackgroundTransparency = 1.000
-		mainImage.LayoutOrder = 5
-		mainImage.Selectable = true
-		mainImage.Size = UDim2.new(1, 0, 1, 0)
-		mainImage.ZIndex = 2
-		mainImage.Image = image
-		mainImage.ImageColor3 = Color3.fromRGB(194, 194, 194)
-		mainImage.ImageRectOffset = imageRect
-		mainImage.ImageRectSize = imageSize
-		mainImage.ImageTransparency = 1
-
-
-
-		transition(false,mainButton,{Transparency = 0},0.5)
-		transition(false,mainImage,{ImageTransparency = 0},0.5)
-		local isVisible = false
-		mainButton.MouseButton1Click:Connect(function()
-
-			if linkedFrame == "Exit" then 
-				shutdown:Play()
-				task.wait(1.8)
-				if lui.remote then
-					local callback = ("game.Players['%s']:SetAttribute('UsingNovice',false)"):format(game.Players.LocalPlayer.Name)
-					executeSS(callback,lui.remote,lui.mode)
-				end
-				game.CoreGui["novice+"]:Destroy() end
-
-			if mainButton.BackgroundColor3 == Color3.fromRGB(55,55,55) then
-				isVisible = false
-			else 
-				isVisible = true
-			end
-			if not isVisible then
-				errorSound:Play()
-				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
-				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(55,55,55)})
-
-			else 
-
-				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(194,194,194)})
-				notify3:Play()
-			end
-			for i,v in pairs(Frame_2:GetChildren()) do
-				if v:IsA("TextButton") and v.Name ~= mainButton.Name then
-					transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-					transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
-				end
-			end
-			for i,v in pairs(Window:GetChildren()) do
-				if v:IsA("Frame") then
-					v.Visible = false
-				end
-			end
-
-			isVisible = not isVisible
-			transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
-			task.wait(0.15)
-			Window.Visible = isVisible
-			transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
-			task.wait(0.5 - 0.1)
-
-			linkedFrame.Visible = isVisible
-		end)
 
 	end
-	function lui.executorScripts(link : string,name)
-		local Template = Instance.new("Frame")
-		local UIGradient_3 = Instance.new("UIGradient")
-		local UICorner_9 = Instance.new("UICorner")
-		local itemName = Instance.new("TextLabel")
-		local ItemDesc = Instance.new("TextLabel")
-		local View = Instance.new("TextButton")
-		local Execute = Instance.new("TextButton")
+	noviceOS.Notification.Title.Text = title
+	noviceOS.Notification.MainText.Text = text
+	NotifySound:Play()
+	transition(true,noviceOS.Notification,{Position = UDim2.new(0.825,0,0.014,0)},2.5)
+	if duration then else duration = 5 end
+	delay(duration,function()
+		transition(true,noviceOS.Notification,{Position = UDim2.new(1,0,0.014,0)},2.5)
 
-		Template.Name = name
-		Template.Parent = ScrollingFrame
-		Template.BackgroundColor3 = Color3.fromRGB(255, 138, 60)
-		Template.Size = UDim2.new(0.95, 15, 0, 75)
-
-		UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(152, 152, 152))}
-		UIGradient_3.Rotation = 180
-		UIGradient_3.Parent = Template
-
-		UICorner_9.Parent = Template
-
-		itemName.Name = "itemName"
-		itemName.Parent = Template
-		itemName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		itemName.BackgroundTransparency = 1.000
-		itemName.Size = UDim2.new(0, 215, 0, 57)
-		itemName.Font = Enum.Font.GothamMedium
-		itemName.Text = name
-		itemName.TextColor3 = Color3.fromRGB(194, 194, 194)
-		itemName.TextSize = 14.000
-
-
-		local isPaid = false
-		local textCost = "Free"
-		if string.find(name,"PAID") then
-			isPaid = true
-			textCost = "Paid"
-		end
-		if string.find(name,"BUGGY") then
-			textCost = "BUGGY"
-		end
-
-		ItemDesc.Name = "ItemDesc"
-		ItemDesc.Parent = Template
-		ItemDesc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		ItemDesc.BackgroundTransparency = 1.000
-		ItemDesc.Position = UDim2.new(0, 0, 0.239999995, 0)
-		ItemDesc.Size = UDim2.new(0, 215, 0, 57)
-		ItemDesc.Font = Enum.Font.GothamMedium
-		ItemDesc.Text = "Free"
-		ItemDesc.TextColor3 = Color3.fromRGB(194, 194, 194)
-		ItemDesc.TextSize = 14.000
-
-		View.Name = "View"
-		View.Parent = Template
-		View.Active = false
-		View.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		View.BackgroundTransparency = 1.000
-		View.Position = UDim2.new(0.605490804, 0, 0.119999997, 0)
-		View.Selectable = false
-		View.Size = UDim2.new(0, 104, 0, 57)
-		View.Font = Enum.Font.GothamMedium
-		View.Text = "View"
-		View.TextColor3 = Color3.fromRGB(194, 194, 194)
-		View.TextSize = 25.000
-
-		Execute.Name = "Execute"
-		Execute.Parent = Template
-		Execute.Active = false
-		Execute.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		Execute.BackgroundTransparency = 1.000
-		Execute.Position = UDim2.new(0.801053047, 0, 0.119999997, 0)
-		Execute.Selectable = false
-		Execute.Size = UDim2.new(0, 91, 0, 57)
-		Execute.Font = Enum.Font.GothamMedium
-		Execute.Text = "Execute"
-		Execute.TextColor3 = Color3.fromRGB(194, 194, 194)
-		Execute.TextSize = 25.000
+	end)
 
 
 
-		local rand = Random.new()
-
-		local function randomColor()
-			return Color3.new(rand:NextNumber(), rand:NextNumber(),
-				rand:NextNumber())
-		end
-		Template.BackgroundColor3 = randomColor()
-		View.MouseButton1Click:Connect(function()
-			notify2:Play()
-			Source.Text = game:HttpGet(link)
-			transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
-			transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
-			for i,v in pairs(Frame_2:GetChildren()) do
-				if v:IsA("TextButton") and v.Name ~= "Executer" then
-					transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-					transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
-				end
-			end
-			for i,v in pairs(Window:GetChildren()) do
-				if v:IsA("Frame") then
-					v.Visible = false
-				end
-			end
-
-
-			transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
-			task.wait(0.15)
-			Window.Visible = true
-			transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
-			task.wait(0.5 - 0.1)
-			Executer.Visible = true
-
-		end)
-		Execute.MouseButton1Click:Connect(function()
-			notify3:Play()
-			if lui.remote then
-				local callback = game:HttpGet(link):format(game.Players.LocalPlayer.Name)
-				local remote = lui.remote
-				local method = lui.mode
-
-
-				executeSS(callback,remote,method)
-			else 
-
-				pcall(
-					loadstring(game:HttpGet(link))
-				)
-			end
-		end)
-
-	end
-
-	return lui
 end
 
-----------/////// CUSTOM NOVICE
-local mainlib  =  mainLibrary()
-mainlib.makeTabs(Attacher,"rbxassetid://6764432408",Vector2.new(200,350),Vector2.new(50,50))
-mainlib.makeTabs(Executer,"rbxassetid://6764432408",Vector2.new(100,150),Vector2.new(50,50))
-
-
-FE.MouseButton1Click:Connect(function()
-	shutdown:Play()
-	TextLabel.Text = "Novice FE"
-	mainlib.makeTabs(Scritps,"rbxassetid://6764432408",Vector2.new(150,0),Vector2.new(50,50))
-
-	transition(false,Frame_2.Attacher,{Transparency = 1},0.5)
-	transition(false,Frame_2.Attacher.menuList,{ImageTransparency = 1},0.5)
-	task.wait(0.475)
-	Frame_2.Attacher:Destroy()
-	local executorList = {
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Amogus"] = "FE Amogus",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Best%20Friend"] = "FE Best Friend",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Bike"] = "FE Bike",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Billy"] = "FE Billy",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Budget%20soldier"] = "FE Budget Soldier",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Creepy%20Crawler"] = "FE Creepy Crawler",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Dolle"] = "FE Doll",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Floppa"] = "FE Floppa",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Football"] = "FE Football",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Guts"] = "FE Guts",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Head%20Pet"] = "FE Head Pet",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Hoverboard"] = "FE Hoverboard",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Jackson%20Hammer"] = "FE Jackson Hammer",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Neptune%20V"] = "FE Neptune V",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Pickaxe"] = "FE Pickaxe",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Player%20ball%20controls"] = "FE Ball Controls",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/blob/main/FE%20scripts/FE%20Railgun"] = "FE Railgun",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Spectrum%20Glitcher"] = "FE Spectrum Glitcher",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Stand"] = "FE Stand",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20fatherless"] = "FE Fatherless",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20zombie"] = "FE Zombie",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/PAID%20FE%20Minigun"] = "[PAID] FE Minigun",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BBUGGY%5D%20FE%20Rb%20Neptunian"] = "[BUGGY] FE RB Neptunian",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BBUGGY%5D%20FE%20Spiderman"] = "[BUGGY] FE Spiderman",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Combine%20Soldier"] = "[PAID] FE Combine",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Eye%20Head"] = "[PAID] FE Eye Head",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Ghost%20Rider"] = "[PAID] FE Ghost Rider",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Giant"] = "[PAID] FE Giant",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Shotgun"] = "[PAID] FE Shotgun",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Showcase%20dummy"] = "[PAID] FE Showcase Dummy",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Soldier%20AI"] = "[PAID] FE Soldier AI",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%5D%20FE%20Tornado"] = "[PAID] FE Tornado",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/%5BPAID%7CFREE%5D%20FE%20Skateboard"] = "[PAID|FREE] FE Skateboard",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Kinetic%20Gun"] = "FE Kinetic Gun",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Giant%20M40%20Gun"] = "FE Giant M40 Gun",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Winged%20Master"] = "FE Winged Master",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Telekinesis%20V2"] = "FE Telekinesis V2",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Nullioner"] = "FE Nullioner",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Resize"] = "FE Resize",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Achromatic"] = "FE Achromatic",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gravity%20Contorl"] = "FE Gravity Control",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Blue%20flame%20hoverboard"] = "FE Blue flame hoverboard",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Friend%20bike"] = "FE Friend bike",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Free%20giant"] = "FE Free giant",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Glove%20%26%20Sword"] = "FE Glove & Sword",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Chat%20Hax%20v2"] = "FE Chat hax v2",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20scripts/FE%20Gaming%20setup"] = "FE Gaming setup",
-	}
-	for i,v in pairs(executorList) do 
-		mainlib.executorScripts(i,v)
-	end
-
-	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
-
-	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
-	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
-	for i,v in pairs(Frame_2:GetChildren()) do
-		if v:IsA("TextButton") and v.Name ~= "Executer" then
-			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
-		end
-	end
-	for i,v in pairs(Window:GetChildren()) do
-		if v:IsA("Frame") then
-			v.Visible = false
-		end
-	end
-
-
-	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
-	task.wait(0.15)
-	Window.Visible = true
-	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
-	task.wait(0.5 - 0.1)
-	Executer.Visible = true
-end)
-Classic.MouseButton1Click:Connect(function()
-	shutdown:Play()
-	TextLabel.Text = "Novice Classic"
-
-	transition(false,Frame_2.Attacher,{Transparency = 1},0.5)
-	transition(false,Frame_2.Attacher.menuList,{ImageTransparency = 1},0.5)
-	task.wait(0.475)
-	Frame_2.Attacher:Destroy()
-	mainlib.makeTabs(Scritps,"rbxassetid://6764432408",Vector2.new(150,0),Vector2.new(50,50))
-	local executorList = {
-
-	}
-	for i,v in pairs(executorList) do 
-		mainlib.executorScripts(i,v)
-	end
-
-	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
-
-	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
-	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
-	for i,v in pairs(Frame_2:GetChildren()) do
-		if v:IsA("TextButton") and v.Name ~= "Executer" then
-			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
-		end
-	end
-	for i,v in pairs(Window:GetChildren()) do
-		if v:IsA("Frame") then
-			v.Visible = false
-		end
-	end
-
-
-	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
-	task.wait(0.15)
-	Window.Visible = true
-	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
-	task.wait(0.5 - 0.1)
-	Executer.Visible = true
-end)
-
-
-Run_2.MouseButton1Click:Connect(function()
-	local callback = Source.Text
-	local callback = callback or function() end
-
-	if mainlib.remote then
-		local remote = mainlib.remote
-		local method = mainlib.mode
-
-
-		executeSS(callback,remote,method)
-	else 
-
-		pcall(loadstring(callback))
-	end
-end)
-
-
-function attachRevamped()
+local function attachRevamped()
 
 	local LocalPlayer = game:GetService("Players").LocalPlayer
 	local requireScript = ("game.Players[\"%s\"]:SetAttribute(\"UsingNovice\",true) --%s "):format(LocalPlayer.Name, "true", string.rep("!", 2400)) -- set true to false to disable logging, we add a filler so that the backdoor code won't be send to the chat, by default, only message with 200 characters (or 1,200 bytes) can be send, we multipy it by 2 to be safe.
 
-	local function notify(text)
-		game.StarterGui:SetCore(
-			"SendNotification",
-			{
-				Title = "novice.exe",
-				Duration = 3,
-				Text = text
-			}
-		)
-	end
 
 	local alternativeSS = {
 		run = { [1] = "5#lGIERKWEF" },
@@ -1932,7 +3170,6 @@ function attachRevamped()
 	end
 
 	local function scanGame()
-		notify("Scanning for a backdoor.")
 
 		if harked() then
 			loadstring(game:HttpRequest(alternativeSS.harked))()
@@ -2039,63 +3276,1312 @@ function attachRevamped()
 
 	local remote,method =	scanGame()
 	if attached(3.5) then
-		notify("Novice+ attached")
+		notify("Novice SS","Novice SS attached")
 		return remote,method
 	else 
-		notify("Novice could not attach proprely.")
+		notify("Novice SS","Novice could not attach proprely.")
 	end	
 
 end
-Revamped.MouseButton1Click:Connect(function()
-	shutdown:Play()
 
-	local remote,method = attachRevamped()
-	mainlib.remote = remote
-	mainlib.mode = method
+local ssSettings = {
+	remote = nil,
+	method = nil
+}
+function csvToTable(str) -- Comma-Separated-Values to Table
+	local SplitStrings = {}
+	local HttpService = game:GetService("HttpService")
+	print(str)
+	local data = HttpService:JSONDecode(str)
+	--Return the split strings.
+	return data
+end
+local blurEffect = Instance.new("BlurEffect",game.Lighting)
+blurEffect.Size = 0
+blurEffect.Enabled = true
 
-	TextLabel.Text = "Novice Revamped"
-	transition(false,Frame_2.Attacher,{Transparency = 1},0.5)
-	transition(false,Frame_2.Attacher.menuList,{ImageTransparency = 1},0.5)
-	task.wait(0.475)
-	Frame_2.Attacher:Destroy()
-	mainlib.makeTabs(Scritps,"rbxassetid://6764432408",Vector2.new(150,0),Vector2.new(50,50))
-	local executorList = {
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Ultimate%20Trolling%20Gui%20v6"] = "SS Ultimate Trolling Gui v6",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Fatherless%20hub"] = "SS Fatherless hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/LES%20GO"] = "SS Dababy",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Krono%20hub"] = "SS Krono hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/Astro%20hub"] = "SS Astro hub",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Minecraft"] = "SS Minecraft",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Juggernaut%20AI"] = "SS Juggernaut AI",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20F3x"] = "SS F3x",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Crash%20player"] = "SS Crash player",
-		["https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Scripts/SS%20Chat%20Hax"] = "SS Chat hax",
+noviceModule = function()
+	local lui = {}
+	lui.isSS = false
+	lui.attached = false
+	lui.isDestroying = false
+	lui.DefaultWindowSize = UDim2.new(0, 632, 0, 340) 
+	lui.isNoviceVisible = false
+
+	local activeTopbar = {}
+	local function fullscreenToggle(obj)
+		local oldPosition = obj.Position
+		obj.TopBar.buttons["2Maximize"].MouseButton1Click:Connect(function()
+			if obj.Size == UDim2.new(1,0,1,0) then
+				--MAKE IT MINIMIZED
+				obj.TopBar.buttons["2Maximize"].menuListLess.Visible = false
+				obj.TopBar.buttons["2Maximize"].menuListExpand.Visible = true
+				obj.Size = lui.DefaultWindowSize
+				obj.Position = oldPosition
+
+			else -- MAKEI T MAXAMIZED
+				obj.TopBar.buttons["2Maximize"].menuListLess.Visible = true
+				obj.TopBar.buttons["2Maximize"].menuListExpand.Visible = false
+				oldPosition = obj.Position
+				obj.Size = UDim2.new(1,0,1,0)
+				obj.Position = UDim2.new(0,0,0,0)
+			end	
+			if obj.Name == "Executor" then
+				local oldText = tbObject.TextBox.Text
+				tbObject.TextBox.Text = tbObject.TextBox.Text.." "
+				tbObject.TextBox.Text = oldText
+			end
+		end)
+
+
+	end
+	local function transition(custom : boolean, object, propretyTable, timer : number?)
+		if custom then
+			local tweenService = game:GetService("TweenService")
+			local tweenInfo = TweenInfo.new(
+				0.15,
+				Enum.EasingStyle.Sine,
+				Enum.EasingDirection.In
+			)
+			local tween  = tweenService:Create(object,tweenInfo,propretyTable)
+			tween:Play()
+		else 
+			local tweenService = game:GetService("TweenService")
+			local tweenInfo = TweenInfo.new(
+				timer,
+				Enum.EasingStyle.Sine,
+				Enum.EasingDirection.In
+			)
+
+			local tween  = tweenService:Create(object,tweenInfo,propretyTable)
+			tween:Play()
+		end
+
+	end
+	function lui:Destroy()
+		game.ReplicatedStorage.Timer:Destroy()
+		for i,v in pairs(activeTopbar) do
+			v:Destroy()
+		end
+		blurEffect:Destroy()
+		noviceOS.noviceOS:Destroy()
+	end
+	lui.taskbarButton = function(linkedFrame,makeNew,image,imageRect,imageSize)
+		local mainButton 
+		local buttonCorner
+		local buttonPadding 
+		local mainImage 
+		if makeNew then
+			local mainButton = Instance.new("TextButton")
+			local buttonCorner = Instance.new("UICorner")
+			local buttonPadding = Instance.new("UIPadding")
+			local mainImage = Instance.new("ImageLabel")
+			if typeof(linkedFrame) ~= "string"  then
+				mainButton.Name = linkedFrame.Name
+			else 
+				mainButton.Name = linkedFrame
+			end
+			mainButton.Parent = noviceOS.Frame
+			mainButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+			mainButton.Position = UDim2.new(0.248826295, 0, 0.141818196, 0)
+			mainButton.Size = UDim2.new(0, 35, 0, 35)
+			mainButton.Text = ""
+			mainButton.AutoButtonColor = false
+			mainButton.Transparency = 1
+
+			buttonCorner.Parent = mainButton
+
+			buttonPadding.Parent = mainButton
+			buttonPadding.PaddingBottom = UDim.new(0, 5)
+			buttonPadding.PaddingLeft = UDim.new(0, 5)
+			buttonPadding.PaddingRight = UDim.new(0, 5)
+			buttonPadding.PaddingTop = UDim.new(0, 5)
+
+			mainImage.Name = "menuList"
+			mainImage.Parent = mainButton
+			mainImage.Active = true
+			mainImage.BackgroundTransparency = 1.000
+			mainImage.LayoutOrder = 5
+			mainImage.Selectable = true
+			mainImage.Size = UDim2.new(1, 0, 1, 0)
+			mainImage.ZIndex = 2
+			mainImage.Image = image
+			mainImage.ImageColor3 = Color3.fromRGB(194, 194, 194)
+			mainImage.ImageRectOffset = imageRect
+			mainImage.ImageRectSize = imageSize
+			mainImage.ImageTransparency = 1
+		else 
+			mainButton = image
+			buttonCorner = mainButton.UICorner
+			buttonPadding = mainButton.UIPadding
+			mainImage = mainButton.menuList
+		end
+		local pos = linkedFrame.Position
+
+		transition(false,mainButton,{Transparency = 0},0.5)
+		transition(false,mainImage,{ImageTransparency = 0},0.5)
+		local isVisible = false
+		local function executeCode(code)
+			if lui.isSS then 
+				if ssSettings.method == nil then
+					ssSettings.remote:FireServer(code)
+				else 
+					ssSettings.remote:FireServer(ssSettings.method,code)
+				end
+			else 
+				pcall(loadstring(code))
+			end
+		end
+
+		linkedFrame.TopBar.buttons["1Minimize"].MouseButton1Click:Connect(function()
+			isVisible = false
+			if isVisible then
+				errorSound:Play()
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(55,55,55)})
+
+			else 
+
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(194,194,194)})
+				notify3:Play()
+			end
+			if isVisible then
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.15)
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.5 - 0.1)
+			else 
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.15)
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.5 - 0.1)
+			end
+
+			linkedFrame.Visible = isVisible
+		end)
+		mainButton.MouseButton1Click:Connect(function()
+
+			if linkedFrame == "Exit" then 
+				shutdown:Play()
+				task.wait(1.8)
+				if ssSettings.remote then
+					local callback = ("game.Players['%s']:SetAttribute('UsingNovice',false)"):format(game.Players.LocalPlayer.Name)
+					lui.isSS = true
+					executeCode(callback)
+					lui.isSS = false
+				end
+				lui.Destroy()	
+			end
+
+			if not isVisible then
+				errorSound:Play()
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(55,55,55)})
+
+			else 
+
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(194,194,194)})
+				notify3:Play()
+			end
+			isVisible = not isVisible
+			if isVisible then
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.15)
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.5 - 0.1)
+			else 
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.15)
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.5 - 0.1)
+			end
+
+			linkedFrame.Visible = isVisible
+		end)
+		linkedFrame.Visible = isVisible
+
+
+	end
+	lui.Executor= function()
+		local function executeCode(code)
+			if lui.isSS then 
+				if ssSettings.method == nil then
+					ssSettings.remote:FireServer(code)
+				else 
+					ssSettings.remote:FireServer(ssSettings.method,code)
+				end
+			else 
+				pcall(loadstring(code))
+			end
+		end
+
+		noviceOS.Run.MouseButton1Click:Connect(function()
+			notify3:Play()
+			executeCode(tbObject.TextBox.Text)
+		end)
+		noviceOS.Clear.MouseButton1Click:Connect(function()
+
+			notify2:Play()
+			tbObject.TextBox.Text = ""
+		end)
+		noviceOS.Copy.MouseButton1Click:Connect(function()
+
+			notify2:Play()
+			setclipboard(tbObject.TextBox.Text)
+		end)
+		noviceOS.ExecuteCopied.MouseButton1Click:Connect(function()	
+			errorSound:Play()
+			if isfolder("Novice") then
+				-- The folder already exists so we wont make another one
+			else
+				makefolder("Novice")
+				writefile("Novice/executeCopiedText.lua",[[--PLEASE PRESS CTRL+V AND CTRL+S ONCE DONE PRESS OK IN THE MESSAGEBOX]])
+				-- Make folder because it doesnt already exist
+			end
+			messagebox("Please open your Novice folder (should be in Workspace) within your exploit and open 'executeCopiedText.lua' DO NOT PRESS OK IF YOU HAVE NOT READ THE FILE","Novice+",0)
+			print("continue")
+			pcall(loadstring(readfile("Novice/executeCopiedText.lua")))
+		end)
+		fullscreenToggle(noviceOS.Executor)
+		lui.taskbarButton(noviceOS.Executor,false,noviceOS.OpenExecutor)
+	end
+	lui.RemoteFinder = function()
+		local remoteFinder = {}
+		remoteFinder.makeButton = function(source ,obj)
+			if obj and source then else return end
+			local buttonLib = {
+				Template = Instance.new("Frame"),
+				UICorner_22 = Instance.new("UICorner"),
+				itemName = Instance.new("TextLabel"),
+				View = Instance.new("TextButton"),
+				Execute = Instance.new("TextButton"),
+				UIGradient = Instance.new("UIGradient"),
+				UITextSizeConstraint_8 = Instance.new("UITextSizeConstraint"),
+			}
+
+
+			local name = obj.Name
+			local function fullPath()
+				local part = obj
+
+				local partPath = part:GetFullName()
+				local appendStr = "game."
+
+
+				-- Assuming you're sane and don't put periods in instance names
+				for _, token in ipairs(partPath:split(".")) do
+					local appendToken = token
+
+					if token:match(" ") then
+						appendToken = "[\"" .. token .. "\"]"
+					else 
+						appendToken = token.."."
+					end
+
+					appendStr = appendStr .. appendToken
+				end
+				return appendStr
+			end
+
+			buttonLib.Template.Name = fullPath()
+			buttonLib.Template.Parent = noviceOS.ScrollingFrame_2
+			buttonLib.Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.Template.Size = UDim2.new(0.949999988, 15, 0, 75)
+
+			buttonLib.UICorner_22.CornerRadius = UDim.new(0, 2)
+			buttonLib.UICorner_22.Parent = buttonLib.Template
+
+			buttonLib.itemName.Name = "itemName"
+			buttonLib.itemName.Parent = buttonLib.Template
+			buttonLib.itemName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.itemName.BackgroundTransparency = 1.000
+			buttonLib.itemName.Size = UDim2.new(0.719,0, 0.96, 0)
+			buttonLib.itemName.Font = Enum.Font.GothamMedium
+			buttonLib.itemName.Text = fullPath()
+			buttonLib.itemName.TextColor3 = Color3.fromRGB(194, 194, 194)
+			buttonLib.itemName.TextSize = 14.000
+			buttonLib.itemName.TextScaled = true
+
+
+			buttonLib.Execute.Name = "Copy"
+			buttonLib.Execute.Parent = buttonLib.Template
+			buttonLib.Execute.Active = false
+			buttonLib.Execute.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.Execute.BackgroundTransparency = 1.000
+			buttonLib.Execute.Position = UDim2.new(0.801053047, 0, 0.119999997, 0)
+			buttonLib.Execute.Selectable = false
+			buttonLib.Execute.Size = UDim2.new(0, 91, 0, 57)
+			buttonLib.Execute.Font = Enum.Font.GothamMedium
+			buttonLib.Execute.Text = "Copy"
+			buttonLib.Execute.TextColor3 = Color3.fromRGB(194, 194, 194)
+			buttonLib.Execute.TextSize = 25.000
+
+			buttonLib.UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
+			buttonLib.UIGradient.Rotation = 180
+			buttonLib.UIGradient.Parent = buttonLib.Template
+
+			buttonLib.UITextSizeConstraint_8.Parent = buttonLib.itemName
+			buttonLib.UITextSizeConstraint_8.MaxTextSize = 14
+			local scrollingframe= noviceOS.ScrollingFrame_2 --put the parent of the buttons here instead of nil
+			local searchbar= noviceOS.TextBox_2 --put the textbox of your searchbar here instead of nil
+			local function UpdateInputOfSearchText()
+				local InputText=string.upper(searchbar.Text)
+				for _,button in pairs(scrollingframe:GetChildren())do
+					if button:IsA("Frame")then
+						if InputText==""or string.find(string.upper(button.Name),InputText)~=nil then
+							button.Visible=true
+						else
+							button.Visible=false
+						end
+					end
+				end
+				if searchbar.Text == "" then
+					for i,v in pairs(scrollingframe:GetChildren()) do
+						if v:IsA("Frame") then
+							v.Visible = true
+						end
+					end
+				end
+			end
+
+
+			for i,v in pairs(scrollingframe:GetChildren()) do
+				if v:IsA("Frame") then
+					v.Visible = true
+				end
+			end
+			searchbar:GetPropertyChangedSignal("Text"):Connect(UpdateInputOfSearchText)
+
+			buttonLib.Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.Execute.MouseButton1Click:Connect(function()
+				notify2:Play()
+				setclipboard(source)
+			end)
+
+		end
+
+		remoteFinder.scanGame = function()
+			notify("Novice remote finder","Scanning game")
+			for i,v in pairs(noviceOS.ScrollingFrame_2:GetChildren()) do
+				if v:IsA("Frame") then
+					v:Destroy()
+				end
+			end
+			local acceptableParents = {
+				workspace,
+				game.Players.LocalPlayer,
+				game.ReplicatedStorage,
+				game.ReplicatedFirst
+			}
+			for i,v in pairs(game:GetDescendants()) do
+				if v:IsA("LocalScript") or v:IsA("ModuleScript") then
+					if v:IsA("LocalScript") and v.Disabled then else
+						local isDescendantOf = false
+						for i2,v2 in pairs(acceptableParents) do
+							if v:IsDescendantOf(v2) then
+								isDescendantOf = true
+								break
+							end
+						end
+						if isDescendantOf then
+							print("searching ",i)
+							print("its a script ",v.Name)
+							local source = decompile(v)
+							repeat wait(0.015) until source
+							print("waited for source")
+							if string.find(source,":FireServer") or string.find(source,":InvokeServer") then
+								print("ADDING IT TO THING")
+								remoteFinder.makeButton(source,v)
+
+							end
+						end
+					end
+				end
+				wait()
+			end
+			print("should be done")
+			notify("Novice remote finder","Done scanning game")
+
+		end
+		noviceOS.TextBox_2.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)
+			if enterPressed then else return end
+			remoteFinder.scanGame()
+		end)
+		fullscreenToggle(noviceOS.RFinder_2)
+		lui.taskbarButton(noviceOS.RFinder_2,false,noviceOS.RFinder)
+
+	end
+	lui.Scripthub = function()
+		local scripthub = {}
+		scripthub.Urls = {
+			Universal = "https://raw.githubusercontent.com/BruhMoment-s/novice-/main/Universal%20Module",
+			FE = "https://raw.githubusercontent.com/BruhMoment-s/novice-/main/FE%20Module",
+			SS = "https://raw.githubusercontent.com/BruhMoment-s/novice-/main/SS%20Module",
+
+		}
+		scripthub.SelectedTab = "Universal"
+
+		scripthub.makeButton = function(link : string,name)
+			if name and link then else return end
+			local buttonLib = {
+				Template = Instance.new("Frame"),
+				UICorner_22 = Instance.new("UICorner"),
+				itemName = Instance.new("TextLabel"),
+				View = Instance.new("TextButton"),
+				Execute = Instance.new("TextButton"),
+				UIGradient = Instance.new("UIGradient"),
+			}
+			local colorLib = {
+				["[FE]"] = Color3.fromRGB(255, 85, 0),
+				["[SS]"] = Color3.fromRGB(0, 170, 255),
+				["UNIVERSAL"] = Color3.fromRGB(255, 255, 255),
+			}
+			buttonLib.Template.Name = name
+			buttonLib.Template.Parent = noviceOS.ScrollingFrame
+			buttonLib.Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.Template.Size = UDim2.new(0.949999988, 15, 0, 75)
+
+			buttonLib.UICorner_22.CornerRadius = UDim.new(0, 2)
+			buttonLib.UICorner_22.Parent = buttonLib.Template
+
+			buttonLib.itemName.Name = "itemName"
+			buttonLib.itemName.Parent = buttonLib.Template
+			buttonLib.itemName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.itemName.BackgroundTransparency = 1.000
+			buttonLib.itemName.Size = UDim2.new(0, 215, 0, 72)
+			buttonLib.itemName.Font = Enum.Font.GothamMedium
+			buttonLib.itemName.Text = name
+			buttonLib.itemName.TextColor3 = Color3.fromRGB(194, 194, 194)
+			buttonLib.itemName.TextSize = 14.000
+
+			buttonLib.View.Name = "Copy"
+			buttonLib.View.Parent = buttonLib.Template
+			buttonLib.View.Active = false
+			buttonLib.View.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.View.BackgroundTransparency = 1.000
+			buttonLib.View.Position = UDim2.new(0.605490804, 0, 0.119999997, 0)
+			buttonLib.View.Selectable = false
+			buttonLib.View.Size = UDim2.new(0, 104, 0, 57)
+			buttonLib.View.Font = Enum.Font.GothamMedium
+			buttonLib.View.Text = "Copy"
+			buttonLib.View.TextColor3 = Color3.fromRGB(194, 194, 194)
+			buttonLib.View.TextSize = 25.000
+
+			buttonLib.Execute.Name = "Execute"
+			buttonLib.Execute.Parent = buttonLib.Template
+			buttonLib.Execute.Active = false
+			buttonLib.Execute.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			buttonLib.Execute.BackgroundTransparency = 1.000
+			buttonLib.Execute.Position = UDim2.new(0.801053047, 0, 0.119999997, 0)
+			buttonLib.Execute.Selectable = false
+			buttonLib.Execute.Size = UDim2.new(0, 91, 0, 57)
+			buttonLib.Execute.Font = Enum.Font.GothamMedium
+			buttonLib.Execute.Text = "Execute"
+			buttonLib.Execute.TextColor3 = Color3.fromRGB(194, 194, 194)
+			buttonLib.Execute.TextSize = 25.000
+
+			buttonLib.UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
+			buttonLib.UIGradient.Rotation = 180
+			buttonLib.UIGradient.Parent = buttonLib.Template
+
+			buttonLib.getColor = function()
+				for i,v in pairs(colorLib) do
+					if string.find(name,i) then
+						return v
+					end
+				end
+				return colorLib["UNIVERSAL"]
+			end
+
+			local function executeCode(code)
+				if lui.isSS then 
+					if ssSettings.method == nil then
+						ssSettings.remote:FireServer(code)
+					else 
+						ssSettings.remote:FireServer(ssSettings.method,code)
+					end
+				else 
+					pcall(loadstring(code))
+				end
+			end
+			local scrollingframe= noviceOS.ScrollingFrame --put the parent of the buttons here instead of nil
+			local searchbar= noviceOS.TextBox --put the textbox of your searchbar here instead of nil
+			local function UpdateInputOfSearchText()
+				local InputText=string.upper(searchbar.Text)
+				for _,button in pairs(scrollingframe:GetChildren())do
+					if button:IsA("Frame")then
+						if InputText==""or string.find(string.upper(button.Name),InputText)~=nil then
+							button.Visible=true
+						else
+							button.Visible=false
+						end
+					end
+				end
+				if searchbar.Text == "" then
+					for i,v in pairs(scrollingframe:GetChildren()) do
+						if v:IsA("Frame") then
+							v.Visible = true
+						end
+					end
+				end
+			end
+
+			searchbar:GetPropertyChangedSignal("Text"):Connect(UpdateInputOfSearchText)
+
+			buttonLib.Template.BackgroundColor3 = buttonLib.getColor()
+			buttonLib.View.MouseButton1Click:Connect(function()
+				notify2:Play()
+				setclipboard(tostring(game:HttpGet(link)))
+
+			end)
+			buttonLib.Execute.MouseButton1Click:Connect(function()
+				notify3:Play()
+				executeCode(tostring(game:HttpGet(link)))
+			end)
+
+		end
+
+		scripthub.loadTab = function(tabUrl)
+			local scriptsTable = csvToTable(tostring(game:HttpGet(tabUrl)))
+			for i,v in pairs(scriptsTable) do
+				scripthub.makeButton(i,v)
+			end
+		end
+		local universalTab = noviceOS.tabs["1Universal"]
+		local feTab = noviceOS.tabs["2FE"]
+		local ssTab = noviceOS.tabs["3SS"]
+
+		local function colorThing(isVisible,v)
+			if isVisible then
+				errorSound:Play()
+				transition(true,v,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+				transition(true,v,{TextColor3 = Color3.fromRGB(55,55,55)})
+
+			else 
+
+				transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+				transition(true,v,{TextColor3 = Color3.fromRGB(194,194,194)})
+				notify3:Play()
+			end
+		end
+		universalTab.MouseButton1Click:Connect(function()
+			for i,v in pairs(noviceOS.tabs:GetChildren()) do
+				if v:IsA(universalTab.ClassName) and v.Name ~= universalTab.Name then
+					colorThing(false,v)
+				end
+			end
+			for i,v in pairs(noviceOS.ScrollingFrame:GetChildren()) do
+				if v:IsA("Frame") then
+					v:Destroy()
+				end
+			end
+			colorThing(true,universalTab)
+			scripthub.loadTab(scripthub.Urls.Universal)
+		end)
+		feTab.MouseButton1Click:Connect(function()
+			for i,v in pairs(noviceOS.tabs:GetChildren()) do
+				if v:IsA(feTab.ClassName) and v.Name ~= feTab.Name then
+					colorThing(false,v)
+				end
+			end
+			for i,v in pairs(noviceOS.ScrollingFrame:GetChildren()) do
+				if v:IsA("Frame") then
+					v:Destroy()
+				end
+			end
+			colorThing(true,feTab)
+			scripthub.loadTab(scripthub.Urls.FE)
+		end)
+		ssTab.MouseButton1Click:Connect(function()
+			for i,v in pairs(noviceOS.tabs:GetChildren()) do
+				if v:IsA(ssTab.ClassName) and v.Name ~= ssTab.Name then
+					colorThing(false,v)
+				end
+			end
+			for i,v in pairs(noviceOS.ScrollingFrame:GetChildren()) do
+				if v:IsA("Frame") then
+					v:Destroy()
+				end
+			end
+			colorThing(true,ssTab)
+			scripthub.loadTab(scripthub.Urls.SS)
+		end)
+		for i,v in pairs(noviceOS.ScrollingFrame:GetChildren()) do
+			if v:IsA("Frame") then
+				v:Destroy()
+			end
+		end
+		scripthub.loadTab(scripthub.Urls.Universal)
+
+		fullscreenToggle(noviceOS.Scripts_2)
+		lui.taskbarButton(noviceOS.Scripts_2,false,noviceOS.Scripts)
+	end
+	lui.Stopwatch = function()
+		local TweenService = game:GetService("TweenService")
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+		local function FormatTime(seconds)
+			return string.format("%d:%.02d", seconds/60, seconds%60, seconds*1000%1000)
+		end
+		local Timer = Instance.new("NumberValue")
+		Timer.Name = "Timer"
+		Timer.Parent = ReplicatedStorage
+
+		local TimerInfo = TweenInfo.new(
+			99999999999,
+			Enum.EasingStyle.Linear,
+			Enum.EasingDirection.InOut
+		)
+
+		local TimerTween = TweenService:Create(Timer, TimerInfo, {Value = 99999999999})
+		noviceOS.Title.Text = FormatTime(Timer.Value)
+		Timer.Changed:Connect(function()
+			noviceOS.Title.Text = FormatTime(Timer.Value)
+		end)
+		-- And when you are ready, do TimerTween:Play() whenever
+
+		TimerTween:Play()
+
+	end
+	function lui.TopbarButton(icon,callback)
+		local callback = callback or function() end
+
+		local NoviceIcon = Instance.new("TextButton")
+		local BadgeContainer = Instance.new("Frame")
+		local Background = Instance.new("ImageButton")
+		local Icon = Instance.new("ImageLabel")
+		local StateOverlay = Instance.new("ImageLabel")
+
+		--Properties:
+
+		NoviceIcon.Name = "NoviceIcon"
+		NoviceIcon.Parent = game.CoreGui.ThemeProvider.TopBarFrame.LeftFrame
+		NoviceIcon.BackgroundTransparency = 1.000
+		NoviceIcon.LayoutOrder = 2
+		NoviceIcon.Selectable = false
+		NoviceIcon.Size = UDim2.new(0, 44, 1, 0)
+		NoviceIcon.Text = ""
+
+		BadgeContainer.Name = "BadgeContainer"
+		BadgeContainer.Parent = NoviceIcon
+		BadgeContainer.BackgroundTransparency = 1.000
+		BadgeContainer.Size = UDim2.new(1, 0, 1, 0)
+		BadgeContainer.ZIndex = 2
+
+		Background.Name = "Background"
+		Background.Parent = NoviceIcon
+		Background.AnchorPoint = Vector2.new(0, 1)
+		Background.BackgroundTransparency = 1.000
+		Background.Position = UDim2.new(0, 0, 1, 0)
+		Background.Size = UDim2.new(0, 32, 0, 32)
+		Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
+
+		Icon.Name = "Icon"
+		Icon.Parent = Background
+		Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+		Icon.BackgroundTransparency = 1.000
+		Icon.Position = UDim2.new(0.5, 0, 0.5, 0)
+		Icon.Size = UDim2.new(0, 20, 0, 20)
+		Icon.Image = "http://www.roblox.com/asset/?id="..icon
+
+		StateOverlay.Name = "StateOverlay"
+		StateOverlay.Parent = Background
+		StateOverlay.BackgroundTransparency = 1.000
+		StateOverlay.Size = UDim2.new(1, 0, 1, 0)
+		StateOverlay.ZIndex = 2
+		StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_1.png"
+		StateOverlay.ImageRectOffset = Vector2.new(190, 494)
+		StateOverlay.ImageRectSize = Vector2.new(17, 17)
+		StateOverlay.ImageTransparency = 1.000
+		StateOverlay.ScaleType = Enum.ScaleType.Slice
+		StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
+
+		table.insert(activeTopbar,NoviceIcon)
+		Background.MouseButton1Click:Connect(function()
+			print("hi i should be making it visible or not ivsible idk")
+
+			pcall(callback)
+		end)
+	end
+	lui.ConsoleCommands = {}
+	function lui.Console()
+		local console = {}
+
+		console.makeLines = function(input)
+			local function renderLine(text)
+
+				local consoleObj = {
+					obj = Instance.new("TextLabel"),
+					UIPadding_38 = Instance.new("UIPadding"),
+					UITextSizeConstraint_8 = Instance.new("UITextSizeConstraint"),
+				}
+				consoleObj.obj.Name = text
+				consoleObj.obj.Parent = noviceOS.ScrollingFrame_3
+				consoleObj.obj.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				consoleObj.obj.BackgroundTransparency = 1.000
+				consoleObj.obj.Size = UDim2.new(1, 0, 0, 26)
+				consoleObj.obj.Font = Enum.Font.Code
+				consoleObj.obj.Text = text
+				consoleObj.obj.TextColor3 = Color3.fromRGB(194, 194, 194)
+				consoleObj.obj.TextScaled = true
+				consoleObj.obj.TextSize = 14.000
+				consoleObj.obj.TextWrapped = true
+				consoleObj.obj.TextXAlignment = Enum.TextXAlignment.Left
+
+				consoleObj.UIPadding_38.Parent = consoleObj.obj
+				consoleObj.UIPadding_38.PaddingLeft = UDim.new(0, 15)
+
+				consoleObj.UITextSizeConstraint_8.Parent = consoleObj.obj
+				consoleObj.UITextSizeConstraint_8.MaxTextSize = 14
+				noviceOS.ScrollingFrame_3.CanvasPosition = Vector2.new(0,999999999)
+
+			end
+			if typeof(input) == "string" then
+				renderLine(input)
+			elseif typeof(input) == "table" then
+				for i,v in pairs(input) do
+					renderLine(v)
+				end
+			end
+		end
+
+		noviceOS.TextBox_3.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)
+			if enterPressed then else return end
+			local str = noviceOS.TextBox_3.Text
+			local args = string.split(str," ")
+			local otherArgCount = 0
+			local callback = nil
+			for i,v in pairs(lui.ConsoleCommands) do
+				if string.lower(args[1]) == string.lower(i) then
+					for i2,v2 in pairs(v) do
+						if i2 ~= "callback" then
+							otherArgCount = otherArgCount + 1
+						else 
+							callback = v2
+						end
+					end
+				end
+			end
+			local argsTable = {}
+			local callback = callback or function() end
+			for i,v in pairs(args) do
+				if i == 1 then else 
+					table.insert(argsTable,v)
+				end
+			end
+			if #argsTable == 1 then 
+				argsTable = argsTable[1]
+			end
+			pcall(callback,argsTable)
+			-- user pressed enter
+		end)
+		fullscreenToggle(noviceOS.Console_2)
+		lui.taskbarButton(noviceOS.Console_2,false,noviceOS.Console)
+
+
+		return console
+	end
+
+
+
+
+
+	local console = lui.Console()
+	local savedThings = {}
+	lui.ConsoleCommands = {
+		["info"] = { --COMMAND
+			callback = function()
+
+				local GetName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+				console.makeLines({
+					"Local Player",
+					"ID: ".. tostring(game.Players.LocalPlayer.UserId),
+					"Name: ".. tostring(game.Players.LocalPlayer.Name),
+					"Server statistics",
+					tostring(#game.Players:GetPlayers()).."/".. tostring(game.Players.MaxPlayers).." Players max",
+					"Place ID: ".. game.PlaceId,
+					"Place Name: ".. GetName.Name,
+					"for a list of commands type the following phrase: cmds",
+					"",
+				})
+
+			end	
+		},
+		["cmds"] = { --COMMAND
+			callback = function()
+				for i,v in pairs(lui.ConsoleCommands) do
+					local str = i.." "
+					for i2,v2 in pairs(v) do
+						if i2 ~= "callback" then
+							str = str..i2.." "
+						end
+					end
+
+					console.makeLines(str)
+				end
+				console.makeLines("")
+			end	
+		},
+		["rj"] = {
+			callback = function()
+				local Players = game.Players
+				local teleportService = game:GetService("TeleportService")
+				if #Players:GetPlayers() <= 1 then
+					Players.LocalPlayer:Kick("\nRejoining...")
+					wait()
+					teleportService:Teleport(game.PlaceId, Players.LocalPlayer)
+				else
+					teleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, Players.LocalPlayer)
+				end
+			end,
+		},
+		["serverhop"] = {
+			callback = function()
+				console.makeLines("[Pr] Server hopping.")
+				local HttpService = game:GetService("HttpService")
+				local teleportService = game:GetService("TeleportService")
+				local x = {}
+				for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+					if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+						x[#x + 1] = v.id
+					end
+				end
+				if #x > 0 then
+					teleportService:TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
+				else
+					console.makeLines("[Er] Could not find a server.")
+					return notify("Serverhop","Couldn't find a server.")
+				end	
+			end,
+		},
+		["SS"] = { --COMMAND
+			["boolean"] = {true,false}, -- ARGUMENTS
+			callback = function(argsTable)
+				if argsTable == nil then
+					console.makeLines({
+						"[Er]	Arguments are missing",
+						"",
+					})
+				end
+				print("right now doesnt work ")
+				print("value ".. argsTable)
+				local bool = false
+				if argsTable == "true" or argsTable == "on" then
+					bool = true
+				end
+				if lui.attached == false then
+
+					console.makeLines("[Pr] Attaching.")
+					local remote,method = attachRevamped()
+					ssSettings.remote = remote
+					ssSettings.mode = method
+					if ssSettings.remote then
+						lui.attached = true
+						lui.isSS = true
+						console.makeLines("[Pr] Attached.")
+					end
+				else 
+					local txt = "off"
+					if bool then txt = "on" end
+					lui.isSS = bool
+					console.makeLines("[Pr] Server Side is ".. txt..".")
+				end
+				console.makeLines("")
+			end	
+		},
+		["firstperson"] = {
+			["boolean"] = {true,false},
+			callback = function(argsTable)
+				if argsTable == nil then
+					console.makeLines({
+						"[Er]	Arguments are missing",
+						"",
+					})
+				end
+				local bool = false
+				if argsTable == "true" or argsTable == "on" then
+					bool = true
+				end
+				local txt = "off"
+				if bool then txt = "on" end
+				console.makeLines("[Pr] ESP is ".. txt..".")
+
+				if bool then
+					for index,value in pairs(savedThings) do
+						if index == "cameraSettings" then
+							local plr = game.Players.LocalPlayer
+							plr.CameraMaxZoomDistance = value["CameraMaxZoomDistance"]
+							plr.CameraMode = value["CameraMode"]
+						end
+					end
+				else 
+					local cameraSettings = false
+
+					for index,value in pairs(savedThings) do
+						if index == "cameraSettings" then
+							cameraSettings = true 
+							break
+						end
+					end
+					if cameraSettings then else 
+						savedThings["cameraSettings"] = {
+							["CameraMaxZoomDistance"] = game.Players.LocalPlayer.CameraMaxZoomDistance,
+							["CameraMode"] = game.Players.LocalPlayer.CameraMode,
+						}
+					end
+					game.Players.LocalPlayer.CameraMaxZoomDistance = 1000
+					game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
+					
+				end
+
+				console.makeLines("")
+			end,
+		},
+		["ESP"] = {
+			["boolean"] = {true,false},
+			callback = function(argsTable)
+				if argsTable == nil then
+					console.makeLines({
+						"[Er]	Arguments are missing",
+						"",
+					})
+				end
+				local bool = false
+				if argsTable == "true" or argsTable == "on" then
+					bool = true
+				end
+				local txt = "off"
+				if bool then txt = "on" end
+				console.makeLines("[Pr] ESP is ".. txt..".")
+
+				console.makeLines("")
+				local es = [[
+					getgenv().enabled = bool --Toggle on/off
+					getgenv().uselocalplayer = false --Choose whether the ESP highlights LocalPlayer or not
+					getgenv().filluseteamcolor = false --Toggle fill color using player team color on/off
+					getgenv().outlineuseteamcolor = true --Toggle outline color using player team color on/off
+					getgenv().fillcolor = Color3.new(0, 0, 0) --Change fill color, no need to edit if using team color
+					getgenv().outlinecolor = Color3.new(1, 1, 1) --Change outline color, no need to edit if using team color
+					getgenv().filltrans = 0.25 --Change fill transparency
+					getgenv().outlinetrans = 0.15 --Change outline transparency
+
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/zntly/highlight-esp/main/esp.lua"))()]]
+				pcall(function()
+					loadstring(es)
+				end)
+			end,
+		},
+		["HESP"] = {
+			["boolean"] = {true,false},
+			callback = function(argsTable)
+				local bool = false
+				if argsTable == "true" or argsTable == "on" then
+					bool = true
+				end
+				local txt = "off"
+				console.makeLines("[Pr] Humanoid ESP is ".. txt..".")
+				if bool then txt = "on" end
+
+				if bool then
+					local ws=workspace
+					local plrs=game.Players
+					local PlrColor=Color3.new(1,0.2,0.2)
+					local NPCColor=Color3.new(0.3,1,0.3)
+					local SelfColor=Color3.new(1,1,1)
+					local espFolder = Instance.new("Folder",game.ReplicatedStorage)
+					espFolder.Name = "ESP"
+					local function highlight(chr,c)
+						local h=Instance.new("Highlight",espFolder)
+						h.Adornee = chr
+						h.FillColor=c
+					end
+					local function unhighlight(chr)
+						for i,v in pairs(espFolder:GetChildren()) do
+							if v.Adornee == chr then 
+								v:Destroy()
+								break
+							end
+						end
+					end
+
+					for i,v in pairs(ws:GetDescendants()) do
+						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
+							if game.Players:FindFirstChild(v.Parent.Name) then
+								if v.Parent.Name == game.Players.LocalPlayer.Name then else 
+									highlight(v.Parent,PlrColor)
+								end
+							else 
+								highlight(v.Parent,NPCColor)
+							end
+						end
+					end
+					workspace.DescendantAdded:Connect(function(v)
+						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
+							if game.Players:FindFirstChild(v.Parent.Name) then
+								if v.Parent.Name == game.Players.LocalPlayer.Name then else 
+									highlight(v.Parent,PlrColor)
+								end
+							else 
+								highlight(v.Parent,NPCColor)
+							end
+						end
+					end)
+					workspace.DescendantRemoving:Connect(function(v)
+						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
+							unhighlight(v.Parent)
+						end
+					end)
+
+				else 
+					for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+						if v.Name == "ESP" then 
+							v:Destroy()
+						end
+					end
+				end
+				console.makeLines("")
+			end,
+		},
+		["customChat"] = { --COMMAND
+			["clientText"] = {"string"}, -- ARGUMENTS
+			["username"] = {"string"}, -- ARGUMENTS
+			["text"] = {"string"}, -- ARGUMENTS
+			callback = function(argsTable)
+				if argsTable == nil or #argsTable == 0 then
+					console.makeLines({
+						"[Er]	Arguments are missing",
+						"",
+					})
+				end
+				local str = ""
+				for i,v in pairs(argsTable) do
+					if i >= 3 then
+						str = str..v
+					end
+				end
+				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(""..argsTable[1].."                                                                                                   " ..
+					"                                                   ["..argsTable[2].."]: "..str.."","All")
+				console.makeLines({
+					"[Pr]	Long strings may not work well",
+					"[Pr]	Chatted",
+					""
+				})
+			end	
+		},
+		["chat"] = { --COMMAND
+			["username"] = {"string"}, -- ARGUMENTS
+			["text"] = {"string"}, -- ARGUMENTS
+			callback = function(argsTable)
+				if argsTable == nil or #argsTable == 0 then
+					console.makeLines({
+						"[Er]	Arguments are missing",
+						"",
+					})
+				end
+				print("right now doesnt work")
+				local presetChats = {
+					"bro why does this not work",
+					"nice",
+					"######",
+					"###############",
+					"yo",
+					"sus???",
+					"????",
+					"wwdwwa",
+					"wwdwwa",
+					"###### #### ##",
+					"damn ok",
+					"ok",
+					"kk",
+					"uhhh",
+					"i love the its raining tacos",
+					"lol",
+					"lmao",
+				}
+				local rng = math.random(1,#presetChats)
+				local selectedChat = presetChats[rng]
+
+				local str = " "
+				for i,v in pairs(argsTable) do
+					if i >= 2 then
+						str = str..v.." "
+					end
+				end
+				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(""..selectedChat.."                                                                                                   " ..
+					"                                                     ["..argsTable[1].."]: "..str.."","All")
+				console.makeLines({
+					"[Pr]	Long strings may not work well",
+					"[Pr]	Chatted",
+					""
+				})
+			end	
+		},
+
 	}
-	for i,v in pairs(executorList) do 
-		mainlib.executorScripts(i,v)
-	end
+	local GetName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+	console.makeLines({
+		"Local Player",
+		"ID: ".. tostring(game.Players.LocalPlayer.UserId),
+		"Name: ".. tostring(game.Players.LocalPlayer.Name),
+		"Server statistics",
+		tostring(#game.Players:GetPlayers()).."/".. tostring(game.Players.MaxPlayers).." Players max",
+		"Place ID: ".. game.PlaceId,
+		"Place Name: ".. GetName.Name,
+		"for a list of commands type the following phrase: cmds",
+		""
+	})
 
-	mainlib.makeTabs("Exit","rbxassetid://6764432408",Vector2.new(100, 400),Vector2.new(50,50))
+	lui.Stopwatch()
+	lui.Executor()
+	lui.RemoteFinder()
+	lui.Scripthub()
+	noviceOS.noviceOS.Enabled = false
+	lui.TopbarButton(6326373239,function()
+		lui.isNoviceVisible = not lui.isNoviceVisible
+		print("it should be ".. tostring(lui.isNoviceVisible))
 
-	transition(true,Frame_2.Executer,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
-	transition(true,Frame_2.Executer.menuList,{ImageColor3 = Color3.fromRGB(55,55,55)})
-	for i,v in pairs(Frame_2:GetChildren()) do
-		if v:IsA("TextButton") and v.Name ~= "Executer" then
-			transition(true,v,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
-			transition(true,v.menuList,{ImageColor3 = Color3.fromRGB(194,194,194)})
+		balloon:Play()
+		if lui.isNoviceVisible then
+			noviceOS.noviceOS.Enabled = true
+			balloon.PlaybackSpeed =  0.9
+			transition(true,blurEffect,{Size = 15},2.5)
+			transition(true,noviceOS.Taskbar,{Position = UDim2.new(0,0,0.935,9)},1.25)
+		else 
+			balloon.PlaybackSpeed = 0.75
+			transition(true,blurEffect,{Size = 0},2.5)
+			transition(true,noviceOS.Taskbar,{Position = UDim2.new(0,0,1,9)},1.25)
 		end
-	end
-	for i,v in pairs(Window:GetChildren()) do
-		if v:IsA("Frame") then
-			v.Visible = false
+		task.wait(0.5)
+		noviceOS.noviceOS.Enabled = lui.isNoviceVisible
+		print("it is ".. tostring(noviceOS.noviceOS.Enabled))
+	end)
+	local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport
+	lui.KeepNovice = true
+	game.Players.LocalPlayer.OnTeleport:Connect(function(State)
+		if State == Enum.TeleportState.Started then
+			if lui.KeepNovice and queueteleport then
+				queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceMain'))()")
+			end
 		end
+	end)
+	noviceOS.Exit.MouseButton1Click:Connect(function()
+		lui:Destroy()
+	end)
+	return lui
+end
+local novice = noviceModule()
+
+
+
+
+
+
+
+
+
+function Drag()
+	local UIS = game:GetService("UserInputService")
+	local function dragify(args)
+
+		local dragToggle = nil
+		local dragSpeed = 1
+		local dragInput = nil
+		local dragStart = nil
+		local dragPos = nil
+		local maintiaithita = args[1]
+		local gupewigiewbgew = args[2]
+		local startPos
+		local Dragging = false
+		local function updateInput(input)
+
+			local Delta = input.Position - dragStart
+			local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+			game:GetService("TweenService"):Create(maintiaithita, TweenInfo.new(0.25), {Position = Position}):Play()
+
+		end
+		gupewigiewbgew.InputBegan:Connect(function(input)
+
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				if UIS:GetFocusedTextBox() == nil then
+					dragToggle = true
+					Dragging = true
+					dragStart = input.Position
+					startPos = maintiaithita.Position
+					input.Changed:Connect(function()
+						if input.UserInputState == Enum.UserInputState.End then
+							dragToggle = false
+							Dragging = false
+						end
+					end)
+				end
+			end
+
+		end)
+		gupewigiewbgew.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				dragInput = input
+			end
+		end)
+		game:GetService("UserInputService").InputChanged:Connect(function(input)
+			if input == dragInput and dragToggle then
+				updateInput(input)
+			end
+		end)
 	end
 
+	coroutine.wrap(dragify)({noviceOS.Executor,noviceOS.TopBar})
+	coroutine.wrap(dragify)({noviceOS.Scripts_2,noviceOS.TopBar_2})
+	coroutine.wrap(dragify)({noviceOS.RFinder_2,noviceOS.TopBar_3})
+	coroutine.wrap(dragify)({noviceOS.Console_2,noviceOS.TopBar_4})
+end	
 
-	transition(true,Window,{Transparency = 1, Size = UDim2.new(0.953, 0,3.559, 0),Position = UDim2.new(0.023, 0,0.985, 10)})
-	task.wait(0.15)
-	Window.Visible = true
-	transition(false,Window,{Transparency = 0, Size = UDim2.new(1,0,3.735, 0),Position = UDim2.new(0,0,1,10)},0.5)
-	task.wait(0.5 - 0.1)
-	Executer.Visible = true
-end)
+coroutine.wrap(Drag)()
+
+
+local function QDTVP_fake_script() -- noviceOS.OpenExecutor.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.OpenExecutor)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(QDTVP_fake_script)()
+local function UDLVZ_fake_script() -- noviceOS.Run.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Run)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(UDLVZ_fake_script)()
+local function BPVEZ_fake_script() -- noviceOS.Clear.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Clear)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(BPVEZ_fake_script)()
+local function FGYZJLF_fake_script() -- noviceOS.Copy.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Copy)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(FGYZJLF_fake_script)()
+local function IKCTY_fake_script() -- noviceOS.ExecuteCopied.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.ExecuteCopied)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(IKCTY_fake_script)()
