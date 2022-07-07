@@ -1,120 +1,120 @@
-local doThing = true
-if game.Players.LocalPlayer.Character.Humanoid.RigType == "R15" then
-	pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
-end
-for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
-        if v:IsA("BasePart") and v.Name ~="HumanoidRootPart" then
-        game:GetService("RunService").Heartbeat:connect(function()
-            if doThing then
-                v.Velocity = Vector3.new(0,-30,0)
-                wait(0.5)
-            end
-        end)
-    end
-end
-    local LocalPlayer = game.Players.LocalPlayer
-    
-    function eswait(num)
-    if num == 0 or num == nil then
-    game:service("RunService").Stepped:wait(0)
-    else
-    for i = 0, num do
-    game:service("RunService").Stepped:wait(0)
-    end
-    end
-    end
-    
-    
-    
-    local hatsine = 0
-    
-    local hatchange = 1
-    
-    function clerp(hat,ppx,ppy,pppz,rrrx,rrry,rrz,lppx,lppy,lpppz,lrrrx,lrrry,lrrz,speed)
-    coroutine.wrap(function()
-    while true do
-    hatsine = hatsine + speed
-    workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0 = workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0:lerp(CFrame.new(ppx + lppx * math.sin(hatsine/11), ppy + lppy * math.sin(hatsine/11), pppz + lpppz * math.sin(hatsine/11)) * CFrame.Angles(math.rad(rrrx + lrrrx * math.sin(hatsine/11)), math.rad(rrry + lrrry * math.sin(hatsine/11)), math.rad(rrz + lrrz * math.sin(hatsine/11))),0.1)
-    eswait()
-    end
-    end)()
-    end
-    
-    local player = game.Players.LocalPlayer
-    local character1 = player.Character
-    local mouse = player:GetMouse()
-    
-    local fakebody = Instance.new("Part", character1)
-    fakebody.Transparency = 1
-    fakebody.Anchored = true
-    fakebody.CanCollide = false
-    fakebody.Position = character1.Head.Position
-    fakebody.Name = "FPart"
-    wait()
-    _G.ReanimationType = "PDeath" --PDeath, Fling, Simple
-    _G.Velocity = Vector3.new(36,0,0)
-    _G.FlingBlock = true
-    _G.FlingBlockTransparency = 1
-    _G.HighlightFlingBlock = true
-    _G.FlingBlockPosition = "FPart"
-    _G.HighlightFlingBlockColor = Color3.fromRGB(255,0,0)
-    
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/GelatekWasTaken/Reanimation.lua/main/Main/Main.lua"))()
-    wait(0.1)
-    
-    
-    function respawn(plr)
-        if invisRunning then TurnVisible() end
-        local char = plr.Character
-        if char:FindFirstChildOfClass("Humanoid") then char:FindFirstChildOfClass("Humanoid"):ChangeState(15) end
-        char:ClearAllChildren()
-        local newChar = Instance.new("Model")
-        newChar.Parent = workspace
-        plr.Character = newChar
-        wait()
-        plr.Character = char
-        newChar:Destroy()
-    end
-    function refresh(plr,pos)
-        refreshCmd = true
-        local Human = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid", true)
-        local pos1 = workspace.CurrentCamera.CFrame
-        respawn(plr)
-        repeat wait(0.01)
-        until plr:FindFirstChild("Character"):FindFirstChild("HumanoidRootPart")
-        plr.Character.Humanoid:Moveto(pos)
-        refreshCmd = false
-     
-    end
-        function GetPlayer(name)
-            for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-             if v.Name:lower():sub(1, #name) == name:lower() then
-              return v
-             end
-            end    
-           end
-         
-        function flingPlayer(plr)
-            local pos = Human and Human.RootPart and Human.RootPart.CFrame
-            local times = 0
-            local maxTimes = 150
-            repeat wait(0.001) times = times + 1
-            if plr.Character:FindFirstChild("HumanoidRootPart") then
-                character1.Reanimate.FPart.Position = plr.Character.HumanoidRootPart.Position
-            end
-            until times == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
-            print("should be refreshing")
-            doThing = false
-            task.wait(0.05)
-            refresh(game.Players.LocalPlayer,pos)
-        end
-    
-        function mainFling(name)
-            local plr = GetPlayer(name)
-	    print(name)
-	    print(plr.Name)
-            if plr then 
-                flingPlayer(plr)
-            end
-        end 
-return mainFling
+		local doThing = true
+		print("ITS UOPDATED!")
+					if game.Players.LocalPlayer.Character.Humanoid.RigType == "R15" then
+						pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
+					end
+					for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
+						if v:IsA("BasePart") and v.Name ~="HumanoidRootPart" then
+							game:GetService("RunService").Heartbeat:connect(function()
+								if doThing then
+									v.Velocity = Vector3.new(0,-30,0)
+									wait(0.5)
+								end
+							end)
+						end
+					end
+					local LocalPlayer = game.Players.LocalPlayer
+
+					local function eswait(num)
+						if num == 0 or num == nil then
+							game:service("RunService").Stepped:wait(0)
+						else
+							for i = 0, num do
+								game:service("RunService").Stepped:wait(0)
+							end
+						end
+					end
+
+
+
+					local hatsine = 0
+
+					local hatchange = 1
+
+					function clerp(hat,ppx,ppy,pppz,rrrx,rrry,rrz,lppx,lppy,lpppz,lrrrx,lrrry,lrrz,speed)
+						coroutine.wrap(function()
+							while true do
+								hatsine = hatsine + speed
+								workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0 = workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0:lerp(CFrame.new(ppx + lppx * math.sin(hatsine/11), ppy + lppy * math.sin(hatsine/11), pppz + lpppz * math.sin(hatsine/11)) * CFrame.Angles(math.rad(rrrx + lrrrx * math.sin(hatsine/11)), math.rad(rrry + lrrry * math.sin(hatsine/11)), math.rad(rrz + lrrz * math.sin(hatsine/11))),0.1)
+								eswait()
+							end
+						end)()
+					end
+
+					local player = game.Players.LocalPlayer
+					local character1 = player.Character
+					local mouse = player:GetMouse()
+
+					local fakebody = Instance.new("Part", character1)
+					fakebody.Transparency = 1
+					fakebody.Anchored = true
+					fakebody.CanCollide = false
+					fakebody.Position = character1.Head.Position
+					fakebody.Name = "FPart"
+					wait()
+					_G.ReanimationType = "PDeath" --PDeath, Fling, Simple
+					_G.Velocity = Vector3.new(36,0,0)
+					_G.FlingBlock = true
+					_G.FlingBlockTransparency = 1
+					_G.HighlightFlingBlock = true
+					_G.FlingBlockPosition = "FPart"
+					_G.HighlightFlingBlockColor = Color3.fromRGB(255,0,0)
+
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/GelatekWasTaken/Reanimation.lua/main/Main/Main.lua"))()
+					wait(0.1)
+
+
+					local function respawn(plr)
+						local char = plr.Character
+						if char:FindFirstChildOfClass("Humanoid") then char:FindFirstChildOfClass("Humanoid"):ChangeState(15) end
+						char:ClearAllChildren()
+						local newChar = Instance.new("Model")
+						newChar.Parent = workspace
+						plr.Character = newChar
+						wait()
+						plr.Character = char
+						newChar:Destroy()
+					end
+					local refreshCmd = false
+					local function refresh(plr,pos)
+						refreshCmd = true
+						local Human = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid", true)
+						local pos1 = workspace.CurrentCamera.CFrame
+						respawn(plr)
+						repeat wait(0.01)
+						until plr:FindFirstChild("Character"):FindFirstChild("HumanoidRootPart")
+						plr.Character.Humanoid:Moveto(pos)
+						refreshCmd = false
+
+					end
+					local function GetPlayer(name)
+						for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+							if v.Name:lower():sub(1, #name) == name:lower() then
+								return v
+							end
+						end    
+					end
+
+					local function flingPlayer(plr)
+						local Human = game.Players.LocalPlayer.Character
+						local pos = Human and Human.RootPart and Human.RootPart.CFrame
+						local times = 0
+						local maxTimes = 150
+						repeat wait(0.001) times = times + 1
+							if plr.Character:FindFirstChild("HumanoidRootPart") then
+								character1.Reanimate.FPart.Position = plr.Character.HumanoidRootPart.Position
+							end
+						until times == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
+						print("should be refreshing")
+						doThing = false
+						task.wait(0.05)
+						refresh(game.Players.LocalPlayer,pos)
+					end
+
+					local function mainFling(name)
+						local plr = GetPlayer(name)
+
+						if plr then 
+							flingPlayer(plr)
+						end
+					end
