@@ -4328,9 +4328,9 @@ noviceModule = function()
 							end
 						end
 					end
-					for i,v in pairs(game.Players:GetPlayers()) do
-						if v.Name ~= game.Players.LocalPlayer.Name then 
-							if v.Neutral == false or v.Team ~= nil  then
+					for i,v in pairs(game.Players:GetChildren()) do
+						if v.Name ~= game.Players.LocalPlayer.Name and v:IsA("Player") then 
+							if v.Team ~= nil  then
 								if useTC then
 									local tc = v.Team.TeamColor.Color
 									highlight(v.Character,PlrColor,tc)
@@ -4349,7 +4349,7 @@ noviceModule = function()
 					game.Players.PlayerAdded:Connect(function(v)
 						v.CharacterAdded:Connect(function(chr)
 							if v.Name ~= game.Players.LocalPlayer.Name then 
-								if v.Neutral == false or v.Team ~= nil  then
+								if v.Team ~= nil  then
 									if useTC then
 										local tc = v.Team.TeamColor.Color
 										highlight(v.Character,PlrColor,tc)
