@@ -4346,7 +4346,7 @@ noviceModule = function()
 							end
 						end
 					end
-					game.Players.PlayerAdded:Connect(function(v)
+					game.Players.ChildAdded:Connect(function(v)
 						v.CharacterAdded:Connect(function(chr)
 							if v.Name ~= game.Players.LocalPlayer.Name then 
 								if v.Team ~= nil  then
