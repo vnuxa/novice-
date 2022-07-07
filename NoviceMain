@@ -4273,6 +4273,113 @@ noviceModule = function()
 				end
 				local txt = "off"
 				if bool then txt = "on" end
+				console.makeLines("[Pr] Player ESP is ".. txt..".")
+
+				if bool then
+					local ws=workspace
+					local plrs=game.Players
+					local espSettings = false
+
+					for index,value in pairs(savedThings) do
+						if index == "espSettings" then
+							espSettings = true 
+							break
+						end
+					end
+					if espSettings then else 
+						savedThings["espSettings"] = {
+							["PlayerColor"] = Color3.fromRGB(30,30,30),
+							["NPCColor"] = Color3.fromRGB(0,255,0),
+						}
+					end
+
+					local PlrColor= savedThings["espSettings"]["PlayerColor"]
+					local NPCColor= savedThings["espSettings"]["NPCColor"]
+					local useTC = true
+					local SelfColor=Color3.new(1,1,1)
+					local espFolder = Instance.new("Folder",game.Workspace)
+					espFolder.Name = "ESP"
+					local function highlight(chr,c,o)
+						local h=Instance.new("Highlight",espFolder)
+						h.Adornee = chr
+
+						h.FillColor=c
+						if o then
+							h.OutlineColor = o
+						end
+					end
+					local function unhighlight(chr)
+						for i,v in pairs(espFolder:GetChildren()) do
+							if v.Adornee == chr then 
+								v:Destroy()
+								break
+							end
+						end
+					end
+					local workspaceModel = Instance.new("Folder")
+					workspaceModel.Name = "PLRESP"
+					workspaceModel.Parent = espFolder
+					for i,v in game.Teams:GetTeams() do 
+						local tc = v.TeamColor.Color
+						local espModel = Instance.new("Model")
+						espModel.Name = v.Name	
+						espModel.Parent = espFolder
+						highlight(espModel,PlrColor,tc)
+					end
+					local defaultESP = Instance.new("Model")
+					defaultESP.Name = "DefaultESP"	
+					defaultESP.Parent = espFolder
+					highlight(defaultESP,PlrColor)
+					game.Players.PlayerAdded:Connect(function(plr)
+						plr.CharacterAdded:Connect(function(char)
+							if plr.Team then
+								task.wait(0.5)
+								char.Parent = workspaceModel[plr.Team.Name]
+							else 
+								char.Parent = defaultESP
+								
+							end
+						end)
+						plr:GetPropertyChangedSignal("Team"):Connect(function()
+							local char = plr.Character
+							char.Parent = workspaceModel[plr.Team.Name]
+						end)
+					end)
+
+					for i,plr in pairs(game.Players:GetPlayers()) do
+						plr.CharacterAdded:Connect(function(char)
+							if plr.Team then
+								task.wait(0.5)
+								char.Parent = workspaceModel[plr.Team.Name]
+							else 
+								char.Parent = defaultESP
+
+							end
+						end)
+						plr:GetPropertyChangedSignal("Team"):Connect(function()
+							local char = plr.Character
+							char.Parent = workspaceModel[plr.Team.Name]
+						end)
+					end
+
+
+				else 
+					if game.Workspace["PLRESP"] then
+						game.Workspace["PLRESP"]:Destroy()
+					end
+				end
+				console.makeLines("")
+			end,
+		},
+		["HESP"] = {
+			["boolean"] = {true,false},
+			callback = function(argsTable)
+				local bool = false
+				if argsTable == "true" or argsTable == "on" then
+					bool = true
+				end
+				local txt = "off"
+				if bool then txt = "on" end
 				console.makeLines("[Pr] Humanoid ESP is ".. txt..".")
 
 				if bool then
@@ -4298,7 +4405,9 @@ noviceModule = function()
 					local useTC = true
 					local SelfColor=Color3.new(1,1,1)
 					local espFolder = Instance.new("Folder",game.ReplicatedStorage)
-					espFolder.Name = "ESP"
+					espFolder.Name = "HESP"
+
+
 					local function highlight(chr,c,o)
 						local h=Instance.new("Highlight",espFolder)
 						h.Adornee = chr
@@ -4328,54 +4437,9 @@ noviceModule = function()
 							end
 						end
 					end
-					for i,v in pairs(game.Players:GetChildren()) do
-						if v.Name ~= game.Players.LocalPlayer.Name and v:IsA("Player") then 
-							if v.Team ~= nil  then
-								if useTC then
-									local tc = v.Team.TeamColor.Color
-									highlight(v.Character,PlrColor,tc)
-									v:GetPropertyChangedSignal("Team"):Connect(function()
-										unhighlight(v.Character)
-										local tc = v.Team.TeamColor.Color
-										highlight(v.Character,PlrColor,tc)
-									end)
-								end
-							else 
-								highlight(v.Character,PlrColor)
-
-							end
-						end
-					end
-					game.Players.ChildAdded:Connect(function(v)
-						v.CharacterAdded:Connect(function(chr)
-							if v.Name ~= game.Players.LocalPlayer.Name then 
-								if v.Team ~= nil  then
-									if useTC then
-										local tc = v.Team.TeamColor.Color
-										highlight(v.Character,PlrColor,tc)
-										
-									end
-								else 
-									highlight(v.Character,PlrColor)
-
-								end
-							end
-						end)
-						v:GetPropertyChangedSignal("Team"):Connect(function()
-							unhighlight(v.Character)
-							local tc = v.Team.TeamColor.Color
-							highlight(v.Character,PlrColor,tc)
-						end)
-						game.Players.LocalPlayer.CharacterRemoving:Connect(function(chr)
-							unhighlight(chr)
-						end)
-					end)
 					workspace.DescendantAdded:Connect(function(v)
 						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
 							if game.Players:FindFirstChild(v.Parent.Name) then
-								if v.Parent.Name == game.Players.LocalPlayer.Name then else 
-									highlight(v.Parent,PlrColor)
-								end
 							else 
 								highlight(v.Parent,NPCColor)
 							end
@@ -4387,9 +4451,11 @@ noviceModule = function()
 						end
 					end)
 
+
+
 				else 
 					for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
-						if v.Name == "ESP" then 
+						if v.Name == "HESP" then 
 							v:Destroy()
 						end
 					end
