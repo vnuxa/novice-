@@ -4319,7 +4319,7 @@ noviceModule = function()
 					local defaultESP = Instance.new("Model")
 					defaultESP.Name = "DefaultESP"
 					defaultESP.Parent = espFolder
-					for i,v in game.Teams:GetTeams() do 
+					for i,v in pairs(game.Teams:GetTeams()) do 
 						local tc = v.TeamColor.Color
 						local espModel = Instance.new("Model")
 						espModel.Name = v.Name	
