@@ -4334,6 +4334,11 @@ noviceModule = function()
 								if useTC then
 									local tc = v.Team.TeamColor.Color
 									highlight(v.Character,PlrColor,tc)
+									v:GetPropertyChangedSignal("Team"):Connect(function()
+										unhighlight(v.Character)
+										local tc = v.Team.TeamColor.Color
+										highlight(v.Character,PlrColor,tc)
+									end)
 								end
 							else 
 								highlight(v.Character,PlrColor)
@@ -4348,12 +4353,18 @@ noviceModule = function()
 									if useTC then
 										local tc = v.Team.TeamColor.Color
 										highlight(v.Character,PlrColor,tc)
+										
 									end
 								else 
 									highlight(v.Character,PlrColor)
 
 								end
 							end
+						end)
+						v:GetPropertyChangedSignal("Team"):Connect(function()
+							unhighlight(v.Character)
+							local tc = v.Team.TeamColor.Color
+							highlight(v.Character,PlrColor,tc)
 						end)
 						game.Players.LocalPlayer.CharacterRemoving:Connect(function(chr)
 							unhighlight(chr)
