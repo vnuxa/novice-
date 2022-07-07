@@ -4151,72 +4151,14 @@ noviceModule = function()
 				print("hello ima tst")
 				print(plrName)
 				if plrName then
-					local doThing = true
-					local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-					print("Attempting")
-					if game.Players.LocalPlayer.Character.Humanoid.RigType == "R15" then
-						pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/R15%20to%20R6")))
-					end
-					for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
-						if v:IsA("BasePart") and v.Name ~="HumanoidRootPart" then
-							game:GetService("RunService").Heartbeat:connect(function()
-								if doThing then
-									v.Velocity = Vector3.new(0,-30,0)
-									wait(0.5)
-								end
-							end)
-						end
-					end
-					local LocalPlayer = game.Players.LocalPlayer
-
-					local function eswait(num)
-						if num == 0 or num == nil then
-							game:service("RunService").Stepped:wait(0)
-						else
-							for i = 0, num do
-								game:service("RunService").Stepped:wait(0)
-							end
-						end
-					end
-
-
-
-					local hatsine = 0
-
-					local hatchange = 1
-
-					local function clerp(hat,ppx,ppy,pppz,rrrx,rrry,rrz,lppx,lppy,lpppz,lrrrx,lrrry,lrrz,speed)
-						coroutine.wrap(function()
-							while true do
-								hatsine = hatsine + speed
-								workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0 = workspace[game.Players.LocalPlayer.Name]['lerp'..hat].Weld.C0:lerp(CFrame.new(ppx + lppx * math.sin(hatsine/11), ppy + lppy * math.sin(hatsine/11), pppz + lpppz * math.sin(hatsine/11)) * CFrame.Angles(math.rad(rrrx + lrrrx * math.sin(hatsine/11)), math.rad(rrry + lrrry * math.sin(hatsine/11)), math.rad(rrz + lrrz * math.sin(hatsine/11))),0.1)
-								eswait()
-							end
-						end)()
-					end
-
-					local player = game.Players.LocalPlayer
-					local character1 = player.Character
-					local mouse = player:GetMouse()
-
-					local fakebody = Instance.new("Part", character1)
-					fakebody.Transparency = 1
-					fakebody.Anchored = true
-					fakebody.CanCollide = false
-					fakebody.Position = character1.Head.Position
-					fakebody.Name = "FPart"
-					wait()
-					_G.ReanimationType = "PDeath" --PDeath, Fling, Simple
-					_G.Velocity = Vector3.new(36,0,0)
-					_G.FlingBlock = true
-					_G.FlingBlockTransparency = 1
-					_G.HighlightFlingBlock = true
-					_G.FlingBlockPosition = "FPart"
-					_G.HighlightFlingBlockColor = Color3.fromRGB(255,0,0)
-
-					loadstring(game:HttpGet("https://raw.githubusercontent.com/GelatekWasTaken/Reanimation.lua/main/Main/Main.lua"))()
-					wait(0.1)
-
+					local plr = game.Players.LocalPlayer
+					local chr = plr.Character
+					local hrp = chr.HumanoidRootPart
+					local mdl = Instance.new("Model", game.Workspace)
+					local hum = Instance.new("Humanoid", mdl)
+					local torso = Instance.new("Part", mdl)
+					local head = Instance.new("Part", mdl)
+					local mouse = plr:GetMouse()
 
 					local function respawn(plr)
 						local char = plr.Character
@@ -4232,6 +4174,7 @@ noviceModule = function()
 					local refreshCmd = false
 					local function refresh(plr,pos)
 						refreshCmd = true
+						local Human = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid", true)
 						local pos1 = workspace.CurrentCamera.CFrame
 						respawn(plr)
 						repeat wait(0.01)
@@ -4247,28 +4190,49 @@ noviceModule = function()
 							end
 						end    
 					end
+					torso.Name = "Torso"
+					head.Name = "Head"
+					hum.Name = "Humanoid"
+					torso.Anchored = false
+					torso.CanCollide = false
+					torso.Position = Vector3.new(0, 10000, 0)
+					head.Anchored = true
+					head.CanCollide = false
+					head.Position = Vector3.new(0, 10000, 0)	
+					plr.Character = mdl
+					plr.Character = chr
+					wait(6)
+					local bth = Instance.new("BodyThrust", hrp)
+					bth.Force = Vector3.new(99999, 0, 99999)
+					bth.Location = hrp.Position
+					hrp.Transparency = 0.3
 
+					for i,v in pairs(plr.Character:GetChildren()) do
+						if v ~= hrp and v.Name ~= "Humanoid" then
+							v:Destroy()
+						end
+					end
+
+					wait(0.1)
+
+					hrp.CanCollide = false
 					local function flingPlayer(plr)
-						print("test1")
-						print("test2")
+						local Human = game.Players.LocalPlayer.Character
+						local pos = Human:FindFirstChild("HumanoidRootPart").Position
 						local times = 0
-						local maxTimes = 150
-						print("test3")
-						repeat wait(0.001) times = times + 1
+						local maxTimes = 250
+						repeat game["Run Service"].Heartbeat:Wait() times = times + 1
 							if plr.Character:FindFirstChild("HumanoidRootPart") then
-								print("test4")
-								character1.Reanimate.FPart.Position = plr.Character.HumanoidRootPart.Position
+								hrp.Position = plr.Character.HumanoidRootPart.Position
 							end
 						until times == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
 						print("should be refreshing")
-						doThing = false
 						task.wait(0.05)
 						refresh(game.Players.LocalPlayer,pos)
 					end
 
 					local function mainFling(name)
 						local plr = GetPlayer(name)
-						print("going to try flinging a person called ".. plr.Name)
 						if plr then 
 							flingPlayer(plr)
 						end
@@ -4815,3 +4779,49 @@ end
 
 coroutine.wrap(Drag)()
 
+
+local function QDTVP_fake_script() -- noviceOS.OpenExecutor.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.OpenExecutor)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(QDTVP_fake_script)()
+local function UDLVZ_fake_script() -- noviceOS.Run.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Run)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(UDLVZ_fake_script)()
+local function BPVEZ_fake_script() -- noviceOS.Clear.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Clear)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(BPVEZ_fake_script)()
+local function FGYZJLF_fake_script() -- noviceOS.Copy.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.Copy)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(FGYZJLF_fake_script)()
+local function IKCTY_fake_script() -- noviceOS.ExecuteCopied.LocalScript 
+	local script = Instance.new('LocalScript', noviceOS.ExecuteCopied)
+
+
+	script.Parent.MouseButton1Click:Connect(function()
+		print("hi")
+	end)
+end
+coroutine.wrap(IKCTY_fake_script)()
