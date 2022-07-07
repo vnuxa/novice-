@@ -2,6 +2,7 @@
 -- Version: 3.2
 
 -- Instances:
+
 if game.CoreGui:FindFirstChild("noviceOS") then return end
 local noviceOS = {
 	noviceOS = Instance.new("ScreenGui"),
@@ -4234,47 +4235,36 @@ noviceModule = function()
 					end
 					game.Players.LocalPlayer.CameraMaxZoomDistance = 1000
 					game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
-					
+
 				end
 
 				console.makeLines("")
+			end,
+		},
+		["changeESPColor"] = {
+			["colorType"] = {"string"},
+			["RGB"] = {"string"},
+			callback = function(argsTable)
+				local cType = argsTable[1]
+				local rgb = argsTable[2]
+				local method = "PlayerColor"
+				if cType == "NPC" then
+					method = "NPCColor"
+				end
+				local espSettings = false
+
+				for index,value in pairs(savedThings) do
+					if index == "espSettings" then
+						espSettings = true 
+						break
+					end
+				end
+				local RGBValues = string.split(rgb, ", ")
+				savedThings["espSettings"][method] = Color3.fromRGB(table.unpack(RGBValues))
+
 			end,
 		},
 		["ESP"] = {
-			["boolean"] = {true,false},
-			callback = function(argsTable)
-				if argsTable == nil then
-					console.makeLines({
-						"[Er]	Arguments are missing",
-						"",
-					})
-				end
-				local bool = false
-				if argsTable == "true" or argsTable == "on" then
-					bool = true
-				end
-				local txt = "off"
-				if bool then txt = "on" end
-				console.makeLines("[Pr] ESP is ".. txt..".")
-
-				console.makeLines("")
-				local es = [[
-					getgenv().enabled = bool --Toggle on/off
-					getgenv().uselocalplayer = false --Choose whether the ESP highlights LocalPlayer or not
-					getgenv().filluseteamcolor = false --Toggle fill color using player team color on/off
-					getgenv().outlineuseteamcolor = true --Toggle outline color using player team color on/off
-					getgenv().fillcolor = Color3.new(0, 0, 0) --Change fill color, no need to edit if using team color
-					getgenv().outlinecolor = Color3.new(1, 1, 1) --Change outline color, no need to edit if using team color
-					getgenv().filltrans = 0.25 --Change fill transparency
-					getgenv().outlinetrans = 0.15 --Change outline transparency
-
-					loadstring(game:HttpGet("https://raw.githubusercontent.com/zntly/highlight-esp/main/esp.lua"))()]]
-				pcall(function()
-					loadstring(es)
-				end)
-			end,
-		},
-		["HESP"] = {
 			["boolean"] = {true,false},
 			callback = function(argsTable)
 				local bool = false
@@ -4288,15 +4278,35 @@ noviceModule = function()
 				if bool then
 					local ws=workspace
 					local plrs=game.Players
-					local PlrColor=Color3.new(1,0.2,0.2)
-					local NPCColor=Color3.new(0.3,1,0.3)
+					local espSettings = false
+
+					for index,value in pairs(savedThings) do
+						if index == "espSettings" then
+							espSettings = true 
+							break
+						end
+					end
+					if espSettings then else 
+						savedThings["espSettings"] = {
+							["PlayerColor"] = Color3.fromRGB(30,30,30),
+							["NPCColor"] = Color3.fromRGB(0,255,0),
+						}
+					end
+
+					local PlrColor= savedThings["espSettings"]["PlayerColor"]
+					local NPCColor= savedThings["espSettings"]["NPCColor"]
+					local useTC = true
 					local SelfColor=Color3.new(1,1,1)
 					local espFolder = Instance.new("Folder",game.ReplicatedStorage)
 					espFolder.Name = "ESP"
-					local function highlight(chr,c)
+					local function highlight(chr,c,o)
 						local h=Instance.new("Highlight",espFolder)
 						h.Adornee = chr
+
 						h.FillColor=c
+						if o then
+							h.OutlineColor = o
+						end
 					end
 					local function unhighlight(chr)
 						for i,v in pairs(espFolder:GetChildren()) do
@@ -4311,13 +4321,44 @@ noviceModule = function()
 						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
 							if game.Players:FindFirstChild(v.Parent.Name) then
 								if v.Parent.Name == game.Players.LocalPlayer.Name then else 
-									highlight(v.Parent,PlrColor)
+									--highlight(v.Parent,PlrColor)
 								end
 							else 
 								highlight(v.Parent,NPCColor)
 							end
 						end
 					end
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if v.Name ~= game.Players.LocalPlayer.Name then 
+							if v.Neutral == false or v.Team ~= nil  then
+								if useTC then
+									local tc = v.Team.TeamColor.Color
+									highlight(v.Character,PlrColor,tc)
+								end
+							else 
+								highlight(v.Character,PlrColor)
+
+							end
+						end
+					end
+					game.Players.PlayerAdded:Connect(function(v)
+						v.CharacterAdded:Connect(function(chr)
+							if v.Name ~= game.Players.LocalPlayer.Name then 
+								if v.Neutral == false or v.Team ~= nil  then
+									if useTC then
+										local tc = v.Team.TeamColor.Color
+										highlight(v.Character,PlrColor,tc)
+									end
+								else 
+									highlight(v.Character,PlrColor)
+
+								end
+							end
+						end)
+						game.Players.LocalPlayer.CharacterRemoving:Connect(function(chr)
+							unhighlight(chr)
+						end)
+					end)
 					workspace.DescendantAdded:Connect(function(v)
 						if v:IsA("Humanoid") and v.Parent:IsA("Model") then
 							if game.Players:FindFirstChild(v.Parent.Name) then
