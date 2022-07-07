@@ -111,6 +111,8 @@ end
     
         function mainFling(name)
             local plr = GetPlayer(name)
+	    print(name)
+	    print(plr.Name)
             if plr then 
                 flingPlayer(plr)
             end
