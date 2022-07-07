@@ -4726,8 +4726,11 @@ noviceModule = function()
 		lui.toggleUiVisibility()
 	end)
 	local CAS = game:GetService("ContextActionService")
-	CAS:BindAction("ToggleNovice",function()
-		lui.toggleUiVisibility()
+	CAS:BindAction("ToggleNovice",function(actionName, inputState, inputObject)
+
+		if (inputState == Enum.UserInputState.Begin) then
+			lui.toggleUiVisibility()
+		end
 	end,false, Enum.KeyCode.F1, Enum.KeyCode.RightAlt)
 	local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport
 	lui.KeepNovice = true
@@ -4812,49 +4815,3 @@ end
 
 coroutine.wrap(Drag)()
 
-
-local function QDTVP_fake_script() -- noviceOS.OpenExecutor.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.OpenExecutor)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(QDTVP_fake_script)()
-local function UDLVZ_fake_script() -- noviceOS.Run.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Run)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(UDLVZ_fake_script)()
-local function BPVEZ_fake_script() -- noviceOS.Clear.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Clear)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(BPVEZ_fake_script)()
-local function FGYZJLF_fake_script() -- noviceOS.Copy.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Copy)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(FGYZJLF_fake_script)()
-local function IKCTY_fake_script() -- noviceOS.ExecuteCopied.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.ExecuteCopied)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(IKCTY_fake_script)()
