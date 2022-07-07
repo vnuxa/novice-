@@ -4298,9 +4298,9 @@ noviceModule = function()
 					local useTC = true
 					local SelfColor=Color3.new(1,1,1)
 					local espFolder = Instance.new("Folder",game.Workspace)
-					espFolder.Name = "ESP"
+					espFolder.Name = "PLRESP"
 					local function highlight(chr,c,o)
-						local h=Instance.new("Highlight",espFolder)
+						local h=Instance.new("Highlight",chr)
 						h.Adornee = chr
 
 						h.FillColor=c
@@ -4309,16 +4309,16 @@ noviceModule = function()
 						end
 					end
 					local function unhighlight(chr)
-						for i,v in pairs(espFolder:GetChildren()) do
+						for i,v in pairs(espFolder:GetDescendants()) do
 							if v.Adornee == chr then 
 								v:Destroy()
 								break
 							end
 						end
 					end
-					local workspaceModel = Instance.new("Folder")
-					workspaceModel.Name = "PLRESP"
-					workspaceModel.Parent = espFolder
+					local defaultESP = Instance.new("Model")
+					defaultESP.Name = "DefaultESP"
+					defaultESP.Parent = espFolder
 					for i,v in game.Teams:GetTeams() do 
 						local tc = v.TeamColor.Color
 						local espModel = Instance.new("Model")
@@ -4326,39 +4326,51 @@ noviceModule = function()
 						espModel.Parent = espFolder
 						highlight(espModel,PlrColor,tc)
 					end
-					local defaultESP = Instance.new("Model")
-					defaultESP.Name = "DefaultESP"	
-					defaultESP.Parent = espFolder
+
 					highlight(defaultESP,PlrColor)
 					game.Players.PlayerAdded:Connect(function(plr)
 						plr.CharacterAdded:Connect(function(char)
 							if plr.Team then
 								task.wait(0.5)
-								char.Parent = workspaceModel[plr.Team.Name]
+								char.Parent = espFolder[plr.Team.Name]
 							else 
 								char.Parent = defaultESP
-								
+
 							end
 						end)
 						plr:GetPropertyChangedSignal("Team"):Connect(function()
 							local char = plr.Character
-							char.Parent = workspaceModel[plr.Team.Name]
+							char.Parent = espFolder[plr.Team.Name]
 						end)
 					end)
 
 					for i,plr in pairs(game.Players:GetPlayers()) do
+						local char = plr.Character	
+						if plr.Team then
+							task.wait(0.5)
+							char.Parent = espFolder[plr.Team.Name]
+						else 
+							char.Parent = defaultESP
+
+						end
 						plr.CharacterAdded:Connect(function(char)
 							if plr.Team then
 								task.wait(0.5)
-								char.Parent = workspaceModel[plr.Team.Name]
+								char.Parent = espFolder[plr.Team.Name]
 							else 
 								char.Parent = defaultESP
 
 							end
 						end)
 						plr:GetPropertyChangedSignal("Team"):Connect(function()
-							local char = plr.Character
-							char.Parent = workspaceModel[plr.Team.Name]
+							local char = plr.Character	
+							if plr.Team then
+								task.wait(0.5)
+								char.Parent = espFolder[plr.Team.Name]
+							else 
+								char.Parent = defaultESP
+
+							end
 						end)
 					end
 
