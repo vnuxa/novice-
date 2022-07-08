@@ -1,3 +1,12 @@
+game["Run Service"].RenderStepped:connect(function()
+   settings().Physics.AllowSleep = false
+   setsimulationradius(math.huge*math.huge,math.huge*math.huge)
+end)
+
+
+
+
+
 --[[
 re-released by discord.gg/dogpower & modified by https://discord.gg/Hbq3TgAJbB
 publish in public by cia and many other youtuber
