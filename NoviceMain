@@ -3456,6 +3456,7 @@ noviceModule = function()
 	
 	function lui.toggleUiVisibility()
 		lui.isNoviceVisible = not lui.isNoviceVisible
+		lui.Hotkeys(lui.isNoviceVisible)
 		print("it should be ".. tostring(lui.isNoviceVisible))
 
 		balloon:Play()
