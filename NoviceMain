@@ -3309,6 +3309,7 @@ noviceModule = function()
 	lui.DefaultWindowSize = UDim2.new(0, 632, 0, 340) 
 	lui.isNoviceVisible = false
 
+	local CAS = game:GetService("ContextActionService")
 	local activeTopbar = {}
 	local function fullscreenToggle(obj)
 		local oldPosition = obj.Position
@@ -3359,6 +3360,100 @@ noviceModule = function()
 		end
 
 	end
+	lui.Hotkeys = function(boolean)
+		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,boolean)
+		local function toggleVisibility(frame,button)
+			local isVisible = not boolean
+			local mainButton = button
+			local mainImage = button.menuList
+			local linkedFrame = frame
+			if not isVisible then
+				errorSound:Play()
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(194,194,194)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(55,55,55)})
+
+			else 
+
+				transition(true,mainButton,{BackgroundColor3 = Color3.fromRGB(55,55,55)})
+				transition(true,mainImage,{ImageColor3 = Color3.fromRGB(194,194,194)})
+				notify3:Play()
+			end
+			isVisible = not isVisible
+			if isVisible then
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.15)
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.5 - 0.1)
+			else 
+				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				task.wait(0.15)
+				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				task.wait(0.5 - 0.1)
+			end
+
+		end
+
+		local function executeCode(code)
+			if lui.isSS then 
+				if ssSettings.method == nil then
+					ssSettings.remote:FireServer(code)
+				else 
+					ssSettings.remote:FireServer(ssSettings.method,code)
+				end
+			else 
+				pcall(loadstring(code))
+			end
+		end
+		if boolean then 
+
+			CAS:BindAction("ToggleExecutor",function(actionName, inputState, inputObject)
+				--taskbarbutton
+				if (inputState == Enum.UserInputState.Begin) then
+					toggleVisibility(noviceOS.MainExecutor,noviceOS.OpenExecutor)
+				end
+			end,false, Enum.KeyCode.One)
+			CAS:BindAction("ToggleScripts",function(actionName, inputState, inputObject)
+
+				if (inputState == Enum.UserInputState.Begin) then
+					toggleVisibility(noviceOS.Scripts_2,noviceOS.Scripts)
+				end
+			end,false, Enum.KeyCode.Two)
+			CAS:BindAction("ToggleConsole",function(actionName, inputState, inputObject)
+
+				if (inputState == Enum.UserInputState.Begin) then
+					toggleVisibility(noviceOS.Console_2,noviceOS.Console)
+				end
+			end,false, Enum.KeyCode.Three)
+			CAS:BindAction("ToggleFinder",function(actionName, inputState, inputObject)
+
+				if (inputState == Enum.UserInputState.Begin) then
+					toggleVisibility(noviceOS.RFinder_2,noviceOS.RFinder)
+				end
+			end,false, Enum.KeyCode.Four)
+			CAS:BindAction("ToggleExit",function(actionName, inputState, inputObject)
+
+				if (inputState == Enum.UserInputState.Begin) then
+					shutdown:Play()
+					task.wait(1.8)
+					if ssSettings.remote then
+						local callback = ("game.Players['%s']:SetAttribute('UsingNovice',false)"):format(game.Players.LocalPlayer.Name)
+						lui.isSS = true
+						executeCode(callback)
+						lui.isSS = false
+					end
+					lui.Destroy()	
+
+				end
+			end,false, Enum.KeyCode.Five)
+		else 
+			CAS:UnbindAction("ToggleExecutor")
+			CAS:UnbindAction("ToggleScripts")
+			CAS:UnbindAction("ToggleConsole")
+			CAS:UnbindAction("ToggleFinder")
+			CAS:UnbindAction("ToggleExit")
+		end
+	end
+	
 	function lui.toggleUiVisibility()
 		lui.isNoviceVisible = not lui.isNoviceVisible
 		print("it should be ".. tostring(lui.isNoviceVisible))
@@ -3481,7 +3576,7 @@ noviceModule = function()
 			linkedFrame.Visible = isVisible
 		end)
 		mainButton.MouseButton1Click:Connect(function()
-
+			isVisible = linkedFrame.Visible
 			if linkedFrame == "Exit" then 
 				shutdown:Play()
 				task.wait(1.8)
@@ -4144,8 +4239,21 @@ noviceModule = function()
 				console.makeLines("")
 			end	
 		},
-		["kill"] = {
+
+		["loopkill"] = {
+			["Status"] = {true,false},
 			["Player"] = {"string"},
+			callback = function(args)
+				local status
+				if status then
+					
+				else 
+					
+				end
+			end,
+		},
+		["kill"] = {
+			["Player(s)"] = {"string"},
 			callback = function(args)
 				local plrName = args
 				print("hello ima tst")
@@ -4174,12 +4282,15 @@ noviceModule = function()
 					local refreshCmd = false
 					local function refresh(plr,pos)
 						refreshCmd = true
-						local Human = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid", true)
 						local pos1 = workspace.CurrentCamera.CFrame
 						respawn(plr)
 						repeat wait(0.01)
-						until plr:FindFirstChild("Character"):FindFirstChild("HumanoidRootPart")
-						plr.Character.Humanoid:Moveto(pos)
+						until plr.Character
+						print("TELEPORTING TO ",pos)
+						delay(0.5,function()
+							local humanoidrootpart = plr.Character:WaitForChild("HumanoidRootPart")
+							plr.Character.HumanoidRootPart.Position = pos
+						end)
 						refreshCmd = false
 
 					end
@@ -4220,14 +4331,13 @@ noviceModule = function()
 						local Human = game.Players.LocalPlayer.Character
 						local pos = Human:FindFirstChild("HumanoidRootPart").Position
 						local times = 0
-						local maxTimes = 250
+						local maxTimes = 2000
 						repeat game["Run Service"].Heartbeat:Wait() times = times + 1
 							if plr.Character:FindFirstChild("HumanoidRootPart") then
 								hrp.Position = plr.Character.HumanoidRootPart.Position
 							end
 						until times == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
 						print("should be refreshing")
-						task.wait(0.05)
 						refresh(game.Players.LocalPlayer,pos)
 					end
 
@@ -4493,6 +4603,9 @@ noviceModule = function()
 
 
 				else 
+					for i,v in pairs(game.Players:GetPlayers()) do
+						v.Character.Parent = workspace
+					end
 					if game.Workspace["PLRESP"] then
 						game.Workspace["PLRESP"]:Destroy()
 					end
@@ -4680,7 +4793,7 @@ noviceModule = function()
 		"for a list of commands type the following phrase: cmds",
 		""
 	})
-
+	
 	lui.Stopwatch()
 	lui.Executor()
 	lui.RemoteFinder()
@@ -4689,7 +4802,6 @@ noviceModule = function()
 	lui.TopbarButton(6326373239,function()
 		lui.toggleUiVisibility()
 	end)
-	local CAS = game:GetService("ContextActionService")
 	CAS:BindAction("ToggleNovice",function(actionName, inputState, inputObject)
 
 		if (inputState == Enum.UserInputState.Begin) then
