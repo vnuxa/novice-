@@ -3362,7 +3362,7 @@ noviceModule = function()
 	end
 	lui.Hotkeys = function(boolean)
 		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,boolean)
-		local function toggleVisibility(frame,button)
+		local function toggleVisibility(frame,button,pos)
 			local isVisible = not boolean
 			local mainButton = button
 			local mainImage = button.menuList
@@ -3383,7 +3383,17 @@ noviceModule = function()
 				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
 				task.wait(0.15)
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				if linkedFrame.Name == "Executer" then
+					noviceOS.Source:CaptureFocus()
+				elseif linkedFrame.Name == "Scripts" then 
+					noviceOS.TextBox:CaptureFocus()
+				elseif linkedFrame.Name == "RFinder" then
+					noviceOS.TextBox_2:CaptureFocus()
+				elseif linkedFrame.Name == "Console" then 
+					noviceOS.TextBox_3:CaptureFocus()
+				end
 				task.wait(0.5 - 0.1)
+
 			else 
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
 				task.wait(0.15)
@@ -3409,25 +3419,25 @@ noviceModule = function()
 			CAS:BindAction("ToggleExecutor",function(actionName, inputState, inputObject)
 				--taskbarbutton
 				if (inputState == Enum.UserInputState.Begin) then
-					toggleVisibility(noviceOS.MainExecutor,noviceOS.OpenExecutor)
+					toggleVisibility(noviceOS.Executer,noviceOS.OpenExecutor,UDim2.new(0.0063393712, 0, 0.0157958455, 0))
 				end
 			end,false, Enum.KeyCode.One)
 			CAS:BindAction("ToggleScripts",function(actionName, inputState, inputObject)
 
 				if (inputState == Enum.UserInputState.Begin) then
-					toggleVisibility(noviceOS.Scripts_2,noviceOS.Scripts)
+					toggleVisibility(noviceOS.Scripts_2,noviceOS.Scripts,UDim2.new(0.415372491, 0, 0.0157958567, 0))
 				end
 			end,false, Enum.KeyCode.Two)
 			CAS:BindAction("ToggleConsole",function(actionName, inputState, inputObject)
 
 				if (inputState == Enum.UserInputState.Begin) then
-					toggleVisibility(noviceOS.Console_2,noviceOS.Console)
+					toggleVisibility(noviceOS.Console_2,noviceOS.Console,UDim2.new(0.426822871, 0, 0.443499386, 0))
 				end
 			end,false, Enum.KeyCode.Three)
 			CAS:BindAction("ToggleFinder",function(actionName, inputState, inputObject)
 
 				if (inputState == Enum.UserInputState.Begin) then
-					toggleVisibility(noviceOS.RFinder_2,noviceOS.RFinder)
+					toggleVisibility(noviceOS.RFinder_2,noviceOS.RFinder,UDim2.new(0.00570327044, 0, 0.443499386, 0))
 				end
 			end,false, Enum.KeyCode.Four)
 			CAS:BindAction("ToggleExit",function(actionName, inputState, inputObject)
@@ -3453,7 +3463,7 @@ noviceModule = function()
 			CAS:UnbindAction("ToggleExit")
 		end
 	end
-	
+
 	function lui.toggleUiVisibility()
 		lui.isNoviceVisible = not lui.isNoviceVisible
 		lui.Hotkeys(lui.isNoviceVisible)
@@ -3606,11 +3616,21 @@ noviceModule = function()
 				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
 				task.wait(0.15)
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
+				if linkedFrame.Name == "Executer" then
+					noviceOS.Source:CaptureFocus()
+				elseif linkedFrame.Name == "Scripts" then 
+					noviceOS.TextBox:CaptureFocus()
+				elseif linkedFrame.Name == "RFinder" then
+					noviceOS.TextBox_2:CaptureFocus()
+				elseif linkedFrame.Name == "Console" then 
+					noviceOS.TextBox_3:CaptureFocus()
+				end
 				task.wait(0.5 - 0.1)
 			else 
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
 				task.wait(0.15)
 				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
+				
 				task.wait(0.5 - 0.1)
 			end
 
@@ -3787,10 +3807,26 @@ noviceModule = function()
 			end
 			local acceptableParents = {
 				workspace,
-				game.Players.LocalPlayer,
 				game.ReplicatedStorage,
 				game.ReplicatedFirst
 			}
+			for _,parent in pairs(acceptableParents) do
+				for i,v in pairs(parent:GetDescendants()) do
+					if v:IsA("LocalScript") or v:IsA("ModuleScript") then
+						print("searching ",i)
+						print("its a script ",v.Name)
+						local source = decompile(v)
+						repeat wait(0.015) until source
+						print("waited for source")
+						if string.find(source,":FireServer") or string.find(source,":InvokeServer") then
+							print("ADDING IT TO THING")
+							remoteFinder.makeButton(source,v)
+
+						end
+					end
+					wait()
+				end
+			end
 			for i,v in pairs(game:GetDescendants()) do
 				if v:IsA("LocalScript") or v:IsA("ModuleScript") then
 					if v:IsA("LocalScript") and v.Disabled then else
@@ -4247,9 +4283,9 @@ noviceModule = function()
 			callback = function(args)
 				local status
 				if status then
-					
+
 				else 
-					
+
 				end
 			end,
 		},
@@ -4349,7 +4385,7 @@ noviceModule = function()
 						end
 					end
 					mainFling(plrName)
-					
+
 				end
 			end,
 		},
@@ -4794,7 +4830,7 @@ noviceModule = function()
 		"for a list of commands type the following phrase: cmds",
 		""
 	})
-	
+
 	lui.Stopwatch()
 	lui.Executor()
 	lui.RemoteFinder()
