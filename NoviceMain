@@ -3363,9 +3363,9 @@ noviceModule = function()
 	lui.Hotkeys = function(boolean)
 		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,boolean)
 		local function toggleVisibility(frame,button,pos)
-			local isVisible = not boolean
+			local isVisible = frame.Visible
 			local mainButton = button
-			local mainImage = button.menuList
+			local mainImage = button:WaitForChild("menuList")
 			local linkedFrame = frame
 			if not isVisible then
 				errorSound:Play()
@@ -3384,7 +3384,7 @@ noviceModule = function()
 				task.wait(0.15)
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
 				if linkedFrame.Name == "Executer" then
-					noviceOS.Source:CaptureFocus()
+					tbObject.TextBox:CaptureFocus()
 				elseif linkedFrame.Name == "Scripts" then 
 					noviceOS.TextBox:CaptureFocus()
 				elseif linkedFrame.Name == "RFinder" then
@@ -3400,7 +3400,7 @@ noviceModule = function()
 				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
 				task.wait(0.5 - 0.1)
 			end
-
+			linkedFrame.Visible = isVisible
 		end
 
 		local function executeCode(code)
@@ -3419,7 +3419,7 @@ noviceModule = function()
 			CAS:BindAction("ToggleExecutor",function(actionName, inputState, inputObject)
 				--taskbarbutton
 				if (inputState == Enum.UserInputState.Begin) then
-					toggleVisibility(noviceOS.Executer,noviceOS.OpenExecutor,UDim2.new(0.0063393712, 0, 0.0157958455, 0))
+					toggleVisibility(noviceOS.Executor,noviceOS.OpenExecutor,UDim2.new(0.0063393712, 0, 0.0157958455, 0))
 				end
 			end,false, Enum.KeyCode.One)
 			CAS:BindAction("ToggleScripts",function(actionName, inputState, inputObject)
@@ -3451,7 +3451,7 @@ noviceModule = function()
 						executeCode(callback)
 						lui.isSS = false
 					end
-					lui.Destroy()	
+					lui:Destroy()	
 
 				end
 			end,false, Enum.KeyCode.Five)
@@ -3485,6 +3485,12 @@ noviceModule = function()
 		print("it is ".. tostring(noviceOS.noviceOS.Enabled))
 	end
 	function lui:Destroy()
+		CAS:UnbindAction("ToggleExecutor")
+		CAS:UnbindAction("ToggleScripts")
+		CAS:UnbindAction("ToggleConsole")
+		CAS:UnbindAction("ToggleFinder")
+		CAS:UnbindAction("ToggleExit")
+		
 		game.ReplicatedStorage.Timer:Destroy()
 		for i,v in pairs(activeTopbar) do
 			v:Destroy()
@@ -3597,7 +3603,7 @@ noviceModule = function()
 					executeCode(callback)
 					lui.isSS = false
 				end
-				lui.Destroy()	
+				lui:Destroy()	
 			end
 
 			if not isVisible then
