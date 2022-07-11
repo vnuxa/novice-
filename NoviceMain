@@ -599,6 +599,7 @@ noviceOS.Lines.Text = "1"
 noviceOS.Lines.TextColor3 = Color3.fromRGB(255, 255, 255)
 noviceOS.Lines.TextSize = 15.000
 noviceOS.Lines.TextYAlignment = Enum.TextYAlignment.Top
+noviceOS.Lines.AutomaticSize = Enum.AutomaticSize.Y
 
 noviceOS.SourceFrame.Name = "SourceFrame"
 noviceOS.SourceFrame.Parent = noviceOS.LuaLexer
@@ -2734,8 +2735,11 @@ local function Highlighter()
 		if forceUpdate ~= true and LastText[textObject] == src then
 			return
 		end
+		local lastText = LastText[#LastText]
+		if lastText == nil then
+			lastText = ""
+		end
 		LastText[textObject] = src
-
 		textObject.RichText = false
 		textObject.Text = src
 		textObject.TextXAlignment = Enum.TextXAlignment.Left
@@ -2772,109 +2776,100 @@ local function Highlighter()
 			end
 			return lines;
 		end
+		local lastLines = getLines(lastText)
 		local linesTable = getLines(src)
 		numLines = #getLines(src)
 		local currentLine = #string.split(string.sub(textObject.Text,1,textObject.CursorPosition-1), "\n")
-		local textHeight = textObject.TextSize
+		local textHeight = textObject.TextBounds.Y/numLines
 		print("CURRENT LINE NUMBER IS ".. currentLine)
 
+		local affectedLines = {}
 		local lineLabels = lineFolder:GetChildren()
-		if not lineLabels then
-			-- No existing lineLabels, create all new
-			lineLabels = table.create(numLines)
-			for i = 1, numLines do
-				local position = (i * textHeight)
-				if i == 1 then
-					position = 0
+		if lineLabels then else lineLabels = {} end
+		for i,v in pairs(linesTable) do
+			if i < #lastLines then -- if there arent any new lines
+				print("line existed")
+				local lastLine = lastLines[i]
+				if lastLine == v then else 
+					local lineLabel = lineFolder:FindFirstChild("Line_"..i)
+					if lineLabel then
+						lineLabels[i] = lineLabel
+					end
 				end
-				local lineLabel = Instance.new("TextLabel")
-				lineLabel.Name = "Line_" .. i
-				lineLabel.RichText = true
-				lineLabel.ZIndex = textObject.ZIndex + 1
-				lineLabel.BackgroundTransparency = 1
-				lineLabel.TextXAlignment = Enum.TextXAlignment.Left
-				lineLabel.TextYAlignment = Enum.TextYAlignment.Top
-				lineLabel.TextColor3 = TokenColors.iden
-				lineLabel.Font = textObject.Font
-				lineLabel.TextSize = textObject.TextSize
-				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-				lineLabel.Position = UDim2.new(0,0,0,position)
-				lineLabel.Text = ""
+			else -- there are new lines 
+				print("new line")
+				local position 
+				local lineLabel = lineFolder:FindFirstChild("Line_"..i)
+				if lineLabel then 
+					local textHeight = textObject.TextBounds.Y/numLines
+					lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
 
-				lineLabel.Parent = lineFolder
-				lineLabels[i] = lineLabel
+					lineLabel.Position =UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
+					
+					lineLabel.Text = ""
+					lineLabel.Parent = lineFolder
+					lineLabels[i] = lineLabel
+					affectedLines[i] = lineLabel
+				else
+					local lineLabel = Instance.new("TextLabel")
+					lineLabel.Name = "Line_" .. i
+					lineLabel.RichText = true
+					lineLabel.ZIndex = textObject.ZIndex + 1
+					lineLabel.BackgroundTransparency = 1
+					lineLabel.TextXAlignment = Enum.TextXAlignment.Left
+					lineLabel.TextYAlignment = Enum.TextYAlignment.Top
+					lineLabel.TextColor3 = TokenColors.iden
+					lineLabel.Font = textObject.Font
+					lineLabel.TextSize = textObject.TextSize
+					lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
+					
+					lineLabel.Position =UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
+					lineLabel.Text = ""
 
-				lineLabel.Text = ""
-				lineLabel.TextSize = textObject.TextSize
-				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-				lineLabel.Position = UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
+					lineLabel.Parent = lineFolder
+					lineLabels[i] = lineLabel
+					affectedLines[i] = lineLabel
+
+					lineLabel.TextSize = textObject.TextSize
+				end
 			end
-		else
-			for i,v in pairs(lineLabels) do
+			task.wait()
+		end
+		for i,v in pairs(lineLabels) do
+			if i > #linesTable then
 				v:Destroy()
-			end
-			lineLabels = table.create(numLines)
-			for i = 1, numLines do
-				local position = (i * textHeight)
-				if i == 1 then
-					position = 0
-				end
-				local lineLabel = Instance.new("TextLabel")
-				lineLabel.Name = "Line_" .. i
-				lineLabel.RichText = true
-				lineLabel.ZIndex = textObject.ZIndex + 1
-				lineLabel.BackgroundTransparency = 1
-				lineLabel.TextXAlignment = Enum.TextXAlignment.Left
-				lineLabel.TextYAlignment = Enum.TextYAlignment.Top
-				lineLabel.TextColor3 = TokenColors.iden
-				lineLabel.Font = textObject.Font
-				lineLabel.TextSize = textObject.TextSize
-				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-				lineLabel.Position = UDim2.new(0,0,0,position)
-				lineLabel.Text = ""
-
-				lineLabel.Parent = lineFolder
-				lineLabels[i] = lineLabel
-
-				lineLabel.Text = ""
-				lineLabel.TextSize = textObject.TextSize
-				lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-				lineLabel.Position = UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
 			end
 		end
 
 		local richText, index, lineNumber = {}, 0, 1
+
 		for token, content in Lexer().scan(src) do
 			local Color = TokenColors[token] or	 TokenColors.iden
-			--[[OLD METHOD
-			if textObject.SelectionStart == -1 then
-				local label = lineLabels[currentLine]
-				label.Text = table.concat(richText)
-				lineNumber += 1
-				
-			else
-				local lines = string.split(SanitizeRichText(content), "\n")
-				for l, line in ipairs(lines) do
-					if l > 1 then
-						-- Set line
-						lineLabels[lineNumber].Text = table.concat(richText)
-						-- Move to next line
-						lineNumber += 1
-						index = 0
-						table.clear(richText)
-					end
 
-					index += 1
-					if Color ~= TokenColors.iden and string.find(line, "[%S%C]") then
-						richText[index] = string.format(TokenFormats[token], line)
-					else
-						richText[index] = line
-					end
-				end
-			end]]
-			--NEW METHOD
+
 			local lines = string.split(SanitizeRichText(content), "\n")
+			for l, line in ipairs(lines) do
+				if l > 1 then
+					-- Set line
+					print(table.concat(richText))
+					lineLabels[lineNumber].Text = table.concat(richText)
+					-- Move to next line
+					lineNumber += 1
+					index = 0
+					table.clear(richText)
+				end
 
+				index += 1
+				if Color ~= TokenColors.iden and string.find(line, "[%S%C]") then
+					richText[index] = string.format(TokenFormats[token], line)
+				else
+					richText[index] = line
+				end
+			end
+			task.wait()
+		end
+		--NEW METHOD
+--[[
 			local beforeStr = ""
 			for _,tabl in pairs(historyStack) do
 				for index,tabl2 in pairs(tabl.UndoStack) do
@@ -2882,14 +2877,24 @@ local function Highlighter()
 					break
 				end
 			end
-			local beforeTable = getLines(beforeStr)
+			print("the whole content is ",content)
 			local lines = string.split(SanitizeRichText(content), "\n")
-			for l, line in ipairs(lines) do
-				if beforeTable[l] == line then
+			for l, line in ipairs(lines) do	
+				local newT = lineLabels[l]
+				print("bro the line is ",l,line)
+				if newT then
+					print("we do have a thing already")
+					newT = lineLabels[l].Text
+				else 
+					print("we dont hvae a thing")
+					newT = ""
+				end
+				print("COMPARING ",newT,line)
+				if newT == line then
 				else 
 					if l > 1 then
 						-- Set line
-						lineLabels[lineNumber].Text = table.concat(richText)
+						lineLabels[l].Text = table.concat(richText)
 						-- Move to next line
 						lineNumber += 1
 						index = 0
@@ -2905,7 +2910,7 @@ local function Highlighter()
 				end
 			end
 
-		end
+		end]]
 		local linesText = ""	
 
 		if numLines then
@@ -2921,7 +2926,10 @@ local function Highlighter()
 
 		noviceOS.Lines.Text = linesText
 		-- Set final line
-		lineLabels[numLines].Text = table.concat(richText)
+		for i,v in pairs(lineLabels) do
+			print(i,v)
+		end
+		lineLabels[#lineLabels].Text = table.concat(richText)	
 
 		ActiveLabels[textObject] = lineLabels
 
@@ -3005,11 +3013,14 @@ local function Highlighter()
 	})
 end
 
+Highlighter().UpdateColors()
 tbObject.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
-	Highlighter().UpdateColors()
 	Highlighter()(tbObject.TextBox,noviceOS.Source.Text)
 end)
-
+if isfolder("Novice") and isfile("novice/executorCode.lua") then
+	tbObject.TextBox.Text = readfile("novice/executorCode.lua")
+	
+end
 -- Gui to Lua
 -- Version: 3.2
 
@@ -3360,8 +3371,19 @@ noviceModule = function()
 		end
 
 	end
+	lui.SaveCode = function()
+		
+		if isfolder("Novice") then
+			-- The folder already exists so we wont make another one
+			writefile("Novice/executorCode.lua",tbObject.TextBox.Text)
+		else	
+			makefolder("Novice")
+			writefile("Novice/executorCode.lua",tbObject.TextBox.Text)
+			-- Make folder because it doesnt already exist
+		end
+	end
 	lui.Hotkeys = function(boolean)
-		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,boolean)
+		game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,not boolean)
 		local function toggleVisibility(frame,button,pos)
 			local isVisible = frame.Visible
 			local mainButton = button
@@ -3485,12 +3507,13 @@ noviceModule = function()
 		print("it is ".. tostring(noviceOS.noviceOS.Enabled))
 	end
 	function lui:Destroy()
+		lui.SaveCode()
 		CAS:UnbindAction("ToggleExecutor")
 		CAS:UnbindAction("ToggleScripts")
 		CAS:UnbindAction("ToggleConsole")
 		CAS:UnbindAction("ToggleFinder")
 		CAS:UnbindAction("ToggleExit")
-		
+
 		game.ReplicatedStorage.Timer:Destroy()
 		for i,v in pairs(activeTopbar) do
 			v:Destroy()
@@ -3636,7 +3659,7 @@ noviceModule = function()
 				transition(false,linkedFrame,{Transparency = 0, Size = lui.DefaultWindowSize,Position = pos},0.5)
 				task.wait(0.15)
 				transition(true,linkedFrame,{Transparency = 1, Size = UDim2.new(0,lui.DefaultWindowSize.X.Offset/5,0,lui.DefaultWindowSize.Y.Offset/5),Position = UDim2.new(0,-100,1,100)})
-				
+
 				task.wait(0.5 - 0.1)
 			end
 
@@ -3799,6 +3822,7 @@ noviceModule = function()
 			buttonLib.Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			buttonLib.Execute.MouseButton1Click:Connect(function()
 				notify2:Play()
+				tbObject.TextBox.Text = source
 				setclipboard(source)
 			end)
 
@@ -3833,7 +3857,7 @@ noviceModule = function()
 					wait()
 				end
 			end
-			for i,v in pairs(game:GetDescendants()) do
+			for i,v in pairs(getscripts()) do
 				if v:IsA("LocalScript") or v:IsA("ModuleScript") then
 					if v:IsA("LocalScript") and v.Disabled then else
 						local isDescendantOf = false
@@ -3943,7 +3967,8 @@ noviceModule = function()
 			buttonLib.UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
 			buttonLib.UIGradient.Rotation = 180
 			buttonLib.UIGradient.Parent = buttonLib.Template
-
+			
+			
 			buttonLib.getColor = function()
 				for i,v in pairs(colorLib) do
 					if string.find(name,i) then
@@ -3991,6 +4016,7 @@ noviceModule = function()
 			buttonLib.Template.BackgroundColor3 = buttonLib.getColor()
 			buttonLib.View.MouseButton1Click:Connect(function()
 				notify2:Play()
+				tbObject.TextBox.Text = tostring(game:HttpGet(link))
 				setclipboard(tostring(game:HttpGet(link)))
 
 			end)
@@ -4399,6 +4425,7 @@ noviceModule = function()
 			callback = function()
 				local Players = game.Players
 				local teleportService = game:GetService("TeleportService")
+				lui.SaveCode()
 				if #Players:GetPlayers() <= 1 then
 					Players.LocalPlayer:Kick("\nRejoining...")
 					wait()
@@ -4845,6 +4872,14 @@ noviceModule = function()
 	lui.TopbarButton(6326373239,function()
 		lui.toggleUiVisibility()
 	end)
+	local Players = game:GetService("Players")
+
+	Players.PlayerRemoving:Connect(function(player)
+		if player.Name == game.Players.LocalPlayer.Name then
+			lui.SaveCode()
+		end
+	end)
+	
 	CAS:BindAction("ToggleNovice",function(actionName, inputState, inputObject)
 
 		if (inputState == Enum.UserInputState.Begin) then
