@@ -4075,6 +4075,7 @@ noviceModule = function()
 				if isfolder("Novice/Scripts") then
 					for i,v in pairs(listfiles("Novice/Scripts")) do
 						local code = string.split(listfiles("Novice/Scripts")[i],"\\")[#string.split(listfiles("Novice/Scripts")[i],"\\")]
+						print("gonnam ake a folder, the stuff is ",code,readfile(listfiles("Novice/Scripts")[i]))
 						scripthub.makeButton(readfile(listfiles("Novice/Scripts")[i]),code,true)
 
 					end
