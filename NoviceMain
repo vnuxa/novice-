@@ -2805,7 +2805,7 @@ local function Highlighter()
 					lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
 
 					lineLabel.Position =UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
-					
+
 					lineLabel.Text = ""
 					lineLabel.Parent = lineFolder
 					lineLabels[i] = lineLabel
@@ -2822,7 +2822,7 @@ local function Highlighter()
 					lineLabel.Font = textObject.Font
 					lineLabel.TextSize = textObject.TextSize
 					lineLabel.Size = UDim2.new(1, 0, 0, math.ceil(textHeight))
-					
+
 					lineLabel.Position =UDim2.fromScale(0, textHeight * (i - 1) / textObject.AbsoluteSize.Y)
 					lineLabel.Text = ""
 
@@ -3017,7 +3017,7 @@ tbObject.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
 end)
 if isfolder("Novice") and isfile("novice/executorCode.lua") then
 	tbObject.TextBox.Text = readfile("novice/executorCode.lua")
-	
+
 end
 -- Gui to Lua
 -- Version: 3.2
@@ -3370,7 +3370,7 @@ noviceModule = function()
 
 	end
 	lui.SaveCode = function()
-		
+
 		if isfolder("Novice") then
 			-- The folder already exists so we wont make another one
 			writefile("Novice/executorCode.lua",tbObject.TextBox.Text)
@@ -3965,8 +3965,8 @@ noviceModule = function()
 			buttonLib.UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 33, 33)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(20, 20, 20))}
 			buttonLib.UIGradient.Rotation = 180
 			buttonLib.UIGradient.Parent = buttonLib.Template
-			
-			
+
+
 			buttonLib.getColor = function()
 				for i,v in pairs(colorLib) do
 					if string.find(name,i) then
@@ -4018,10 +4018,10 @@ noviceModule = function()
 					tbObject.TextBox.Text = tostring(link)
 					setclipboard(tostring(link))
 				else 
-					
+
 					tbObject.TextBox.Text = tostring(game:HttpGet(link))
 					setclipboard(tostring(game:HttpGet(link)))
-					end
+				end
 
 			end)
 			buttonLib.Execute.MouseButton1Click:Connect(function()
@@ -4076,7 +4076,7 @@ noviceModule = function()
 					for i,v in pairs(listfiles("Novice/Scripts")) do
 						local code = string.split(listfiles("Novice/Scripts")[i],"\\")[#string.split(listfiles("Novice/Scripts")[i],"\\")]
 						scripthub.makeButton(readfile(listfiles("Novice/Scripts")[i]),code,true)
-						
+
 					end
 				else 
 					makefolder("Novice/Scripts")
@@ -4127,10 +4127,11 @@ noviceModule = function()
 			else 
 				makefolder("Novice/Scripts")
 			end
-		scripthub.loadTab(scripthub.Urls.Universal)
+			scripthub.loadTab(scripthub.Urls.Universal)
 
-		fullscreenToggle(noviceOS.Scripts_2)
-		lui.taskbarButton(noviceOS.Scripts_2,false,noviceOS.Scripts)
+			fullscreenToggle(noviceOS.Scripts_2)
+			lui.taskbarButton(noviceOS.Scripts_2,false,noviceOS.Scripts)
+		end
 	end
 	lui.Stopwatch = function()
 		local TweenService = game:GetService("TweenService")
@@ -4339,18 +4340,7 @@ noviceModule = function()
 			end	
 		},
 
-		["loopkill"] = {
-			["Status"] = {true,false},
-			["Player"] = {"string"},
-			callback = function(args)
-				local status
-				if status then
-
-				else 
-
-				end
-			end,
-		},
+		
 		["kill"] = {
 			["Player(s)"] = {"string"},
 			callback = function(args)
@@ -4358,15 +4348,22 @@ noviceModule = function()
 				print("hello ima tst")
 				print(plrName)
 				if plrName then
-					local plr = game.Players.LocalPlayer
-					local chr = plr.Character
-					local hrp = chr.HumanoidRootPart
-					local mdl = Instance.new("Model", game.Workspace)
-					local hum = Instance.new("Humanoid", mdl)
-					local torso = Instance.new("Part", mdl)
-					local head = Instance.new("Part", mdl)
-					local mouse = plr:GetMouse()
 
+
+					local extraArgs = string.split(args,",")
+					local hasExtra = false
+
+					local times = Instance.new("NumberValue")
+					times.Name = "times"
+					times.Parent = game.ReplicatedStorage
+					times.Value = 1
+					if #extraArgs > 1 then
+						print("HEY IT HAS EXTRA!!")
+						hasExtra = true
+					end
+					local mainFling
+					local charAdded
+					local isDoingFling = false
 					local function respawn(plr)
 						local char = plr.Character
 						if char:FindFirstChildOfClass("Humanoid") then char:FindFirstChildOfClass("Humanoid"):ChangeState(15) end
@@ -4378,9 +4375,7 @@ noviceModule = function()
 						plr.Character = char
 						newChar:Destroy()
 					end
-					local refreshCmd = false
 					local function refresh(plr,pos)
-						refreshCmd = true
 						local pos1 = workspace.CurrentCamera.CFrame
 						respawn(plr)
 						repeat wait(0.01)
@@ -4390,63 +4385,123 @@ noviceModule = function()
 							local humanoidrootpart = plr.Character:WaitForChild("HumanoidRootPart")
 							plr.Character.HumanoidRootPart.Position = pos
 						end)
-						refreshCmd = false
 
 					end
 					local function GetPlayer(name)
 						for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-							if v.Name:lower():sub(1, #name) == name:lower() then
+							if v.Name:lower():sub(1, #name) == name:lower() or v.DisplayName:lower():sub(1, #name) == name:lower() then
 								return v
 							end
 						end    
 					end
-					torso.Name = "Torso"
-					head.Name = "Head"
-					hum.Name = "Humanoid"
-					torso.Anchored = false
-					torso.CanCollide = false
-					torso.Position = Vector3.new(0, 10000, 0)
-					head.Anchored = true
-					head.CanCollide = false
-					head.Position = Vector3.new(0, 10000, 0)	
-					plr.Character = mdl
-					plr.Character = chr
-					wait(6)
-					local bth = Instance.new("BodyThrust", hrp)
-					bth.Force = Vector3.new(99999, 0, 99999)
-					bth.Location = hrp.Position
-					hrp.Transparency = 0.3
-
-					for i,v in pairs(plr.Character:GetChildren()) do
-						if v ~= hrp and v.Name ~= "Humanoid" then
-							v:Destroy()
-						end
-					end
-
-					wait(0.1)
-
-					hrp.CanCollide = false
 					local function flingPlayer(plr)
 						local Human = game.Players.LocalPlayer.Character
-						local pos = Human:FindFirstChild("HumanoidRootPart").Position
-						local times = 0
+						local chr = Human
+						local hrp = chr:WaitForChild("HumanoidRootPart")
+						local pos = Human:WaitForChild("HumanoidRootPart").Position
 						local maxTimes = 2000
-						repeat game["Run Service"].Heartbeat:Wait() times = times + 1
+						local localTimes = 0
+						repeat game["Run Service"].Heartbeat:Wait() localTimes = localTimes + 1
 							if plr.Character:FindFirstChild("HumanoidRootPart") then
 								hrp.Position = plr.Character.HumanoidRootPart.Position
 							end
-						until times == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
+						until localTimes == maxTimes or plr.Character:FindFirstChild("HumanoidRootPart") == nil
 						print("should be refreshing")
-						refresh(game.Players.LocalPlayer,pos)
-					end
+						isDoingFling = false
+						times.Value = times.Value + 1
+						if hasExtra and times.Value <= #extraArgs then
+						else 
 
-					local function mainFling(name)
-						local plr = GetPlayer(name)
-						if plr then 
-							flingPlayer(plr)
+							refresh(game.Players.LocalPlayer,pos)
 						end
 					end
-					mainFling(plrName)
+
+					mainFling = function(name)
+
+						local plrTarget = GetPlayer(name)
+						if plrTarget then 
+							isDoingFling = true
+							local plr = game.Players.LocalPlayer
+							local chr = plr.Character
+							local hrp = chr:WaitForChild("HumanoidRootPart")
+							local mdl = Instance.new("Model", game.Workspace)
+							local hum = Instance.new("Humanoid", mdl)
+							local torso = Instance.new("Part", mdl)
+							local head = Instance.new("Part", mdl)
+							local mouse = plr:GetMouse()
+							torso.Name = "Torso"
+							head.Name = "Head"
+							hum.Name = "Humanoid"
+							torso.Anchored = false
+							torso.CanCollide = false
+							torso.Position = Vector3.new(0, 10000, 0)
+							head.Anchored = true
+							head.CanCollide = false
+							head.Position = Vector3.new(0, 10000, 0)	
+							plr.Character = mdl
+							plr.Character = chr
+							wait(3)
+							local bth = Instance.new("BodyThrust", hrp)
+							bth.Force = Vector3.new(99999, 0, 99999)
+							bth.Location = hrp.Position
+							hrp.Transparency = 0.3
+
+							for i,v in pairs(plr.Character:GetChildren()) do
+								if v ~= hrp and v.Name ~= "Humanoid" then
+									v:Destroy()
+								end
+							end
+
+							wait(0.1)
+
+							hrp.CanCollide = false
+							flingPlayer(plrTarget)
+						else 
+							local isDoingFling = false
+							times.Value = times.Value + 1
+						end
+					end
+
+
+
+					times:GetPropertyChangedSignal("Value"):Connect(function()
+						local function test()
+							repeat until isDoingFling == false
+							if hasExtra and times.Value <= #extraArgs then
+								print("its on "..extraArgs[times.Value])
+								mainFling(extraArgs[times.Value])
+							else 
+								console.makeLines({
+									"[Pr] Done flinging",
+								})
+								times:Destroy()
+								return
+							end
+						end
+						coroutine.wrap(test)()
+
+					end)
+
+
+					if hasExtra then 
+						mainFling(extraArgs[times.Value])
+					else 
+						if plrName == "all" then
+							hasExtra = true
+							extraArgs = {}
+							for i,v in pairs(game.Players:GetPlayers()) do
+								if v.Name ~= game.Players.LocalPlayer.Name then
+									table.insert(extraArgs,v.Name)
+								end
+							end
+
+							mainFling(extraArgs[times.Value])
+						else 
+
+							mainFling(args)
+						end
+					end
+
 
 				end
 			end,
@@ -4909,7 +4964,7 @@ noviceModule = function()
 			lui.SaveCode()
 		end
 	end)
-	
+
 	CAS:BindAction("ToggleNovice",function(actionName, inputState, inputObject)
 
 		if (inputState == Enum.UserInputState.Begin) then
