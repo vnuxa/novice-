@@ -4389,7 +4389,7 @@ noviceModule = function()
 					end
 					local function GetPlayer(name)
 						for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-							if v.Name:lower():sub(1, #name) == name:lower() or v.DisplayName:lower():sub(1, #name) == name:lower() then
+							if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
 								return v
 							end
 						end    
