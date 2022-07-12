@@ -2833,7 +2833,6 @@ local function Highlighter()
 					lineLabel.TextSize = textObject.TextSize
 				end
 			end
-			task.wait()
 		end
 		for i,v in pairs(lineLabels) do
 			if i > #linesTable then
@@ -2866,7 +2865,6 @@ local function Highlighter()
 					richText[index] = line
 				end
 			end
-			task.wait()
 		end
 		--NEW METHOD
 --[[
@@ -3905,7 +3903,7 @@ noviceModule = function()
 		}
 		scripthub.SelectedTab = "Universal"
 
-		scripthub.makeButton = function(link : string,name)
+		scripthub.makeButton = function(link : string,name,isFile)
 			if name and link then else return end
 			local buttonLib = {
 				Template = Instance.new("Frame"),
@@ -4016,13 +4014,24 @@ noviceModule = function()
 			buttonLib.Template.BackgroundColor3 = buttonLib.getColor()
 			buttonLib.View.MouseButton1Click:Connect(function()
 				notify2:Play()
-				tbObject.TextBox.Text = tostring(game:HttpGet(link))
-				setclipboard(tostring(game:HttpGet(link)))
+				if isFile then
+					tbObject.TextBox.Text = tostring(link)
+					setclipboard(tostring(link))
+				else 
+					
+					tbObject.TextBox.Text = tostring(game:HttpGet(link))
+					setclipboard(tostring(game:HttpGet(link)))
+					end
 
 			end)
 			buttonLib.Execute.MouseButton1Click:Connect(function()
 				notify3:Play()
-				executeCode(tostring(game:HttpGet(link)))
+				if isFile then
+
+					executeCode(tostring(link))
+				else 
+					executeCode(tostring(game:HttpGet(link)))
+				end
 			end)
 
 		end
@@ -4062,6 +4071,17 @@ noviceModule = function()
 				end
 			end
 			colorThing(true,universalTab)
+			if isfolder("Novice") then
+				if isfolder("Novice/Scripts") then
+					for i,v in pairs(listfiles("Novice/Scripts")) do
+						local code = string.split(listfiles("Novice/Scripts")[i],"\\")[#string.split(listfiles("Novice/Scripts")[i],"\\")]
+						scripthub.makeButton(readfile(listfiles("Novice/Scripts")[i]),code,true)
+						
+					end
+				else 
+					makefolder("Novice/Scripts")
+				end
+			end
 			scripthub.loadTab(scripthub.Urls.Universal)
 		end)
 		feTab.MouseButton1Click:Connect(function()
@@ -4097,6 +4117,16 @@ noviceModule = function()
 				v:Destroy()
 			end
 		end
+		if isfolder("Novice") then
+			if isfolder("Novice/Scripts") then
+				for i,v in pairs(listfiles("Novice/Scripts")) do
+					local code = string.split(listfiles("Novice/Scripts")[i],"\\")[#string.split(listfiles("Novice/Scripts")[i],"\\")]
+					scripthub.makeButton(readfile(listfiles("Novice/Scripts")[i]),code,true)
+
+				end
+			else 
+				makefolder("Novice/Scripts")
+			end
 		scripthub.loadTab(scripthub.Urls.Universal)
 
 		fullscreenToggle(noviceOS.Scripts_2)
