@@ -3019,6 +3019,111 @@ if isfolder("Novice") and isfile("novice/executorCode.lua") then
 	tbObject.TextBox.Text = readfile("novice/executorCode.lua")
 
 end
+-- Created by Pyseph#1015
+
+local SpecialCharacters = {['\a'] = '\\a', ['\b'] = '\\b', ['\f'] = '\\f', ['\n'] = '\\n', ['\r'] = '\\r', ['\t'] = '\\t', ['\v'] = '\\v', ['\0'] = '\\0'}
+local Keywords = { ['and'] = true, ['break'] = true, ['do'] = true, ['else'] = true, ['elseif'] = true, ['end'] = true, ['false'] = true, ['for'] = true, ['function'] = true, ['if'] = true, ['in'] = true, ['local'] = true, ['nil'] = true, ['not'] = true, ['or'] = true, ['repeat'] = true, ['return'] = true, ['then'] = true, ['true'] = true, ['until'] = true, ['while'] = true, ['continue'] = true}
+local Functions = {[DockWidgetPluginGuiInfo.new] = "DockWidgetPluginGuiInfo.new"; [warn] = "warn"; [CFrame.fromMatrix] = "CFrame.fromMatrix"; [CFrame.fromAxisAngle] = "CFrame.fromAxisAngle"; [CFrame.fromOrientation] = "CFrame.fromOrientation"; [CFrame.fromEulerAnglesXYZ] = "CFrame.fromEulerAnglesXYZ"; [CFrame.Angles] = "CFrame.Angles"; [CFrame.fromEulerAnglesYXZ] = "CFrame.fromEulerAnglesYXZ"; [CFrame.new] = "CFrame.new"; [gcinfo] = "gcinfo"; [os.clock] = "os.clock"; [os.difftime] = "os.difftime"; [os.time] = "os.time"; [os.date] = "os.date"; [tick] = "tick"; [bit32.band] = "bit32.band"; [bit32.extract] = "bit32.extract"; [bit32.bor] = "bit32.bor"; [bit32.bnot] = "bit32.bnot"; [bit32.arshift] = "bit32.arshift"; [bit32.rshift] = "bit32.rshift"; [bit32.rrotate] = "bit32.rrotate"; [bit32.replace] = "bit32.replace"; [bit32.lshift] = "bit32.lshift"; [bit32.lrotate] = "bit32.lrotate"; [bit32.btest] = "bit32.btest"; [bit32.bxor] = "bit32.bxor"; [pairs] = "pairs"; [NumberSequence.new] = "NumberSequence.new"; [assert] = "assert"; [tonumber] = "tonumber"; [Color3.fromHSV] = "Color3.fromHSV"; [Color3.toHSV] = "Color3.toHSV"; [Color3.fromRGB] = "Color3.fromRGB"; [Color3.new] = "Color3.new"; [Delay] = "Delay"; [Stats] = "Stats"; [UserSettings] = "UserSettings"; [coroutine.resume] = "coroutine.resume"; [coroutine.yield] = "coroutine.yield"; [coroutine.running] = "coroutine.running"; [coroutine.status] = "coroutine.status"; [coroutine.wrap] = "coroutine.wrap"; [coroutine.create] = "coroutine.create"; [coroutine.isyieldable] = "coroutine.isyieldable"; [NumberRange.new] = "NumberRange.new"; [PhysicalProperties.new] = "PhysicalProperties.new"; [PluginManager] = "PluginManager"; [Ray.new] = "Ray.new"; [NumberSequenceKeypoint.new] = "NumberSequenceKeypoint.new"; [Version] = "Version"; [Vector2.new] = "Vector2.new"; [Instance.new] = "Instance.new"; [delay] = "delay"; [spawn] = "spawn"; [unpack] = "unpack"; [string.split] = "string.split"; [string.match] = "string.match"; [string.gmatch] = "string.gmatch"; [string.upper] = "string.upper"; [string.gsub] = "string.gsub"; [string.format] = "string.format"; [string.lower] = "string.lower"; [string.sub] = "string.sub"; [string.pack] = "string.pack"; [string.rep] = "string.rep"; [string.char] = "string.char"; [string.packsize] = "string.packsize"; [string.reverse] = "string.reverse"; [string.byte] = "string.byte"; [string.unpack] = "string.unpack"; [string.len] = "string.len"; [string.find] = "string.find"; [CellId.new] = "CellId.new"; [ypcall] = "ypcall"; [version] = "version"; [print] = "print"; [stats] = "stats"; [printidentity] = "printidentity"; [settings] = "settings"; [UDim2.fromOffset] = "UDim2.fromOffset"; [UDim2.fromScale] = "UDim2.fromScale"; [UDim2.new] = "UDim2.new"; [table.pack] = "table.pack"; [table.move] = "table.move"; [table.insert] = "table.insert"; [table.getn] = "table.getn"; [table.foreachi] = "table.foreachi"; [table.maxn] = "table.maxn"; [table.foreach] = "table.foreach"; [table.concat] = "table.concat"; [table.unpack] = "table.unpack"; [table.find] = "table.find"; [table.create] = "table.create"; [table.sort] = "table.sort"; [table.remove] = "table.remove"; [TweenInfo.new] = "TweenInfo.new"; [loadstring] = "loadstring"; [require] = "require"; [Vector3.FromNormalId] = "Vector3.FromNormalId"; [Vector3.FromAxis] = "Vector3.FromAxis"; [Vector3.fromAxis] = "Vector3.fromAxis"; [Vector3.fromNormalId] = "Vector3.fromNormalId"; [Vector3.new] = "Vector3.new"; [Vector3int16.new] = "Vector3int16.new"; [setmetatable] = "setmetatable"; [next] = "next"; [Wait] = "Wait"; [wait] = "wait"; [ipairs] = "ipairs"; [elapsedTime] = "elapsedTime"; [time] = "time"; [rawequal] = "rawequal"; [Vector2int16.new] = "Vector2int16.new"; [collectgarbage] = "collectgarbage"; [newproxy] = "newproxy"; [Spawn] = "Spawn"; [PluginDrag.new] = "PluginDrag.new"; [Region3.new] = "Region3.new"; [utf8.offset] = "utf8.offset"; [utf8.codepoint] = "utf8.codepoint"; [utf8.nfdnormalize] = "utf8.nfdnormalize"; [utf8.char] = "utf8.char"; [utf8.codes] = "utf8.codes"; [utf8.len] = "utf8.len"; [utf8.graphemes] = "utf8.graphemes"; [utf8.nfcnormalize] = "utf8.nfcnormalize"; [xpcall] = "xpcall"; [tostring] = "tostring"; [rawset] = "rawset"; [PathWaypoint.new] = "PathWaypoint.new"; [DateTime.fromUnixTimestamp] = "DateTime.fromUnixTimestamp"; [DateTime.now] = "DateTime.now"; [DateTime.fromIsoDate] = "DateTime.fromIsoDate"; [DateTime.fromUnixTimestampMillis] = "DateTime.fromUnixTimestampMillis"; [DateTime.fromLocalTime] = "DateTime.fromLocalTime"; [DateTime.fromUniversalTime] = "DateTime.fromUniversalTime"; [Random.new] = "Random.new"; [typeof] = "typeof"; [RaycastParams.new] = "RaycastParams.new"; [math.log] = "math.log"; [math.ldexp] = "math.ldexp"; [math.rad] = "math.rad"; [math.cosh] = "math.cosh"; [math.random] = "math.random"; [math.frexp] = "math.frexp"; [math.tanh] = "math.tanh"; [math.floor] = "math.floor"; [math.max] = "math.max"; [math.sqrt] = "math.sqrt"; [math.modf] = "math.modf"; [math.pow] = "math.pow"; [math.atan] = "math.atan"; [math.tan] = "math.tan"; [math.cos] = "math.cos"; [math.sign] = "math.sign"; [math.clamp] = "math.clamp"; [math.log10] = "math.log10"; [math.noise] = "math.noise"; [math.acos] = "math.acos"; [math.abs] = "math.abs"; [math.sinh] = "math.sinh"; [math.asin] = "math.asin"; [math.min] = "math.min"; [math.deg] = "math.deg"; [math.fmod] = "math.fmod"; [math.randomseed] = "math.randomseed"; [math.atan2] = "math.atan2"; [math.ceil] = "math.ceil"; [math.sin] = "math.sin"; [math.exp] = "math.exp"; [getfenv] = "getfenv"; [pcall] = "pcall"; [ColorSequenceKeypoint.new] = "ColorSequenceKeypoint.new"; [ColorSequence.new] = "ColorSequence.new"; [type] = "type"; [Region3int16.new] = "Region3int16.new"; [ElapsedTime] = "ElapsedTime"; [select] = "select"; [getmetatable] = "getmetatable"; [rawget] = "rawget"; [Faces.new] = "Faces.new"; [Rect.new] = "Rect.new"; [BrickColor.Blue] = "BrickColor.Blue"; [BrickColor.White] = "BrickColor.White"; [BrickColor.Yellow] = "BrickColor.Yellow"; [BrickColor.Red] = "BrickColor.Red"; [BrickColor.Gray] = "BrickColor.Gray"; [BrickColor.palette] = "BrickColor.palette"; [BrickColor.New] = "BrickColor.New"; [BrickColor.Black] = "BrickColor.Black"; [BrickColor.Green] = "BrickColor.Green"; [BrickColor.Random] = "BrickColor.Random"; [BrickColor.DarkGray] = "BrickColor.DarkGray"; [BrickColor.random] = "BrickColor.random"; [BrickColor.new] = "BrickColor.new"; [setfenv] = "setfenv"; [UDim.new] = "UDim.new"; [Axes.new] = "Axes.new"; [error] = "error"; [debug.traceback] = "debug.traceback"; [debug.profileend] = "debug.profileend"; [debug.profilebegin] = "debug.profilebegin"}
+
+function GetHierarchy(Object)
+	local Hierarchy = {}
+
+	local ChainLength = 1
+	local Parent = Object
+
+	while Parent do
+		Parent = Parent.Parent
+		ChainLength = ChainLength + 1
+	end
+
+	Parent = Object
+	local Num = 0
+	while Parent do
+		Num = Num + 1
+
+		local ObjName = string.gsub(Parent.Name, '[%c%z]', SpecialCharacters)
+		ObjName = Parent == game and 'game' or ObjName
+
+		if Keywords[ObjName] or not string.match(ObjName, '^[_%a][_%w]*$') then
+			ObjName = '["' .. ObjName .. '"]'
+		elseif Num ~= ChainLength - 1 then
+			ObjName = '.' .. ObjName
+		end
+
+		Hierarchy[ChainLength - Num] = ObjName
+		Parent = Parent.Parent
+	end
+
+	return table.concat(Hierarchy)
+end
+local function SerializeType(Value, Class)
+	if Class == 'string' then
+		-- Not using %q as it messes up the special characters fix
+		return string.format('"%s"', string.gsub(Value, '[%c%z]', SpecialCharacters))
+	elseif Class == 'Instance' then
+		return GetHierarchy(Value)
+	elseif type(Value) ~= Class then -- CFrame, Vector3, UDim2, ...
+		return Class .. '.new(' .. tostring(Value) .. ')'
+	elseif Class == 'function' then
+		return Functions[Value] or '\'[Unknown ' .. (pcall(setfenv, Value, getfenv(Value)) and 'Lua' or 'C')  .. ' ' .. tostring(Value) .. ']\''
+	elseif Class == 'userdata' then
+		return 'newproxy(' .. tostring(not not getmetatable(Value)) .. ')'
+	elseif Class == 'thread' then
+		return '\'' .. tostring(Value) ..  ', status: ' .. coroutine.status(Value) .. '\''
+	else -- thread, number, boolean, nil, ...
+		return tostring(Value)
+	end
+end
+local function TableToString(Table, IgnoredTables, DepthData, Path)
+	IgnoredTables = IgnoredTables or {}
+	local CyclicData = IgnoredTables[Table]
+	if CyclicData then
+		return ((CyclicData[1] == DepthData[1] - 1 and '\'[Cyclic Parent ' or '\'[Cyclic ') .. tostring(Table) .. ', path: ' .. CyclicData[2] .. ']\'')
+	end
+
+	Path = Path or 'ROOT'
+	DepthData = DepthData or {0, Path}
+	local Depth = DepthData[1] + 1
+	DepthData[1] = Depth
+	DepthData[2] = Path
+
+	IgnoredTables[Table] = DepthData
+	local Tab = string.rep('    ', Depth)
+	local TrailingTab = string.rep('    ', Depth - 1)
+	local Result = '{'
+
+	local LineTab = '\n' .. Tab
+	local HasOrder = true
+	local Index = 1
+
+	local IsEmpty = true
+	for Key, Value in next, Table do
+		IsEmpty = false
+		if Index ~= Key then
+			HasOrder = false
+		else
+			Index = Index + 1
+		end
+
+		local KeyClass, ValueClass = typeof(Key), typeof(Value)
+		local HasBrackets = false
+		if KeyClass == 'string' then
+			Key = string.gsub(Key, '[%c%z]', SpecialCharacters)
+			if Keywords[Key] or not string.match(Key, '^[_%a][_%w]*$') then
+				HasBrackets = true
+				Key = string.format('["%s"]', Key)
+			end
+		else
+			HasBrackets = true
+			Key = '[' .. (KeyClass == 'table' and string.gsub(TableToString(Key, IgnoredTables, {Depth, Path}), '^%s*(.-)%s*$', '%1') or SerializeType(Key, KeyClass)) .. ']'
+		end
+
+		Value = ValueClass == 'table' and TableToString(Value, IgnoredTables, {Depth, Path}, Path .. (HasBrackets and '' or '.') .. Key) or SerializeType(Value, ValueClass)
+		Result = Result .. LineTab .. (HasOrder and Value or Key .. ' = ' .. Value) .. ','
+	end
+
+	return IsEmpty and Result .. '}' or string.sub(Result,  1, -2) .. '\n' .. TrailingTab .. '}'
+end
 -- Gui to Lua
 -- Version: 3.2
 
@@ -3671,7 +3776,7 @@ noviceModule = function()
 
 	lui.RemoteFinder = function()
 		local remoteFinder = {}
-		remoteFinder.makeButton = function(source ,obj)
+		remoteFinder.makeButton = function(source ,obj,isgc,v)
 			if obj and source then else return end
 			local buttonLib = {
 				Template = Instance.new("Frame"),
@@ -3684,27 +3789,37 @@ noviceModule = function()
 			}
 
 
-			local name = obj.Name
+			local name 
+			if isgc then
+				name = obj
+			else 
+				name = obj.Name.." type "..typeof(v)
+			end
+
 			local function fullPath()
-				local part = obj
+				if isgc then 
+					return obj.." type "..typeof(v)
+				else 
+					local part = obj
 
-				local partPath = part:GetFullName()
-				local appendStr = "game."
+					local partPath = part:GetFullName()
+					local appendStr = "game."
 
 
-				-- Assuming you're sane and don't put periods in instance names
-				for _, token in ipairs(partPath:split(".")) do
-					local appendToken = token
+					-- Assuming you're sane and don't put periods in instance names
+					for _, token in ipairs(partPath:split(".")) do
+						local appendToken = token
 
-					if token:match(" ") then
-						appendToken = "[\"" .. token .. "\"]"
-					else 
-						appendToken = token.."."
+						if token:match(" ") then
+							appendToken = "[\"" .. token .. "\"]"
+						else 
+							appendToken = token.."."
+						end
+
+						appendStr = appendStr .. appendToken
 					end
-
-					appendStr = appendStr .. appendToken
+					return appendStr
 				end
-				return appendStr
 			end
 
 			buttonLib.Template.Name = fullPath()
@@ -3787,66 +3902,193 @@ noviceModule = function()
 
 		remoteFinder.scanGame = function()
 			notify("Novice remote finder","Scanning game")
+			local hasCustomText = noviceOS.TextBox_2
 			for i,v in pairs(noviceOS.ScrollingFrame_2:GetChildren()) do
 				if v:IsA("Frame") then
 					v:Destroy()
 				end
 			end
-			local acceptableParents = {
-				workspace,
-				game.ReplicatedStorage,
-				game.ReplicatedFirst
-			}
-			for _,parent in pairs(acceptableParents) do
-				for i,v in pairs(parent:GetDescendants()) do
-					if v:IsA("LocalScript") or v:IsA("ModuleScript") then
-						print("searching ",i)
-						print("its a script ",v.Name)
-						local source = decompile(v)
-						repeat wait(0.015) until source
-						print("waited for source")
-						if string.find(source,":FireServer") or string.find(source,":InvokeServer") then
-							print("ADDING IT TO THING")
-							remoteFinder.makeButton(source,v)
 
-						end
+
+			local rfLib = {}
+			rfLib.FindInCode = function(obj,argsTable)
+				print(obj.Name,obj.ClassName)
+				local source
+				local succ,err = pcall(function()
+					source = decompile(obj,5)
+				end)
+				repeat wait(0.015) until source or err == true
+				wait(0.015)
+				if err then return nil end
+				for i,v in pairs(argsTable) do
+					print("finding in code for ",v)
+					if string.find(source,v) then
+						return source,obj
 					end
-					wait()
+
+				end
+				return nil
+			end
+			rfLib.filterObj = function(obj)
+				local v = obj
+				if v:IsA("LocalScript") or v:IsA("ModuleScript") then
+					return obj
+				else 
+					return nil
 				end
 			end
-			for i,v in pairs(getscripts()) do
-				if v:IsA("LocalScript") or v:IsA("ModuleScript") then
-					if v:IsA("LocalScript") and v.Disabled then else
-						local isDescendantOf = false
-						for i2,v2 in pairs(acceptableParents) do
-							if v:IsDescendantOf(v2) then
-								isDescendantOf = true
+
+			rfLib.getArguments = function(text)
+				local preset = {
+					mode = "script",
+					keywords = {
+						":FireServer",
+						":InvokeServer"
+					},
+
+				}
+				local presetGC = {
+					mode = "gc",
+					keywords = {
+						"table",
+						"function" 
+					}
+				}
+				local currentBuild = preset
+				local commandsTable = {
+					["preset"] = function(args)
+						if args == preset.mode then
+							currentBuild = preset
+						elseif args == presetGC.mode then 
+							currentBuild = presetGC
+						end
+
+					end,
+					["keywords"] = function(args)
+						local argsTable = string.split(args,",")
+						currentBuild.keywords = argsTable
+					end,
+				}
+				local commands = string.split(text,";")
+				for i,v in pairs(commands) do
+					local argument = string.split(v,[["]])
+					local preArgument = string.split(v,[[=]])
+					string.gsub(argument[2],[["]],"")
+					print(preArgument[1],"argument is",argument[2])
+					for i2,v2 in pairs(commandsTable) do 
+						if i2 == preArgument[1] then
+							local succ,err = pcall(v2,argument[2])
+							if err then
+								error("ERROR ".. err)
+							end
+							break
+						end
+					end					
+				end
+				return currentBuild
+			end
+			rfLib.getTable = function()
+				local func = getscripts()
+				local preset = rfLib.getArguments(noviceOS.TextBox_2.Text)
+				print("preset is ",preset.mode)
+				if preset.mode == "gc" then func = getgc(true) end
+				local returnTable = {}
+				for i,v in pairs(func) do
+					if preset.mode == "script" then
+						local obj = rfLib.filterObj(v)
+						if obj then
+							local source,rv = rfLib.FindInCode(obj,preset.keywords)
+							--remoteFinder.makeButton(source,obj)
+							table.insert(returnTable,{source,obj})
+						end
+					elseif preset.mode == "gc" then
+						local isType = false
+						for i2,v2 in pairs(preset.keywords) do
+							if typeof(v) == v2 then
+								isType = true
 								break
 							end
 						end
-						if isDescendantOf then
-							print("searching ",i)
-							print("its a script ",v.Name)
-							local source = decompile(v)
-							repeat wait(0.015) until source
-							print("waited for source")
-							if string.find(source,":FireServer") or string.find(source,":InvokeServer") then
-								print("ADDING IT TO THING")
-								remoteFinder.makeButton(source,v)
-
-							end
+						print("is it the type ",isType,i,v,typeof(v))
+						if isType then
+							table.insert(returnTable,v)
 						end
 					end
 				end
-				wait()
+				return returnTable,preset
+			end
+			local display,preset = rfLib.getTable()
+			for i,v in pairs(display) do
+				print("OK SO THE PRESET IS ",preset.mode)
+				if preset.mode == "script" then
+					local source,obj = v[1],v[2]
+					remoteFinder.makeButton(source,obj)
+				elseif preset.mode == "gc" then
+					local source = ""
+					print("OK SO THE THING IS ", typeof(v))
+					if typeof(v) == "string" then source = v 
+					elseif typeof(v) == "function" then 
+						local tableFunction = {}
+
+						for i2,v2 in pairs(getconstants(v)) do
+							table.insert(tableFunction,v2)
+						end
+						source = TableToString(tableFunction)
+					elseif typeof(v) == "table" then
+						source = TableToString(v)
+					end
+					remoteFinder.makeButton(source,i,true,v)
+
+				end
 			end
 			print("should be done")
 			notify("Novice remote finder","Done scanning game")
 
 		end
+		remoteFinder.isCommand = function(text)
+			local commands = string.split(text,";")
+			for i,v in pairs(commands) do
+				local argument = string.split(v,[["]])
+				local preArgument = string.split(v,[[=]])
+				string.gsub(argument[2],[["]],"")
+				print(preArgument[1],"argument is",argument[2])
+				if preArgument[1] == "preset" then
+					return true
+				end			
+			end
+			return false
+		end
 		noviceOS.TextBox_2.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)
-			if enterPressed then else return end
-			remoteFinder.scanGame()
+			if remoteFinder.isCommand(noviceOS.TextBox_2.Text) then
+				if enterPressed then else return end
+				for i,v in pairs(noviceOS.ScrollingFrame_2:GetChildren()) do
+					if v:IsA("Frame") then v:Destroy() end
+				end
+				remoteFinder.scanGame()
+			else 
+				local scrollingframe= noviceOS.ScrollingFrame_2 --put the parent of the buttons here instead of nil
+				local searchbar= noviceOS.TextBox_2 --put the textbox of your searchbar here instead of nil
+				local function UpdateInputOfSearchText()
+					local InputText=string.upper(searchbar.Text)
+					for _,button in pairs(scrollingframe:GetChildren())do
+						if button:IsA("Frame")then
+							if InputText==""or string.find(string.upper(button.Name),InputText)~=nil then
+								button.Visible=true
+							else
+								button.Visible=false
+							end
+						end
+					end
+					if searchbar.Text == "" then
+						for i,v in pairs(scrollingframe:GetChildren()) do
+							if v:IsA("Frame") then
+								v.Visible = true
+							end
+						end
+					end
+				end
+
+			end
 		end)
 		fullscreenToggle(noviceOS.RFinder_2)
 		lui.taskbarButton(noviceOS.RFinder_2,false,noviceOS.RFinder)
@@ -3873,8 +4115,8 @@ noviceModule = function()
 				UIGradient = Instance.new("UIGradient"),
 			}
 			local colorLib = {
-				["[FE]"] = Color3.fromRGB(255, 85, 0),
-				["[SS]"] = Color3.fromRGB(0, 170, 255),
+				["%[FE%]"] = Color3.fromRGB(255, 85, 0),
+				["%[SS%]"] = Color3.fromRGB(0, 170, 255),
 				["UNIVERSAL"] = Color3.fromRGB(255, 255, 255),
 			}
 			buttonLib.Template.Name = name
@@ -4185,7 +4427,7 @@ noviceModule = function()
 		local console = {}
 		console.SyntaxColor = {
 			["%[Er%]"] = [[<font color="rgb(245,66,66)">replacementString</font>]],
-			["%[Pr%]"] = [[<font color="rgb(194, 194, 194)">replacementString</font>]],
+			["%[Pr%]"] = [[<font color="rgb(3, 186, 252)">replacementString</font>]],
 			["%[Wa%]"] = [[<font color="rgb(245, 224, 66)">replacementString</font>]],
 		}
 		console.Syntax = function(text)
@@ -4240,7 +4482,49 @@ noviceModule = function()
 				end
 			end
 		end
+		console.logService = nil
+		console.getLine = function(text)
+			for i,v in pairs(noviceOS.ScrollingFrame_3) do
+				if v.Text == text then
+					return v
+				end
+			end
+			return nil
+		end
+		console.writeLine = function(obj)
+			local textTable = string.split(obj.Text,"x;")
+			local times = obj:GetAttribute("times")
+			if times then
+				textTable[1] = tonumber(textTable[1]) + 1
+				obj.Text = table.concat(textTable,"x;")
+				obj:SetAttribute("times",times+1)
+			else 
+				obj.Text = "2x;"..obj.Text
+				obj:SetAttribute("times",2)
+			end
+		end
+		console.redirectOutput = function()
+			local logService = game:GetService("LogService")
 
+			console.logService = logService.MessageOut:Connect(function(msg,msgType)
+				local preText = "[Pr]"
+				if msgType == Enum.MessageType.MessageInfo then preText = "[In]"
+				elseif msgType == Enum.MessageType.MessageWarning then preText = "[Wa]"
+				elseif msgType == Enum.MessageType.MessageError then preText = "[Er]"
+				end
+				local divideLines = string.split(msg,"\n")
+				divideLines[1] = preText.." "..divideLines[1]
+				for i,v in pairs(divideLines) do
+					local obj = console.getLine(v)
+					if obj then
+						console.writeLine(obj)
+					else 
+						console.makeLines(v)
+					end
+				end
+
+			end)
+		end
 		noviceOS.TextBox_3.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)
 			if enterPressed then else return end
 			local str = noviceOS.TextBox_3.Text
@@ -4292,12 +4576,20 @@ noviceModule = function()
 	local console = lui.Console()
 	local savedThings = {}
 	local consoleAddons = {}
+	lui.consoleGlobals = {}
 	function consoleAddons.GetPlayer(name)
 		for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 			if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
 				return v
 			end
 		end    
+	end
+	consoleAddons.getObject = function(argsTable,name)
+		for i,v in pairs(argsTable) do
+			if v.Name:lower():sub(1, #name) == name:lower()  then
+				return v
+			end
+		end 
 	end
 	function consoleAddons.getBoolean(stringBool)
 		local bool = false
@@ -4315,6 +4607,9 @@ noviceModule = function()
 			extraArgs = nil
 		end
 		return extraArgs
+	end
+	consoleAddons.makeGlobal = function(name,global)
+		lui[name] = global
 	end
 	lui.ConsoleCommands = {
 		["info"] = { --COMMAND
@@ -4349,6 +4644,29 @@ noviceModule = function()
 				end
 				console.makeLines("")
 			end	
+		},
+		["redirectConsole"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				if bool then
+					console.redirectOutput()
+				else
+					if console.logService then
+						console.logService:Disconnect()
+					end
+				end
+			end,
+		},
+		["clearConsole"] = {
+			callback = function()
+				for i,v in pairs(noviceOS.ScrollingFrame_3:GetChildren()) do
+					if v:IsA("TextLabel") then
+						v:Destroy()
+						task.wait()
+					end
+				end
+			end,	
 		},
 		["unlockfc"] = {
 			callback = function()
@@ -4444,34 +4762,213 @@ noviceModule = function()
 			callback = function(args)
 				local bool = consoleAddons.getBoolean(args[1])
 				local target = consoleAddons.GetPlayer(args[2])
-				if not bool then 
-					local player = target.Character.HumanoidRootPart --- enter players name there (do it)
+				if bool then 
 					local lpr = game.Players.LocalPlayer.Character.HumanoidRootPart
-
-
-					local speed = 8 
-					local radius = 8 --- orbit size
-					local eclipse = 1 --- width of orbit
+					getgenv().speed = 2
+					getgenv().radius = 2 --- orbit size
+					getgenv().eclipse = 2 --- width of orbit
 					local rotation = CFrame.Angles(0,0,0) --only works for unanchored parts (not localplayer)
-
-
 					local sin, cos = math.sin, math.cos
-					local rotspeed = math.pi*2/speed
-					eclipse = eclipse * radius
+					local rotspeed = math.pi*2/getgenv().speed
+					getgenv().eclipse = getgenv().eclipse * getgenv().radius
 					local runservice = game:GetService('RunService')
-
-
 					local rot = 0
-					orbitRunService = game:GetService('RunService').Stepped:connect(function(t, dt)
-						rot = rot + dt * rotspeed
-						lpr.CFrame = rotation * CFrame.new(sin(rot)*eclipse, 0, cos(rot)*radius) + player.Position
+
+					lui.consoleGlobals.orbitRunService = game:GetService('RunService').Stepped:connect(function(t, dt)
+						if getgenv().Orbitingygifqwdoqu == true then
+							rot = rot + dt * rotspeed
+							if game.Players:FindFirstChild(getgenv().Name) then
+								if game.Players:FindFirstChild(getgenv().Name).Character:FindFirstChild("HumanoidRootPart") then
+									if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+										lpr.CFrame = rotation * CFrame.new(sin(rot)*getgenv().eclipse, 0, cos(rot)*getgenv().radius) + game.Players:FindFirstChild(getgenv().Name).Character.HumanoidRootPart.Position
+									end
+								end
+							end
+						end
 					end)
+
+
+					print(lui.consoleGlobals.orbitRunService)
 				else 
-					orbitRunService:Disconnect()
+					lui.consoleGlobals.orbitRunService:Disconnect()
 				end
 			end,
 		},
+		["annoy"] = {
+			["status"] = {true,false},
+			["target"] = {"string"},
+			callback = function(args)
+				local status = consoleAddons.getBoolean(args[1])
+				local target
+				if status then
+					target = consoleAddons.GetPlayer(args[2])
+					lui.consoleGlobals.annoyRender = game:GetService('RunService').Stepped:connect(function()
+						if target then
+							if target.Character:FindFirstChild("HumanoidRootPart") then
+								if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
+								end
+							end
+						end
+					end)
 
+				else 
+					lui.consoleGlobals.annoyRender:Disconnect()
+				end
+			end,
+		},
+		["getHats"] = {
+			callback = function()
+				for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+					if v:IsA("Accessory") then
+						console.makeLines(v.Name)
+					end
+				end	
+			end,
+		},
+		
+		["hatify"] = {
+			["hatName"] = {"string"},
+			["status"] = {true,false},
+			["target"] = {"string"},
+			callback = function(args)
+				local hat = consoleAddons.getObject(game:GetService("Players").LocalPlayer.Character:GetChildren(),args[1])
+				local status = consoleAddons.getBoolean(args[2])
+				local target
+
+				local debug_prints = true
+
+				local function debugprint(text)
+					if debug_prints == true then
+						print(text)
+					end
+				end
+
+				local function clearwelds()
+					--// vel loop
+					spawn(function()
+						game:GetService("RunService").Heartbeat:connect(function()
+							hat:WaitForChild("Handle").Velocity = Vector3.new(0, 35, 0)
+						end)
+						debugprint("vel loopd'd for script welds")
+					end)
+					wait()
+
+					--// delete script attachments
+					if hat.Handle:FindFirstChild("Attachment") then
+						hat.Handle:FindFirstChild("Attachment"):Destroy()
+						hat.Handle:FindFirstChild("AlignPosition"):Destroy()
+						hat.Handle:FindFirstChild("AlignOrientation"):Destroy()
+						debugprint("the script weld destroyed")
+					end
+				end
+				if status then target = consoleAddons.GetPlayer(args[3]) end
+				local nerd = hat
+				local function renerd()
+					--// vel loop
+					spawn(function()
+						game:GetService("RunService").Heartbeat:connect(function()
+							hat:WaitForChild("Handle").Velocity = Vector3.new(0, 35, 0)
+						end)
+						debugprint("vel loopd'd")
+					end)
+					wait()
+
+					--// delete hat attachment
+					if hat.Handle:FindFirstChild("AccessoryWeld") then
+						hat.Handle.AccessoryWeld:Destroy()
+						debugprint("hat weld gon donzo'd")
+					end
+				end
+				local function weld(part0, part1, att1)
+					local att0 = Instance.new("Attachment", part0)
+					if part0 == nerd.Handle then
+						att0.Position = Vector3.new(0, 0, 0)
+						att0.Rotation = Vector3.new(0, 0, 0)
+					end
+					local AP = Instance.new("AlignPosition", part0)
+					AP.Attachment0 = att0
+					AP.Attachment1 = att1
+					AP.ApplyAtCenterOfMass = false
+					AP.RigidityEnabled = false
+					AP.ReactionForceEnabled = false
+					AP.MaxForce = 64060 * part0.Size.X * part0.Size.Y * part0.Size.Z * part1.Size.X * part1.Size.Y * part1.Size.Z
+					AP.MaxVelocity = math.huge / 9e110
+					AP.Responsiveness = math.huge * math.huge * math.huge * math.huge
+					local AO = Instance.new("AlignOrientation", part0)
+					AO.Attachment0 = att0
+					AO.Attachment1 = att1
+					AO.RigidityEnabled = false
+					AO.ReactionTorqueEnabled = false
+					AO.PrimaryAxisOnly = false
+					AO.MaxTorque = 42060 * part0.Size.X * part0.Size.Y * part0.Size.Z * part1.Size.X * part1.Size.Y * part1.Size.Z
+					AO.MaxAngularVelocity = math.huge / 9e110
+					AO.Responsiveness = math.huge * math.huge * math.huge * math.huge
+				end
+				if status then
+				else 
+					target = game.Players.LocalPlayer
+				end
+				renerd()
+				clearwelds()
+				wait()
+				weld(hat.Handle, target.Character["Head"], target.Character["Head"].HatAttachment)
+				wait()
+				hat.Handle.Attachment.Position = Vector3.new(0, 0.5, 0)
+			end,
+		},
+		["grabtools"] = {
+			callback = function(args)
+				local Players = game:GetService("Players")
+				local Player = Players.LocalPlayer
+				local Backpack = Player.Backpack
+
+				local GrabTools = function()
+					local WorkspaceDescendants = workspace:GetDescendants()
+
+					for _, Descendant in pairs(WorkspaceDescendants) do
+						if Descendant:IsA("Tool") or Descendant:IsA("HopperBin") then
+							Descendant:Clone().Parent = Backpack
+						end
+					end
+				end
+
+				GrabTools()
+			end,	
+		},
+		["droptools"] = {
+			callback = function()
+				for i,v in pairs(game.Players.LocalPlayer.Backpack:GetDescendants()) do
+					if v:IsA("Tool")  then
+						wait(0.1)
+						v.Parent = game.Players.LocalPlayer.Character
+						wait(0.1)
+						v.Parent = game.Workspace
+					end
+				end
+			end,
+		},
+		["removemeshes"] = {
+			callback = function()
+				for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+					if v:IsA("SpecialMesh") then
+						v:Destroy()
+					end
+				end
+			end,
+		},
+		["removeMesh"] = {
+			["objName"] = {"string"},
+			callback = function(args)
+				local hat = consoleAddons.getObject(game.Players.LocalPlayer.Character:GetChildren(),args)
+				for i,v in pairs(hat:GetDescendants()) do
+					if v:IsA("SpecialMesh") then
+						v:Destroy()
+						break
+					end
+				end
+			end,
+		},
 		["kill"] = {
 			["Player(s)"] = {"string"},
 			callback = function(args)
