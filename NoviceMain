@@ -4485,8 +4485,11 @@ noviceModule = function()
 		console.logService = nil
 		console.getLine = function(text)
 			for i,v in pairs(noviceOS.ScrollingFrame_3) do
-				if v.Text == text then
-					return v
+				if v:IsA("TextLabel") then
+					print("checking if text matches",v.Text,text)
+					if v.Text == text then
+						return v
+					end
 				end
 			end
 			return nil
@@ -4503,29 +4506,34 @@ noviceModule = function()
 				obj:SetAttribute("times",2)
 			end
 		end
-		console.redirectOutput = function()
-			local logService = game:GetService("LogService")
-
-			console.logService = logService.MessageOut:Connect(function(msg,msgType)
-				local preText = "[Pr]"
-				if msgType == Enum.MessageType.MessageInfo then preText = "[In]"
-				elseif msgType == Enum.MessageType.MessageWarning then preText = "[Wa]"
-				elseif msgType == Enum.MessageType.MessageError then preText = "[Er]"
-				end
-				local divideLines = string.split(msg,"\n")
-				divideLines[1] = preText.." "..divideLines[1]
-				for i,v in pairs(divideLines) do
-					local obj = console.getLine(v)
-					if obj then
-						console.writeLine(obj)
-					else 
-						console.makeLines(v)
+		local searchConnection = nil
+		local scrollingframe= noviceOS.ScrollingFrame_3 --put the parent of the buttons here instead of nil
+		local searchbar= noviceOS.TextBox_3 --put the textbox of your searchbar here instead of nil
+		local function UpdateInputOfSearchText()
+			if console.logService ~= nil then 
+				local InputText=string.upper(searchbar.Text)
+				for _,button in pairs(scrollingframe:GetChildren())do
+					if button:IsA("TextLabel")then
+						if InputText==""or string.find(string.upper(button.Name),InputText)~=nil then
+							button.Visible=true
+						else
+							button.Visible=false
+						end
 					end
 				end
-
-			end)
+				if searchbar.Text == "" then
+					for i,v in pairs(scrollingframe:GetChildren()) do
+						if v:IsA("Frame") then
+							v.Visible = true
+						end
+					end
+				end
+			end
 		end
+
+		searchbar:GetPropertyChangedSignal("Text"):Connect(UpdateInputOfSearchText)
 		noviceOS.TextBox_3.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)
+
 			if enterPressed then else return end
 			local str = noviceOS.TextBox_3.Text
 			local args = string.split(str," ")
@@ -4552,13 +4560,15 @@ noviceModule = function()
 			if #argsTable == 1 then 
 				argsTable = argsTable[1]
 			end
+			callback(argsTable)
+			--[[
 			local succ,err = pcall(callback,argsTable)
 			print(succ,err)
 			if err then
 				console.makeLines({"[C:Er] "..tostring(err),
 					""
 				})
-			end
+			end]]
 
 			-- user pressed enter
 		end)
@@ -4650,11 +4660,111 @@ noviceModule = function()
 			callback = function(args)
 				local bool = consoleAddons.getBoolean(args)
 				if bool then
-					console.redirectOutput()
+					print("going to console")
+					local function getLine(text)
+						local found = nil
+						for i,v in pairs(noviceOS.ScrollingFrame_3:GetChildren()) do
+							if v:IsA("TextLabel") then
+								if v.Name == text then
+									found = v
+									break
+								end
+							end
+						end
+						return found
+					end
+					local function writeLine(obj)
+						local textTable = string.split(obj.Text,"x;")
+						console.makeLines(textTable)
+						local times = obj:GetAttribute("times")
+						if times ~= nil then
+							textTable[1] = tonumber(textTable[1]) + 1
+							obj.Text = table.concat(textTable,"x;")
+							obj:SetAttribute("times",times+1)
+						else 
+							obj.Text = "2x;"..obj.Text
+							obj:SetAttribute("times",2)
+						end
+					end
+					local function logMsg (msg,msgType)
+						local preText = "[Pr]"
+						if msgType == Enum.MessageType.MessageInfo then preText = "[In]"
+						elseif msgType == Enum.MessageType.MessageWarning then preText = "[Wa]"
+						elseif msgType == Enum.MessageType.MessageError then preText = "[Er]"
+						end
+						local newmsg = string.split(msg,"\n")
+						newmsg[1] = preText.." "..newmsg[1]
+						for i,v in pairs(newmsg) do
+							local doesMsg = getLine(v)
+							if doesMsg then
+								console.writeLine(doesMsg)
+							else 
+
+								console.makeLines(v)
+							end
+
+						end
+
+
+					end
+
+					console.logService = game:GetService("LogService").MessageOut:Connect(logMsg)
+					print("i think console is done ",tostring(console.logService))
 				else
 					if console.logService then
+						for i,v in pairs(noviceOS.ScrollingFrame_3:GetChildren()) do
+							if v:IsA("TextLabel") then
+								v.Visible = true
+							end
+						end
 						console.logService:Disconnect()
+						console.logService = nil
 					end
+				end
+			end,
+		},
+		["r15invis"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+
+				local removeNametags = false -- remove custom billboardgui nametags from hrp, could trigger anticheat
+
+				local plr = game:GetService("Players").LocalPlayer
+				local character = plr.Character
+				local hrp = character.HumanoidRootPart
+				local old = hrp.CFrame
+
+				if not character:FindFirstChild("LowerTorso") or character.PrimaryPart ~= hrp then
+					return print("unsupported")
+				end
+
+				if removeNametags then
+					local tag = hrp:FindFirstChildOfClass("BillboardGui")
+					if tag then tag:Destroy() end
+
+					hrp.ChildAdded:Connect(function(item)
+						if item:IsA("BillboardGui") then
+							task.wait()
+							item:Destroy()
+						end
+					end)
+				end
+
+
+
+				if bool then
+					local newroot = character.LowerTorso.Root:Clone()
+					hrp.Parent = workspace
+					character.PrimaryPart = hrp
+					character:MoveTo(Vector3.new(old.X,9e9,old.Z))
+					hrp.Parent = character
+					task.wait(0.5)
+					newroot.Parent = hrp
+					hrp.CFrame = old
+				else
+					character:MoveTo(Vector3.new(old.X,old.Y,old.Z)) 
+
 				end
 			end,
 		},
@@ -4775,15 +4885,13 @@ noviceModule = function()
 					local rot = 0
 
 					lui.consoleGlobals.orbitRunService = game:GetService('RunService').Stepped:connect(function(t, dt)
-						if getgenv().Orbitingygifqwdoqu == true then
-							rot = rot + dt * rotspeed
-							if game.Players:FindFirstChild(getgenv().Name) then
-								if game.Players:FindFirstChild(getgenv().Name).Character:FindFirstChild("HumanoidRootPart") then
-									if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-										lpr.CFrame = rotation * CFrame.new(sin(rot)*getgenv().eclipse, 0, cos(rot)*getgenv().radius) + game.Players:FindFirstChild(getgenv().Name).Character.HumanoidRootPart.Position
-									end
+						rot = rot + dt * rotspeed
+						if target then
+							if target.Character:FindFirstChild("HumanoidRootPart") then
+								if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+									lpr.CFrame = rotation * CFrame.new(sin(rot)*getgenv().eclipse, 0, cos(rot)*getgenv().radius) + target.Character.HumanoidRootPart.Position
 								end
-							end
+							end 
 						end
 					end)
 
@@ -4791,6 +4899,7 @@ noviceModule = function()
 					print(lui.consoleGlobals.orbitRunService)
 				else 
 					lui.consoleGlobals.orbitRunService:Disconnect()
+					lui.consoleGlobals.orbitRunService = nil
 				end
 			end,
 		},
@@ -4826,7 +4935,7 @@ noviceModule = function()
 				end	
 			end,
 		},
-		
+
 		["hatify"] = {
 			["hatName"] = {"string"},
 			["status"] = {true,false},
@@ -4906,9 +5015,21 @@ noviceModule = function()
 					AO.Responsiveness = math.huge * math.huge * math.huge * math.huge
 				end
 				if status then
+					target.CharacterAdded:Connect(function()
+						if status then
+							local hat = consoleAddons.getObject(game:GetService("Players").LocalPlayer.Character:GetChildren(),args[1])
+							renerd()
+							clearwelds()
+							wait()
+							weld(hat.Handle, target.Character["Head"], target.Character["Head"].HatAttachment)
+							wait()
+							hat.Handle.Attachment.Position = Vector3.new(0, 0.5, 0)
+						end
+					end)
 				else 
 					target = game.Players.LocalPlayer
 				end
+
 				renerd()
 				clearwelds()
 				wait()
