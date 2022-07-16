@@ -16,8 +16,6 @@ local simradius = "shp" --simulation radius (net bypass) method
 --"shp" - sethiddenproperty
 --"ssr" - setsimulationradius
 --false - disable
-
-local lib = {}
 local healthHide = true --moves your head under map every 3 seconds so players dont see your health bar
 local noclipAllParts = false --set it to true if you want noclip
 local antiragdoll = true --removes hingeConstraints and ballSocketConstraints from your character
@@ -26,7 +24,7 @@ local discharscripts = true --disables all localScripts parented to your charact
 local R15toR6 = true --tries to convert your character to r6 if its r15
 local hatcollide = false --makes hats cancollide (credit to ShownApe) (works only with reanimate method 0)
 local humState16 = true --enables collisions for limbs before the humanoid dies (using hum:ChangeState)
-local addtools = true --puts all tools from backpack to character and lets you hold them after reanimation
+local addtools = false --puts all tools from backpack to character and lets you hold them after reanimation
 local hedafterneck = true --disable aligns for head and enable after neck or torso is removed
 local loadtime = game:GetService("Players").RespawnTime + 0.5 --anti respawn delay
 local method = 3 --reanimation method
@@ -43,7 +41,7 @@ local alignmode = 4 --AlignPosition mode
 --2 - 2 AlignPositions rigidity enabled both true and false
 --3 - AlignPosition rigidity enabled false
 --4 - CFrame (if u dont have the isnetworkowner function it will use alignmode 2)
-lib.flingpart = "HumanoidRootPart" --name of the part or the hat used for flinging
+local flingpart = "HumanoidRootPart" --name of the part or the hat used for flinging
 --the fling function
 --usage: fling(target, duration, velocity)
 --target can be set to: basePart, CFrame, Vector3, character model or humanoid (flings at mouse.Hit if argument not provided))
@@ -767,22 +765,22 @@ if (typeof(hedafterneck) == "Instance") and head and torso and torso1 then
     end
 end
 
-local flingpart0 = gp(model, lib.flingpart, "BasePart") or gp(gp(model, lib.flingpart, "Accessory"), "Handle", "BasePart")
-local flingpart1 = gp(c, lib.flingpart, "BasePart") or gp(gp(c, lib.flingpart, "Accessory"), "Handle", "BasePart")
+local flingpart0 = gp(model, flingpart, "BasePart") or gp(gp(model, flingpart, "Accessory"), "Handle", "BasePart")
+local flingpart1 = gp(c, flingpart, "BasePart") or gp(gp(c, flingpart, "Accessory"), "Handle", "BasePart")
 
- lib.fling = function() end
+local fling = function() end
 if flingpart0 and flingpart1 then
     flingpart0:GetPropertyChangedSignal("Parent"):Connect(function()
         if not (flingpart0 and flingpart0.Parent) then
             flingpart0 = nil
-            lib.fling = function() end
+            fling = function() end
         end
     end)
     flingpart0.Archivable = true
     flingpart1:GetPropertyChangedSignal("Parent"):Connect(function()
         if not (flingpart1 and flingpart1.Parent) then
             flingpart1 = nil
-            lib.fling = function() end
+            fling = function() end
         end
     end)
     local att0 = gp(flingpart0, "att0_" .. flingpart0.Name, "Attachment")
@@ -791,18 +789,18 @@ if flingpart0 and flingpart1 then
         att0:GetPropertyChangedSignal("Parent"):Connect(function()
             if not (att0 and att0.Parent) then
                 att0 = nil
-                lib.fling = function() end
+                fling = function() end
             end
         end)
         att1:GetPropertyChangedSignal("Parent"):Connect(function()
             if not (att1 and att1.Parent) then
                 att1 = nil
-                lib.fling = function() end
+                fling = function() end
             end
         end)
         local lastfling = nil
         local mouse = lp:GetMouse()
-        lib.fling = function(target, duration, rotVelocity)
+        fling = function(target, duration, rotVelocity)
             if typeof(target) == "Instance" then
                 if target:IsA("BasePart") then
                     target = target.Position
@@ -863,7 +861,7 @@ if flingpart0 and flingpart1 then
                     flingpart = nil
                 end
             end)
-            lib.flingpart.Parent = flingpart1
+            flingpart.Parent = flingpart1
             if flingpart0.Transparency > 0.5 then
                 flingpart0.Transparency = 0.5
             end
@@ -872,7 +870,7 @@ if flingpart0 and flingpart1 then
             local rotchg = v3(0, rotVelocity.Unit.Y * -1000, 0)
             con = heartbeat:Connect(function(delta)
                 if target and (lastfling == target) and flingpart and flingpart0 and flingpart1 and att0 and att1 then
-                    lib.flingpart.Orientation += rotchg * delta
+                    flingpart.Orientation += rotchg * delta
                     flingpart0.RotVelocity = rotVelocity
                 else
                     con:Disconnect()
@@ -910,4 +908,3 @@ if flingpart0 and flingpart1 then
         end
     end
 end
-return lib
