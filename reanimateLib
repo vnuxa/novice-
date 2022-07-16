@@ -908,3 +908,4 @@ if flingpart0 and flingpart1 then
         end
     end
 end
+return fling
