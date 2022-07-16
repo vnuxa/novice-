@@ -43,7 +43,7 @@ local alignmode = 4 --AlignPosition mode
 --2 - 2 AlignPositions rigidity enabled both true and false
 --3 - AlignPosition rigidity enabled false
 --4 - CFrame (if u dont have the isnetworkowner function it will use alignmode 2)
-local lib.flingpart = "HumanoidRootPart" --name of the part or the hat used for flinging
+lib.flingpart = "HumanoidRootPart" --name of the part or the hat used for flinging
 --the fling function
 --usage: fling(target, duration, velocity)
 --target can be set to: basePart, CFrame, Vector3, character model or humanoid (flings at mouse.Hit if argument not provided))
@@ -770,7 +770,7 @@ end
 local flingpart0 = gp(model, lib.flingpart, "BasePart") or gp(gp(model, lib.flingpart, "Accessory"), "Handle", "BasePart")
 local flingpart1 = gp(c, lib.flingpart, "BasePart") or gp(gp(c, lib.flingpart, "Accessory"), "Handle", "BasePart")
 
-local lib.fling = function() end
+ lib.fling = function() end
 if flingpart0 and flingpart1 then
     flingpart0:GetPropertyChangedSignal("Parent"):Connect(function()
         if not (flingpart0 and flingpart0.Parent) then
