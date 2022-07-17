@@ -1,7 +1,7 @@
     local player = game.Players.LocalPlayer
     local character1 = player.Character
     local mouse = player:GetMouse()
-    --CLICK TO FLING
+    
     wait()
     --reanimate by MyWorld#4430 discord.gg/pYVHtSJmEY
 local Vector3_101 = Vector3.new(1, 0, 1)
@@ -854,8 +854,6 @@ if flingpart0 and flingpart1 then
                 return
             end
             
-            local highlight = Instance.new("Highlight",flingpart0)
-            highlight.Adornee = flingpart0
 
             local flingpart = flingpart0:Clone()
             flingpart.Transparency = 1
@@ -870,6 +868,7 @@ if flingpart0 and flingpart1 then
                     flingpart = nil
                 end
             end)
+            
             flingpart.Parent = flingpart1
             if flingpart0.Transparency > 0.5 then
                 flingpart0.Transparency = 0.5
@@ -924,7 +923,14 @@ end
     
    -- local flingLib = flingBlock()
    -- local obj = lib.flingObject
+   wait(2.5)
+
    mouse.Button1Down:Connect(function()
+    if game.Players.LocalPlayer.Character.Model[flingpart]:FindFirstChildWhichIsA("Highlight") then else 
+        local highlight = Instance.new("Highlight")
+        highlight.Parent = game.Players.LocalPlayer.Character.Model[flingpart]
+        highlight.Adornee = game.Players.LocalPlayer.Character.Model[flingpart]
+    end
     fling(mouse.Hit.p,120)
    end)
   
