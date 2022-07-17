@@ -4584,7 +4584,27 @@ noviceModule = function()
 
 
 	local console = lui.Console()
-	local savedThings = {}
+	local Lighting = game:GetService("Lighting")
+	local savedThings = {
+		DefaultLighting = {
+			Ambient = Lighting.Ambient,
+			Brightness = Lighting.Brightness,
+			ClockTime = Lighting.ClockTime,
+			ColorShift_Bottom = Lighting.ColorShift_Bottom,
+			ColorShift_Top = Lighting.ColorShift_Top,
+			EnvironmentDiffuseScale = Lighting.EnvironmentDiffuseScale,
+			EnvironmentSpecularScale = Lighting.EnvironmentSpecularScale,
+			ExposureCompensation = Lighting.ExposureCompensation,
+			FogColor = Lighting.FogColor,
+			FogEnd = Lighting.FogEnd,
+			FogStart = Lighting.FogStart,
+			GeographicLatitude = Lighting.GeographicLatitude,
+			GlobalShadows = Lighting.GlobalShadows,
+			OutdoorAmbient = Lighting.OutdoorAmbient,
+			ShadowSoftness = Lighting.ShadowSoftness
+		}
+		
+	}
 	local consoleAddons = {}
 	savedThings.Freecam = function()
 
@@ -4828,7 +4848,7 @@ noviceModule = function()
 		local maxSpeed = 50
 		local minSpeed = 0.25
 		local plrMouse = game.Players.LocalPlayer:GetMouse()
-		function StartFreecam(pos)
+		local function StartFreecam(pos)
 			if fcRunning then
 				StopFreecam()
 			end
@@ -4861,7 +4881,7 @@ noviceModule = function()
 			fcRunning = true
 		end
 
-		function StopFreecam()
+		local function StopFreecam()
 			if not fcRunning then return end
 			Input.StopCapture()
 			RunService:UnbindFromRenderStep("Freecam")
@@ -4874,7 +4894,41 @@ noviceModule = function()
 			fcRunning = false
 		end
 
-		return StartFreecam,StopFreecam
+		return {StartFreecam,StopFreecam}
+	end
+	savedThings.nameEspConnection = {}
+	savedThings.NameESP = function()
+	
+
+		
+
+		local makeEsp = function(char)
+			if char ~= game.Players.LocalPlayer.Character and char.Head ~= nil and not char.Head:FindFirstChild('NameEsp') then
+				local bill = Instance.new('BillboardGui')
+				bill.Parent = char.Head
+				bill.Name = 'NameEsp'
+				bill.Size=UDim2.new(1,200,1,30)
+				bill.Adornee=char.Head
+				bill.AlwaysOnTop=true
+				local name = Instance.new('TextLabel',bill)
+				name.TextWrapped=true
+				name.Text = (char.Name )
+				name.Size = UDim2.new(1,0,1,0)
+				name.TextYAlignment='Top'
+				name.TextColor3=Color3.new(1,1,1)
+				name.BackgroundTransparency=1
+				name.FontSize = Enum.FontSize.Size18
+				name.Font = Enum.Font.Gotham
+				
+			end
+		end
+		for i,v in pairs(game.Players:GetPlayers()) do
+			table.insert(savedThings.nameEspConnection, v.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+			
+			makeEsp(v.Character)
+		end
 	end
 	lui.consoleGlobals = {}
 	function consoleAddons.GetPlayer(name)
@@ -4911,7 +4965,8 @@ noviceModule = function()
 	consoleAddons.makeGlobal = function(name,global)
 		lui[name] = global
 	end
-	
+
+	local fcTable = savedThings.Freecam()
 	lui.ConsoleCommands = {
 		["info"] = { --COMMAND
 			callback = function()
@@ -5076,6 +5131,202 @@ noviceModule = function()
 					"[Pr] Shift+P to toggle freecam",
 					""
 				})
+			end,
+		},
+		["names"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				if bool then
+					savedThings.NameESP()
+				else 
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if v.Character.Head:FindFirstChild("NameEsp") then
+							v.Character.Head:FindFirstChild("NameEsp"):Destroy()
+						end
+					end
+					for i,v in pairs(savedThings.nameEspConnection) do
+						v:Disconnect()
+						v = nil
+					end
+					savedThings.nameEspConnection = {}
+				end
+			end,
+		},
+		["fps"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				if bool then
+					repeat wait() until game:IsLoaded() wait(2)
+					local ScreenGui = Instance.new("ScreenGui")
+					local Fps = Instance.new("TextLabel")
+					local Ping = Instance.new("TextLabel")
+
+					--Properties:
+					ScreenGui.Name = "FPSCOUNTERNOTMINEBTW"
+					ScreenGui.Parent = game.CoreGui
+					ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+					Fps.Name = "Fps"
+					Fps.Parent = ScreenGui
+					Fps.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					Fps.BackgroundTransparency = 1.000
+					Fps.Position = UDim2.new(0.786138654, 0, 0, 0)
+					Fps.Size = UDim2.new(0, 125, 0, 25)
+					Fps.Font = Enum.Font.SourceSans
+					Fps.TextColor3 = Color3.fromRGB(255, 255, 255)
+					Fps.TextScaled = true
+					Fps.TextSize = 14.000
+					Fps.TextWrapped = true
+
+					Ping.Name = "Ping"
+					Ping.Parent = ScreenGui
+					Ping.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					Ping.BackgroundTransparency = 1.000
+					Ping.BorderColor3 = Color3.fromRGB(255, 255, 255)
+					Ping.Position = UDim2.new(0.700000048, 0, 0, 0)
+					Ping.Size = UDim2.new(0, 125, 0, 25)
+					Ping.Font = Enum.Font.SourceSans
+					Ping.TextColor3 = Color3.fromRGB(253, 253, 253)
+					Ping.TextScaled = true
+					Ping.TextSize = 14.000
+					Ping.TextWrapped = true
+
+					-- Scripts:
+
+					local RunService = game:GetService("RunService")
+					savedThings.fpsRun = RunService.RenderStepped:Connect(function(frame) -- This will fire every time a frame is rendered
+						Fps.Text = ("FPS: "..math.round(1/frame)) 
+						Ping.Text = ("Ping: " ..game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(math.round(2/frame))) -- your ping
+					end)
+				else 
+					if savedThings.fpsRun then
+						savedThings.fpsRun:Disconnect()
+						savedThings.fpsRun = nil
+						game.CoreGui["FPSCOUNTERNOTMINEBTW"]:Destroy()
+					end
+				end
+			end,
+		},
+		
+		["lightChanges"] = {
+			["number"] = {"string"},
+			callback = function(args)
+				local num = tonumber(args)
+				if num == 1 then
+					for i,v in pairs(savedThings.DefaultLighting) do
+						Lighting[i] = v
+					end
+				elseif num == 2 then
+					console.writeLine("[Wa] Doesnt work yet")
+				elseif num == 3 then
+					-- Roblox Graphics Enhancher
+					local light = game.Lighting
+					local  improvements = {
+						"ColorCorrectionEffect",
+						"BloomEffect",
+						"SunRaysEffect",
+
+					}
+					for i, v in pairs(light:GetChildren()) do
+						for i2,v2 in pairs(improvements) do
+							if v:IsA(v2) then
+								v:Destroy()
+							end
+						end
+					end
+
+					local ter = workspace.Terrain
+					local color = Instance.new("ColorCorrectionEffect")
+					local bloom = Instance.new("BloomEffect")
+					local sun = Instance.new("SunRaysEffect")
+					local blur = Instance.new("BlurEffect")
+
+					color.Parent = light
+					bloom.Parent = light
+					sun.Parent = light
+					blur.Parent = light
+
+					-- enable or disable shit
+
+					local config = {
+
+						Terrain = true;
+						ColorCorrection = true;
+						Sun = true;
+						Lighting = true;
+						BloomEffect = true;
+
+					}
+
+					-- settings {
+
+					color.Enabled = false
+					color.Contrast = 0.15
+					color.Brightness = 0.1
+					color.Saturation = 0.25
+					color.TintColor = Color3.fromRGB(255, 222, 211)
+
+					bloom.Enabled = false
+					bloom.Intensity = 0.1
+
+					sun.Enabled = false
+					sun.Intensity = 0.2
+					sun.Spread = 1
+
+					bloom.Enabled = false
+					bloom.Intensity = 0.05
+					bloom.Size = 32
+					bloom.Threshold = 1
+
+					blur.Enabled = false
+					blur.Size = 6
+
+					-- settings }
+
+
+					if config.ColorCorrection then
+						color.Enabled = true
+					end
+
+
+					if config.Sun then
+						sun.Enabled = true
+					end
+
+
+					if config.Terrain then
+						-- settings {
+						ter.WaterColor = Color3.fromRGB(10, 10, 24)
+						ter.WaterWaveSize = 0.15
+						ter.WaterWaveSpeed = 22
+						ter.WaterTransparency = 1
+						ter.WaterReflectance = 0.05
+						-- settings }
+					end
+
+
+					if config.Lighting then
+						-- settings {
+						light.Ambient = Color3.fromRGB(0, 0, 0)
+						light.Brightness = 4
+						light.ColorShift_Bottom = Color3.fromRGB(0, 0, 0)
+						light.ColorShift_Top = Color3.fromRGB(0, 0, 0)
+						light.ExposureCompensation = 0
+						light.FogColor = Color3.fromRGB(132, 132, 132)
+						light.GlobalShadows = true
+						light.OutdoorAmbient = Color3.fromRGB(112, 117, 128)
+						light.Outlines = false
+						-- settings }
+					end
+				
+				end
+				if bool then
+					
+				else 
+					
+				end
 			end,
 		},
 		["lagserver"] = {
@@ -5333,11 +5584,10 @@ noviceModule = function()
 			["status"] = {true,false},
 			callback = function(args)
 				local bool = consoleAddons.getBoolean(args)
-				local start,stop = savedThings.Freecam()
 				if bool then
-					start()
+					fcTable[1]()
 				else 
-					stop()
+					fcTable[2]()
 				end
 			end,
 		},
