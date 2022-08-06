@@ -4903,24 +4903,27 @@ noviceModule = function()
 		
 
 		local makeEsp = function(char)
-			if char ~= game.Players.LocalPlayer.Character and char.Head ~= nil and not char.Head:FindFirstChild('NameEsp') then
-				local bill = Instance.new('BillboardGui')
-				bill.Parent = char.Head
-				bill.Name = 'NameEsp'
-				bill.Size=UDim2.new(1,200,1,30)
-				bill.Adornee=char.Head
-				bill.AlwaysOnTop=true
-				local name = Instance.new('TextLabel',bill)
-				name.TextWrapped=true
-				name.Text = (char.Name )
-				name.Size = UDim2.new(1,0,1,0)
-				name.TextYAlignment='Top'
-				name.TextColor3=Color3.new(1,1,1)
-				name.BackgroundTransparency=1
-				name.FontSize = Enum.FontSize.Size18
-				name.Font = Enum.Font.Gotham
-				
-			end
+            if char:FindFirstChild("Head") then 
+                if char:FindFirstChild("Head"):FindFirstChild("NameEsp") then 
+                else 
+                    
+                    local bill = Instance.new('BillboardGui')
+                    bill.Parent = char.Head
+                    bill.Name = 'NameEsp'
+                    bill.Size=UDim2.new(1,200,1,30)
+                    bill.Adornee=char.Head
+                    bill.AlwaysOnTop=true
+                    local name = Instance.new('TextLabel',bill)
+                    name.TextWrapped=true
+                    name.Text = (char.Name )
+                    name.Size = UDim2.new(1,0,1,0)
+                    name.TextYAlignment='Top'
+                    name.TextColor3=Color3.new(1,1,1)
+                    name.BackgroundTransparency=1
+                    name.FontSize = Enum.FontSize.Size18
+                    name.Font = Enum.Font.Gotham
+                end
+            end 
 		end
 		for i,v in pairs(game.Players:GetPlayers()) do
 			table.insert(savedThings.nameEspConnection, v.CharacterAdded:Connect(function(char)
@@ -6414,4 +6417,3 @@ function Drag()
 end	
 
 coroutine.wrap(Drag)()
-
