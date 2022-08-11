@@ -147,7 +147,7 @@ api.Script = function(Object)
     function difference(a, b)
         local diff = {}
         for i,v in pairs(a) do
-            if a[i] == v then 
+            if b[i] == v then 
             else 
                 diff[tostring(i)] = v
             end
@@ -162,13 +162,9 @@ api.Script = function(Object)
         }
     ]]
     function lib:EditArgs(NewArgs)
-        local diff = difference(lib.Args,NewArgs)
+        local diff = difference(NewArgs,lib.Args)
         for i,v in pairs(diff) do 
-            if Object:IsA("ModuleScript") then  
-               require(Object)[i] = v
-            else
-              getsenv(Object)[i] = v
-            end
+            lib.Args[i] = v
         end
     end
     function lib:Hook(func,callback)
