@@ -201,7 +201,9 @@ api.Script = function(Object)
     end
     function lib:Hook(func,callback)
         local oldFunc
-        oldFunc = hookfunction(func,newcclosure(function(...)
+        oldFunc = hookfunction(
+            func,
+         newcclosure(function(...)
             if not checkcaller() then 
                 local args = {...}
                 local suc,err = pcall(callback,Self,...)
