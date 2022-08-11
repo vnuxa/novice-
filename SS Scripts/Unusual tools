@@ -1,0 +1,25 @@
+require(10286545277).RandomStuff("%s")
+--[[+ List +
+by undscr#7479
+Items marked in red are subject to major changes.
+Items marked in green are subject to changes that may change how the tool behaves and/or functions.
+
+Items marked with a [!] have been updated, and their old descriptions have been changed.
+Items marked with a [C] are currently being scripted.
+Items marked with a [F] are completed tools.
+
+[F] Choke: You can choke players with this tool. Click on a player to choke them.
+[F] Ballons: Spawn balloons with this tool. You can lift objects into the sky and players!
+[F] SnareTrap: A tool that allows you to spawn snare traps.
+[F] Flashbang: Blind players. Does not affect you.
+[F] SpawnDecomposer: Lets you spawn decomposers.
+[F] Goo: Lets you place goo that traps parts and characters.
+
++[F] Saw-Saw: Chop players up with this tool! The direction is based on which way your character is facing.
+
+-[F] Pickaxe: This tool shrinks and breaks blocks.
+
+[!] [F] Explode: Explode and shatter objects. Has a 1 second cooldown rate.
+
+[C] Mach Boots: These boots make you run faster. While running with these on, you can bump into people and fling them out of your way!
+]]--
