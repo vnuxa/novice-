@@ -1,0 +1,188 @@
+local api = {}
+
+---Remotes
+
+api.Remotes = {}
+function api.Remotes.OnFire(callback) --Sends obj,args
+    local oldinvoke, oldfire
+    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
+        pcall(callback,Self,{...})
+       return oldinvoke(self, ...)
+    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
+        pcall(callback,Self,{...})
+       return oldfire(self, ...)
+    end)
+end
+function api.Remotes.RemoteOnFire(callback,remote) -- Sends args,caller
+    local oldinvoke, oldfire
+    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
+        if Self == remote then 
+             pcall(callback,Self,{...})
+        end
+       return oldinvoke(self, ...)
+    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
+        if Self == remote then 
+            pcall(callback,Self,{...})
+       end
+       return oldfire(self, ...)
+    end)
+
+end
+
+--Http spy
+api.HttpRequests = {}
+function api.HttpRequests.OnRequest(callback) -- Sends url, path
+    local lol
+    lol = hookfunc(game:HttpGet(function(path, url, ...)
+        pcall(callback,tostring(url),path)
+        return lol(path, url, ...)
+    end))
+end
+function api.HttpRequests:Nullify(otherChecks,returnObject)
+    local lol
+    lol = hookfunc(game:HttpGet(function(path, url, ...)
+        pcall(callback,tostring(url),path)
+        return lol(path, url, ...)
+    end))
+end
+--Index spy
+api.Index = {}
+--[[Index info is written like this 
+Objects can be nil if you want it to be in general rather than on a specific object
+
+IndexInfo={
+    ["WalkSpeed"] = game.Players.LocalPlayer.Character --This path is an object
+}
+]]
+function api.Index.OnIndex(callback,IndexInfo) -- Sends Object,Key (such as "WalkSpeed")
+    local OldIndex = nil
+    OldIndex = hookmetamethod(game, "__index", function(Self, Key)
+        if not checkcaller() then
+            local hasKey = false 
+            for i,v in pairs(IndexInfo) do 
+                if Key == i then
+                    if v == nil then 
+                        pcall(callback,Self,Key)
+                    elseif v == Self then 
+                        pcall(callback,Self,Key)
+                    end
+                end
+            end
+        end
+        return OldIndex(Self, Key)
+    end)
+end
+
+function api.Index.OnAllIndex(callback) --Sends Object,Key
+    local OldIndex = nil
+    OldIndex = hookmetamethod(game, "__index", function(Self, Key)
+        if not checkcaller() then
+            pcall(callback,Self,Key)
+        end
+        return OldIndex(Self, Key)
+    end)
+end
+
+--Namecall spy
+api.Namecall = {}
+--[[otherChecks format:
+function(Method,Args)
+    if Args[1] == game.Players.LocalPlayer then --Put your custom arguments here
+        return true
+    end
+    return false 
+end
+]]
+function api.Namecall:Nullify(index,returnObject,otherChecks) --index can be "Kick", otherchecks is not mandatory, sends the namecallmethod to otherChecks
+    local OldNameCall = nil
+
+    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
+        local Args = {...}
+        local NamecallMethod = getnamecallmethod()
+    
+        if not checkcaller() and NamecallMethod == index then
+            if otherChecks == nil then 
+                return returnObject
+            elseif pcall(otherChecks,NamecallMethod,Args) then 
+                  return returnObject
+                end
+            end
+        end
+    
+        return OldNameCall(Self, ...)
+    end)
+end
+
+function api.Namecall.OnNamecall(callback) --Sends the method, args ,self (ussualy game)
+    local OldNameCall = nil
+
+    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
+        local Args = {...}
+        local NamecallMethod = getnamecallmethod()
+    
+        if not checkcaller()  then
+            pcall(callback,NamecallMethod,Args,Self)
+        end
+    
+        return OldNameCall(Self, ...)
+    end)
+end 
+
+--Script api 
+api.Script = function(Object)
+    local lib = {}
+
+    if Object:IsA("LocalScript") or Object:IsA("ModuleScript") then 
+    else 
+        return nil 
+    end
+
+    lib.Args = nil 
+    if Object:IsA("ModuleScript") then
+        lib.Args = require(t)
+    else
+        lib.Args = getsenv(t)
+    end
+
+
+    function difference(a, b)
+        local diff = {}
+        for i,v in pairs(a) do
+            if table.find(b,v,i) then 
+            else 
+                diff[tostring(i)] = v
+            end
+        end 
+        return diff
+    end
+    --NewArgs arguments cna be like this 
+    --[[
+        {
+            ["1"] = true,
+            ["test"] = false,
+        }
+    ]]
+    function lib:EditArgs(NewArgs)
+        local diff = difference(lib.Args,NewArgs)
+        for i,v in pairs(diff) do 
+            lib.Args[i] = v
+        end
+    end
+    function lib:Hook(func,callback)
+        if Object:IsA("LocalScript") then 
+            local oldFunc
+            oldFunc = hookfunction(func,newcclosure(function(...)
+                if not checkcaller() then 
+                    local args = {...}
+                    pcall(callback,Self,...)
+                end
+                return oldFunc(...)
+            end))
+        end
+    end
+
+    return lib
+end
+
+
+return api 
