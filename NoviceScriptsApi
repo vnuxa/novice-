@@ -164,7 +164,11 @@ api.Script = function(Object)
     function lib:EditArgs(NewArgs)
         local diff = difference(lib.Args,NewArgs)
         for i,v in pairs(diff) do 
-            lib.Args[i] = v
+            if Object:IsA("ModuleScript") then  
+               require(Object)[i] = v
+            else
+              getsenv(Object)[i] = v
+            end
         end
     end
     function lib:Hook(func,callback)
