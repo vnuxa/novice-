@@ -138,9 +138,9 @@ api.Script = function(Object)
 
     lib.Args = nil 
     if Object:IsA("ModuleScript") then
-        lib.Args = require(t)
+        lib.Args = require(Object)
     else
-        lib.Args = getsenv(t)
+        lib.Args = getsenv(Object)
     end
 
 
