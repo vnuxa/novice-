@@ -201,9 +201,9 @@ api.Script = function(Object)
     end
     function lib:Hook(func,callback)
         local oldFunc
-        oldFunc = hookfunction(
-            func,
-         newcclosure(function(...)
+        print("hook function args",func,callback)
+            print("hook function types",typeof(func),typeof(callback))
+        oldFunc = hookfunction(func,function(...)
             if not checkcaller() then 
                 local args = {...}
                 local suc,err = pcall(callback,Self,...)
@@ -212,11 +212,11 @@ api.Script = function(Object)
                 end
             end
             return oldFunc(...)
-        end))
+        end)
     end
     function lib:Nullify(func,returnObject,otherChecks)
         local oldFunc
-        oldFunc = hookfunction(func,newcclosure(function(...)
+        oldFunc = hookfunction(func,function(...)
             if not checkcaller() then
                 local Args = {...}
                 if otherChecks == nil then 
@@ -226,7 +226,7 @@ api.Script = function(Object)
                 end
             end
             return oldFunc(...)
-        end))
+        end)
     end
     
     function lib:CopyValues()
