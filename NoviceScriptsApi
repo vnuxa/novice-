@@ -137,7 +137,7 @@ api.Script = function(Object)
     end
 
     lib.Args = nil 
-    if Object:IsA("ModuleScript") then
+    if Object:IsA("ModuleScript") then  
         lib.Args = require(Object)
     else
         lib.Args = getsenv(Object)
@@ -147,7 +147,7 @@ api.Script = function(Object)
     function difference(a, b)
         local diff = {}
         for i,v in pairs(a) do
-            if table.find(b,v,i) then 
+            if a[i] == v then 
             else 
                 diff[tostring(i)] = v
             end
