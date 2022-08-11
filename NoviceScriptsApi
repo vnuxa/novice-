@@ -6,10 +6,16 @@ api.Remotes = {}
 function api.Remotes.OnFire(callback) --Sends obj,args
     local oldinvoke, oldfire
     oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
-        pcall(callback,Self,{...})
+        local succ,err = pcall(callback,Self,{...})
+        if err then 
+            error(err)
+        end
        return oldinvoke(self, ...)
     end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
-        pcall(callback,Self,{...})
+        local succ,err = pcall(callback,Self,{...})
+        if err then 
+            error(err)
+        end
        return oldfire(self, ...)
     end)
 end
@@ -17,12 +23,18 @@ function api.Remotes.RemoteOnFire(callback,remote) -- Sends args,caller
     local oldinvoke, oldfire
     oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
         if Self == remote then 
-             pcall(callback,Self,{...})
+             local succ,err = pcall(callback,Self,{...})
+             if err then 
+                error(err)
+            end
         end
        return oldinvoke(self, ...)
     end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
         if Self == remote then 
-            pcall(callback,Self,{...})
+            local succ,err = pcall(callback,Self,{...})
+            if err then 
+                error(err)
+            end
        end
        return oldfire(self, ...)
     end)
@@ -34,14 +46,21 @@ api.HttpRequests = {}
 function api.HttpRequests.OnRequest(callback) -- Sends url, path
     local lol
     lol = hookfunc(game:HttpGet(function(path, url, ...)
-        pcall(callback,tostring(url),path)
+        local succ,err = pcall(callback,tostring(url),path)
+        if err then 
+            error(err)
+        end
+
         return lol(path, url, ...)
     end))
 end
 function api.HttpRequests:Nullify(otherChecks,returnObject)
     local lol
     lol = hookfunc(game:HttpGet(function(path, url, ...)
-        pcall(callback,tostring(url),path)
+        local succ,err = pcall(callback,tostring(url),path)
+        if err then 
+            error(err)
+        end
         return lol(path, url, ...)
     end))
 end
@@ -62,9 +81,15 @@ function api.Index.OnIndex(callback,IndexInfo) -- Sends Object,Key (such as "Wal
             for i,v in pairs(IndexInfo) do 
                 if Key == i then
                     if v == nil then 
-                        pcall(callback,Self,Key)
+                        local err,succ = pcall(callback,Self,Key)
+                        if err then 
+                            error(err)
+                        end
                     elseif v == Self then 
-                        pcall(callback,Self,Key)
+                        local err,succ = pcall(callback,Self,Key)
+                        if err then 
+                            error(err)
+                        end
                     end
                 end
             end
@@ -77,7 +102,10 @@ function api.Index.OnAllIndex(callback) --Sends Object,Key
     local OldIndex = nil
     OldIndex = hookmetamethod(game, "__index", function(Self, Key)
         if not checkcaller() then
-            pcall(callback,Self,Key)
+            local err,succ = pcall(callback,Self,Key)
+            if err then 
+                error(err)
+            end
         end
         return OldIndex(Self, Key)
     end)
@@ -96,14 +124,14 @@ end
 function api.Namecall:Nullify(index,returnObject,otherChecks) --index can be "Kick", otherchecks is not mandatory, sends the namecallmethod to otherChecks
     local OldNameCall = nil
 
-    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
+    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)    
                 local Args = {...}
                 local NamecallMethod = getnamecallmethod()
             
                 if not checkcaller() and NamecallMethod == index then
                     if otherChecks == nil then 
                         return returnObject
-                    elseif pcall(otherChecks,NamecallMethod,Args) then 
+                    elseif otherChecks(NamecallMethod,Args) then 
                         return returnObject
                     end
                 end
@@ -120,7 +148,11 @@ function api.Namecall.OnNamecall(callback) --Sends the method, args ,self (ussua
         local NamecallMethod = getnamecallmethod()
     
         if not checkcaller()  then
-            pcall(callback,NamecallMethod,Args,Self)
+            
+           local err,suc = pcall(callback,NamecallMethod,Args,Self)
+            if err then 
+                error(err)
+            end
         end
     
         return OldNameCall(Self, ...)
@@ -168,17 +200,33 @@ api.Script = function(Object)
         end
     end
     function lib:Hook(func,callback)
-        if Object:IsA("LocalScript") then 
-            local oldFunc
-            oldFunc = hookfunction(func,newcclosure(function(...)
-                if not checkcaller() then 
-                    local args = {...}
-                    pcall(callback,Self,...)
+        local oldFunc
+        oldFunc = hookfunction(func,newcclosure(function(...)
+            if not checkcaller() then 
+                local args = {...}
+                local suc,err = pcall(callback,Self,...)
+                if err then 
+                    error(err)
                 end
-                return oldFunc(...)
-            end))
-        end
+            end
+            return oldFunc(...)
+        end))
     end
+    function lib:Nullify(func,returnObject,otherChecks)
+        local oldFunc
+        oldFunc = hookfunction(func,newcclosure(function(...)
+            if not checkcaller() then
+                local Args = {...}
+                if otherChecks == nil then 
+                    return returnObject
+                elseif otherChecks(func,Args) then 
+                    return returnObject
+                end
+            end
+            return oldFunc(...)
+        end))
+    end
+    
     function lib:CopyValues()
         setclipboard(table.concat(lib.Args))
     end
