@@ -97,17 +97,16 @@ function api.Namecall:Nullify(index,returnObject,otherChecks) --index can be "Ki
     local OldNameCall = nil
 
     OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
-        local Args = {...}
-        local NamecallMethod = getnamecallmethod()
-    
-        if not checkcaller() and NamecallMethod == index then
-            if otherChecks == nil then 
-                return returnObject
-            elseif pcall(otherChecks,NamecallMethod,Args) then 
-                  return returnObject
+                local Args = {...}
+                local NamecallMethod = getnamecallmethod()
+            
+                if not checkcaller() and NamecallMethod == index then
+                    if otherChecks == nil then 
+                        return returnObject
+                    elseif pcall(otherChecks,NamecallMethod,Args) then 
+                        return returnObject
+                    end
                 end
-            end
-        end
     
         return OldNameCall(Self, ...)
     end)
