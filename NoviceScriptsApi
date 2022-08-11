@@ -179,7 +179,9 @@ api.Script = function(Object)
             end))
         end
     end
-
+    function lib:CopyValues()
+        setclipboard(table.concat(lib.Args))
+    end
     return lib
 end
 
