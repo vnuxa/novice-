@@ -263,19 +263,20 @@ api.files = function(filePath)
     local originalTable = {}
     for i,v in pairs(oldTable) do 
         if string.find(v,".") then
-             originalTable[i] = readfile(v)
+            local index = string.split(v,[[\]])
+             originalTable[string.gsub(index[#index],".lua","")] = readfile(v)
         end
     end
     for i,v in pairs(originalTable) do 
         if string.find(v,".") then
-            print("its a variable",i, readfile(i))
+            print("from original table",i,v)
         end
     end
     local fileList = setmetatable({},{
         __newindex = function(self,index,value)
             print(self,index,value)
-            print("trying to find",filePath..[[\]]..index..".lua")
-             writefile(filePath..[[\]]..index..".lua",tostring(value))
+            print("trying to find",filePath..[[/]]..index..".lua")
+             writefile(filePath..[[/]]..index..".lua",tostring(value))
            
             originalTable[index] = value
         end,
@@ -287,5 +288,9 @@ api.files = function(filePath)
 
     return fileList 
 end
-
+function api:EncodeJSON(dictionary)
+    local HttpService = game:GetService("HttpService")
+    local json = HttpService:JSONEncode(dictionary)
+    return json
+end
 return api 
