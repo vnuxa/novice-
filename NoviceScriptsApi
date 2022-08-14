@@ -303,25 +303,7 @@ function api.gc:FilterConstants(infoType,constantTable,callback)
     end
 end
 
-function api.env(localScript)
-    local lib = {}
-    lib.env = getsenv(localScript)
-    function lib:FilterType(infoType,callback) -- Sends the name and value
-        for i,v in pairs(lib.env) do 
-            if type(v) == infoType then 
-                callback(i,v)
-            end
-        end
-    end
-    function lib:FilterName(infoName,callback) -- Sends the name and value
-        for i,v in pairs(lib.env) do 
-            if i == infoName then 
-                callback(i,v)
-            end
-        end
-    end
-    return lib
-end
+
 
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
 --[[DOCUMENTATIOn
