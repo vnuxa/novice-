@@ -274,8 +274,11 @@ api.files = function(filePath)
             end
             originalTable[index] = value
         end,
-        __index = function(self,index)
+        __index = function(self,index,value)
             print("index is mentioned and not newindex",self,index,value)
+            if isfile(filePath.."/"..index..".lua") then
+                writefile(filePath.."/"..index..".lua",tostring(value))
+           end
             return originalTable[index]
         end
     })
