@@ -275,6 +275,7 @@ api.files = function(filePath)
             originalTable[index] = value
         end,
         __index = function(self,index)
+            print("index is mentioned and not newindex",self,index,value)
             return originalTable[index]
         end
     })
