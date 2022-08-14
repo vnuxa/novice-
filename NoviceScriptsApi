@@ -291,12 +291,7 @@ end
 function api:DecodeJSON(jsonString)
     local HttpService = game:GetService("HttpService")
     local data = HttpService:JSONDecode(jsonString)
-
-    if data.message == "success" then
-        return jsonString
-    end
-    warn("Failed to get JSON string")
-    return "Failed to get JSON string"
+    return data
 end
 function api:EncodeJSON(dictionary)
     local HttpService = game:GetService("HttpService")
