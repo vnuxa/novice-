@@ -40,6 +40,26 @@ function api.Remotes.RemoteOnFire(callback,remote) -- Sends args,caller
     end)
 
 end
+function api.Remotes:NullifyRemote(callback,remote,returnObject)
+    local oldinvoke, oldfire
+    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
+        if Self == remote then 
+             local succ,err = pcall(callback,Self,{...})
+             if err then 
+                error(err)
+            end
+        end
+       return returnObject
+    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
+        if Self == remote then 
+            local succ,err = pcall(callback,Self,{...})
+            if err then 
+                error(err)
+            end
+       end
+       return returnObject
+    end)
+end
 
 --Http spy
 api.HttpRequests = {}
@@ -231,6 +251,76 @@ api.Script = function(Object)
     
     function lib:CopyValues()
         setclipboard(table.concat(lib.Args))
+    end
+    return lib
+end
+
+api.reg = {}
+function api.reg:FilterType(infoType,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
+    local reg = getreg()
+    for i,v in pairs(reg) do 
+        if infoType == nil then 
+            callback(debug.getinfo(v),v)
+        else 
+            if type(v) == infoType then 
+                callback(debug.getinfo(v),v)
+            end
+        end
+    end
+end
+function api.reg:FilterName(infoName,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
+    local reg = getreg()
+    for i,v in pairs(reg) do 
+        local info = debug.getinfo(v)
+        if info then
+            if info.name == infoName then 
+                callback(debug.getinfo(v),v)
+            end
+        end
+    end
+end
+
+api.gc = {}
+
+function api.gc:FilterFunctions(constantTable,callback)
+    for i,v in pairs(getgc()) do
+        if type(v) == "function" and islclosure(v) and not checkcaller(v) then
+            local consts = getconstants(v)
+            if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
+                return v
+                break --remember to put a break to reduce unnecessary iterations
+            end
+        end
+    end
+end
+function api.gc:FilterConstants(infoType,constantTable,callback)
+    for i,v in pairs(getgc()) do
+        if type(v) == infoType and islclosure(v) and not checkcaller(v) then
+            local consts = getconstants(v)
+            if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
+                return v
+                break --remember to put a break to reduce unnecessary iterations
+            end
+        end
+    end
+end
+
+function api.env(localScript)
+    local lib = {}
+    lib.env = getsenv(localScript)
+    function lib:FilterType(infoType,callback) -- Sends the name and value
+        for i,v in pairs(lib.env) do 
+            if type(v) == infoType then 
+                callback(i,v)
+            end
+        end
+    end
+    function lib:FilterName(infoName,callback) -- Sends the name and value
+        for i,v in pairs(lib.env) do 
+            if i == infoName then 
+                callback(i,v)
+            end
+        end
     end
     return lib
 end
