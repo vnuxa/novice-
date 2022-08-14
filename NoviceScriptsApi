@@ -288,7 +288,7 @@ api.files = function(filePath)
 
     return fileList 
 end
-function api:EncodeJSON(jsonString)
+function api:DecodeJSON(jsonString)
     local HttpService = game:GetService("HttpService")
     local data = HttpService:JSONDecode(jsonString)
 
@@ -298,7 +298,7 @@ function api:EncodeJSON(jsonString)
     warn("Failed to get JSON string")
     return "Failed to get JSON string"
 end
-function api:DecodeJSON(dictionary)
+function api:EncodeJSON(dictionary)
     local HttpService = game:GetService("HttpService")
     local json = HttpService:JSONEncode(dictionary)
     return json
