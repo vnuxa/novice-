@@ -268,12 +268,13 @@ api.files = function(filePath)
     end
     for i,v in pairs(originalTable) do 
         if string.find(v,".") then
-            print("its a variable",i,v, readfile(v))
+            print("its a variable",i, readfile(i))
         end
     end
     local fileList = setmetatable({},{
         __newindex = function(self,index,value)
             print(self,index,value)
+            print("trying to find",filePath..[[\]]..index..".lua")
              writefile(filePath..[[\]]..index..".lua",tostring(value))
            
             originalTable[index] = value
