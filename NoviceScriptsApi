@@ -298,7 +298,6 @@ function api.gc:FilterConstants(infoType,constantTable,callback)
             local consts = getconstants(v)
             if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
                 return v
-                break --remember to put a break to reduce unnecessary iterations
             end
         end
     end
