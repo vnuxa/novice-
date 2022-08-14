@@ -235,5 +235,49 @@ api.Script = function(Object)
     return lib
 end
 
+api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
+--[[DOCUMENTATIOn
+local UI = lib.new("Console Library")
+local Page = UI.Page("Hi")
+local Page2 = UI.Page("Hello")
+Page.toggle("autofarm",true,print)
+Page.call("Hello",function()
+   print("called")
+end)
+Page2.str("some_str","ayo",function(str)
+   print("some str changed to "..str)
+end)
+Page2.int("some_int",0,100,50,function(int)
+   print("some int changed to "..int)
+end)
+Page2.list("some_list",{"Gamers","Bobux"},"Gamers",function(list)
+   print("some list changed to "..list)
+end)
+
+Page.show()
+]]
+api.files = function(filePath)
+    if isfolder(filePath) then 
+    else makefolder(filePath) end
+    local oldTable = listfiles(filePath)
+    local originalTable = {}
+    for i,v in pairs(oldTable) do 
+        if string.find(v,".") then
+             originalTable[i] = readfile(v)
+        end
+    end
+    local fileList = setmetatable({},{
+        __newindex = function(self,index,value)
+            if isfile(filePath.."/"..index..".lua") then
+                 writefile(filePath.."/"..index..".lua",tostring(value))
+            end
+            originalTable[index] = value
+        end,
+        __index = function(self,index)
+            return originalTable[index]
+        end
+    })
+    return fileList 
+end
 
 return api 
