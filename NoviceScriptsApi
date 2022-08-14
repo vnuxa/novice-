@@ -277,6 +277,7 @@ api.files = function(filePath)
             return originalTable[index]
         end
     })
+    
     return fileList 
 end
 
