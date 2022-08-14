@@ -269,9 +269,7 @@ api.files = function(filePath)
     local fileList = setmetatable({},{
         __newindex = function(self,index,value)
             print(self,index,value)
-            if isfile(filePath.."/"..index..".lua") then
-                 writefile(filePath.."/"..index..".lua",tostring(value))
-            end
+            writefile(filePath.."/"..index..".lua",tostring(value))
             originalTable[index] = value
         end
        
