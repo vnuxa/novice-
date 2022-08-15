@@ -322,19 +322,7 @@ function api.customConsole(consoleName)
     local mainLib = {}
     rconsolename(consoleName)
     mainLib.Commands = {
-        {
-            ["TableName"] = "Testing",
-            ["balls"] = {
-                ["args"] = {
-                    "user/string", --args
-                    "test/number",
-                    "on/boolean"
-                },
-                ["callback"] = function(str,num,bool) --sends tuple arguments
-                    print(str,num,bool)
-                end
-            }
-        }
+       
     }
 
     function mainLib:AddPage(pageName)
@@ -469,7 +457,20 @@ function api.customConsole(consoleName)
              command.callback()
         end
     end
-    getCommands()
+    table.insert(mainLib.Commands, 
+    {
+        ["TableName"] = "Console",
+        ["commands"] = {
+            ["args"] = nil,
+            ["callback"] = function() --sends tuple arguments
+                getCommands()
+            end
+        }
+    })
+    function mainLib:Initialize()
+        input()
+        getCommands()
+    end
     return mainLib
 end
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
