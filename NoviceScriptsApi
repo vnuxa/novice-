@@ -507,7 +507,7 @@ function api.addons:GetPlayer(name)
         end
     end    
 end
-api.addons:getObject = function(argsTable,name)
+function api.addons:getObject(argsTable,name)
     for i,v in pairs(argsTable) do
         if v.Name:lower():sub(1, #name) == name:lower()  then
             return v
