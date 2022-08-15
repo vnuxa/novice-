@@ -499,6 +499,39 @@ function api.customConsole(consoleName)
     end
     return mainLib
 end
+api.addons = {}
+function api.addons:GetPlayer(name)
+    for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+        if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
+            return v
+        end
+    end    
+end
+api.addons:getObject = function(argsTable,name)
+    for i,v in pairs(argsTable) do
+        if v.Name:lower():sub(1, #name) == name:lower()  then
+            return v
+        end
+    end 
+end
+function api.addons:getBoolean(stringBool)
+    local bool = false
+    if stringBool == "true" or stringBool == "on" then
+        bool = true
+    end
+    return bool
+end
+function api.addons:GetExtraArgs(args)
+    local extraArgs = string.split(args,",")
+    local hasExtra = false
+    if #extraArgs > 1 then
+        hasExtra = true
+    else 
+        extraArgs = nil
+    end
+    return extraArgs
+end
+
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
 --[[DOCUMENTATIOn
 local UI = lib.new("Console Library")
