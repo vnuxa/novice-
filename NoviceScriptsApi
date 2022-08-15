@@ -318,6 +318,114 @@ function api.functions:Nullify(func,returnObject,otherChecks)
     end)
 end
 
+function api.customConsole(consoleName)
+    local mainLib = {}
+    rconsolename(consoleName)
+    mainLib.Commands = {
+        {
+            ["TableName"] = "Testing",
+            ["balls"] = {
+                {
+                    "user/string" --args
+                    "test/number",
+                    "on/boolean"
+                },
+                ["callback"] = function(str,num,bool) --sends tuple arguments
+                    print(str,num,bool)
+                end
+            }
+        }
+    }
+
+    function mainLib:AddPage(pageName)
+        local lib = {}
+        table.insert(mainLib.Commands,
+        {
+            ["TableName"] = pageName,
+        })
+        lib.Table = mainLib.Commands[#mainLib.Commands]
+        
+        function lib:AddCommand(commandName,argsTable,callback)
+            local packedArgs = {
+                argsTable,
+                ["callback"] = callback
+            } -- USE TABLE.UNPACK BTW IF YOU WANT TO MAKE IT SO THAT IT WIL SEND MULTIPLEA RGS
+            table.insert(lib.Table,[commandName] = packedArgs)
+        end
+
+        return lib
+    end
+    local function awaitInput()
+        return rconsoleinput()
+    end
+    local function getCommands()
+        local argsToColor = {
+            ["string"] = "@@LIGHT_CYAN@@",
+            ["number"] = "@@YELLOW@@",
+            ["boolean"] = "@@LIGHT_GREEN@@",
+        }
+        local keywordColor = {
+            "[" = "@@LIGHT_GREEN@@",
+            "-" = "@@LIGHT_MAGENTA@@",
+            "]" = "@@LIGHT_GREEN@@",
+
+            "=" = "@@LIGHT_GRAY@@",
+        }
+        local function customPrint(text,newLine)
+            for i = 1,string.len(text) do 
+                local char = string.sub(text, i, i)
+                for index,value in pairs(keywordColor) do 
+                    if char == index then 
+                        rconsoleprint(value)
+                        break
+                    end
+                end
+                rconsoleprint(char)
+                rconsoleprint('@@WHITE@@')
+            end
+            if newLine then
+                rconsoleprint('\n')
+            end
+        end
+        local function bulkPrint(textTable,newline)
+            for index,value in pairs(textTable) do
+                for i,v in pairs(argsToColor) do 
+                    if string.find(value,i) then 
+                        rconsoleprint(v)
+                    end
+                end
+            
+                rconsoleprint(value.." ")
+                rconsoleprint('@@WHITE@@')
+            end
+            if newLine then
+                rconsoleprint('\n')
+            end
+        end
+        for index,commands in pairs(mainLib.Commands) do 
+            customPrint("[-]    "..index,true)
+            for name,values in pairs(commands) do 
+                rconsoleprint("	[-]	balls (")
+                --[[
+                local argsTypes = {}
+                local argsNames = {}
+                for i,v in pairs(values[1]) do 
+                    local splitArgs = string.split(v,"/")
+                    local arg = splitArgs[1]
+                    local argType = splitArgs[2]
+                    argsTypes[i] = argType
+                    argsNames[i] = arg
+                end
+                ]]
+                bulkPrint(values[1])
+                customPrint(")",true)
+                
+
+            end
+        end
+    end
+    return mainLib
+end
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
 --[[DOCUMENTATIOn
 local UI = lib.new("Console Library")
