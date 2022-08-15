@@ -302,8 +302,21 @@ function api.gc:FilterConstants(infoType,constantTable,callback)
         end
     end
 end
-
-
+api.functions = {}
+function api.functions:Nullify(func,returnObject,otherChecks)
+    local oldFunc
+    oldFunc = hookfunction(func,function(...)
+        if not checkcaller() then
+            local Args = {...}
+            if otherChecks == nil then 
+                return returnObject
+            elseif otherChecks(func,Args) then 
+                return returnObject
+            end
+        end
+        return oldFunc(...)
+    end)
+end
 
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
 --[[DOCUMENTATIOn
