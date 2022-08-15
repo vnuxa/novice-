@@ -325,8 +325,8 @@ function api.customConsole(consoleName)
         {
             ["TableName"] = "Testing",
             ["balls"] = {
-                {
-                    "user/string" --args
+                ["args"] = {
+                    "user/string", --args
                     "test/number",
                     "on/boolean"
                 },
@@ -347,16 +347,13 @@ function api.customConsole(consoleName)
         
         function lib:AddCommand(commandName,argsTable,callback)
             local packedArgs = {
-                argsTable,
+                ["args"] = argsTable,
                 ["callback"] = callback
             } -- USE TABLE.UNPACK BTW IF YOU WANT TO MAKE IT SO THAT IT WIL SEND MULTIPLEA RGS
             table.insert(lib.Table,[commandName] = packedArgs)
         end
 
         return lib
-    end
-    local function awaitInput()
-        return rconsoleinput()
     end
     local function getCommands()
         local argsToColor = {
@@ -365,11 +362,9 @@ function api.customConsole(consoleName)
             ["boolean"] = "@@LIGHT_GREEN@@",
         }
         local keywordColor = {
-            "[" = "@@LIGHT_GREEN@@",
-            "-" = "@@LIGHT_MAGENTA@@",
-            "]" = "@@LIGHT_GREEN@@",
-
-            "=" = "@@LIGHT_GRAY@@",
+            ["["] = "@@LIGHT_MAGENTA@@",
+            ["*"] = "@@LIGHT_GREEN@@",
+            ["]"] = "@@LIGHT_MAGENTA@@",
         }
         local function customPrint(text,newLine)
             for i = 1,string.len(text) do 
@@ -403,27 +398,70 @@ function api.customConsole(consoleName)
             end
         end
         for index,commands in pairs(mainLib.Commands) do 
-            customPrint("[-]    "..index,true)
+            customPrint("[=]:    "..commands["TableName"],true)
             for name,values in pairs(commands) do 
-                rconsoleprint("	[-]	balls (")
-                --[[
-                local argsTypes = {}
-                local argsNames = {}
-                for i,v in pairs(values[1]) do 
-                    local splitArgs = string.split(v,"/")
-                    local arg = splitArgs[1]
-                    local argType = splitArgs[2]
-                    argsTypes[i] = argType
-                    argsNames[i] = arg
+                if name ~= "TableName" then
+                    rconsoleprint("	["..commands["TableName"] .."]	"..name .." (")
+                    --[[
+                    local argsTypes = {}
+                    local argsNames = {}
+                    for i,v in pairs(values[1]) do 
+                        local splitArgs = string.split(v,"/")
+                        local arg = splitArgs[1]
+                        local argType = splitArgs[2]
+                        argsTypes[i] = argType
+                        argsNames[i] = arg
+                    end
+                    ]]
+                    bulkPrint(values.args)
+                    customPrint(")",true)
                 end
-                ]]
-                bulkPrint(values[1])
-                customPrint(")",true)
-                
 
             end
         end
     end
+    local input = nil 
+    input = function()
+        local text =  rconsoleinput()
+        local splitText = string.split(text," ")
+        local pageName = splitText[1]
+        local commandName = splitText[2]
+        local command = nil 
+
+        for i,v in pairs(mainLib.Commands) do
+            if string.lower(v["TableName"]) == string.lower(pageName) then 
+                command = v[commandName]
+                break 
+            end
+        end
+        if command then warn("Command name not found, got",commandName) return end
+        local args = {}
+        for i,v in pairs(splitText) do 
+            if i < 2 then else 
+                table.insert(args,v)
+            end
+        end
+        local argsTypes = {}
+        for i,v in pairs(command.args) do 
+            local splitArgs = string.split(v,"/")
+            local argType = splitArgs[2]
+            argsTypes[i] = argType
+        end
+        for i,v in pairs(args) do 
+            local argType = argsTypes[i]
+            if argType == "boolean" then 
+                local status = false 
+                if v == "on" or v == "true" then 
+                    status = true 
+                end
+                v = status 
+            elseif argType == "number" then 
+                v = tonumber(v)
+            end
+        end
+        command.callback(table.unpack(args))
+    end
+    getCommands()
     return mainLib
 end
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
