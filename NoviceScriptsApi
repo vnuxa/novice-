@@ -458,9 +458,9 @@ function api.customConsole(consoleName)
                     if v == "on" or v == "true" then 
                         status = true 
                     end
-                    v = status 
+                    args[i] = status 
                 elseif argType == "number" then 
-                    v = tonumber(v)
+                    args[i] = tonumber(v)
                 end
             end
             print("ok so",table.unpack(args))
