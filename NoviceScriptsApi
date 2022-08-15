@@ -469,8 +469,8 @@ function api.customConsole(consoleName)
         }
     })
     function mainLib:Initialize()
-        input()
         getCommands()
+        input()
     end
     return mainLib
 end
