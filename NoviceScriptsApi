@@ -426,7 +426,7 @@ function api.customConsole(consoleName)
                 break 
             end
         end
-        if command then warn("Command name not found, got",commandName)  input() return end
+        if command then else  warn("Command name not found, got",commandName)  input() return end
         local args = {}
         for i,v in pairs(splitText) do 
             if i < 2 then else 
