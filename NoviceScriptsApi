@@ -65,24 +65,26 @@ end
 api.HttpRequests = {}
 function api.HttpRequests.OnRequest(callback) -- Sends url, path
     local lol
-    lol = hookfunc(game:HttpGet(function(path, url, ...)
+    local old;
+    old = hookfunction(game.HttpGet, function(path, url, ...)
         local succ,err = pcall(callback,tostring(url),path)
         if err then 
             error(err)
         end
+        return old(a,b,...) 
+    end)
 
-        return lol(path, url, ...)
-    end))
+
 end
 function api.HttpRequests:Nullify(otherChecks,returnObject)
     local lol
-    lol = hookfunc(game:HttpGet(function(path, url, ...)
+    lol = hookfunc(game.HttpGet,function(path, url, ...)
         local succ,err = pcall(callback,tostring(url),path)
         if err then 
             error(err)
         end
         return lol(path, url, ...)
-    end))
+    end)
 end
 --Index spy
 api.Index = {}
