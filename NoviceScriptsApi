@@ -405,7 +405,7 @@ function api.customConsole(consoleName)
                         bulkPrint(values.args)
                         customPrint(")",true)
                     else 
-                        rconsoleprint("	["..commands["TableName"] .."]	"..name .." ")
+                        rconsoleprint("	["..commands["TableName"] .."]	"..name .."\n")
                     end
                 end
 
@@ -429,7 +429,7 @@ function api.customConsole(consoleName)
         if command then else  warn("Command name not found, got",commandName)  input() return end
         local args = {}
         for i,v in pairs(splitText) do 
-            if i < 2 then else 
+            if i > 2 then else 
                 table.insert(args,v)
             end
         end
@@ -452,9 +452,17 @@ function api.customConsole(consoleName)
                     v = tonumber(v)
                 end
             end
-            command.callback(table.unpack(args))
+            print("ok so",table.unpack(args))
+            local err,succ = pcall(command["callback"],table.unpack(args))
+            if err then 
+                error(err)
+            end
         else 
-             command.callback()
+            print("no args")
+            local err,succ = pcall(command["callback"])
+            if err then 
+                error(err)
+            end
         end
         input()
     end
@@ -466,7 +474,13 @@ function api.customConsole(consoleName)
             ["callback"] = function() --sends tuple arguments
                 getCommands()
             end
-        }
+        }, 
+        ["clear"] = {
+            ["args"] = nil,
+            ["callback"] = function() --sends tuple arguments
+                rconsoleclear()
+            end
+        },
     })
     function mainLib:Initialize()
         getCommands()
