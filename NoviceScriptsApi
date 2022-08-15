@@ -422,14 +422,25 @@ function api.customConsole(consoleName)
 
         for i,v in pairs(mainLib.Commands) do
             if string.lower(v["TableName"]) == string.lower(pageName) then 
-                command = v[commandName]
-                break 
+                for i2,v2 in pairs(v) do 
+                    print(i2,"that was i2")
+                    if string.lower(commandName) == string.lower(i2) then 
+                        print("v2 is",v2)
+                        command = v2
+                        break 
+                    end
+                end
+                if command ~= nil then 
+                     break 
+                end
             end
         end
         if command then else  warn("Command name not found, got",commandName)  input() return end
         local args = {}
         for i,v in pairs(splitText) do 
-            if i > 2 then else 
+            if i < 3 then
+            print(i,"is lower than 2",v) else
+                print(i,"is higher than 2",v) 
                 table.insert(args,v)
             end
         end
@@ -455,13 +466,13 @@ function api.customConsole(consoleName)
             print("ok so",table.unpack(args))
             local err,succ = pcall(command["callback"],table.unpack(args))
             if err then 
-                error(err)
+                warn(err)
             end
         else 
             print("no args")
             local err,succ = pcall(command["callback"])
             if err then 
-                error(err)
+                warn(err)
             end
         end
         input()
