@@ -426,7 +426,7 @@ function api.customConsole(consoleName)
                 break 
             end
         end
-        if command then warn("Command name not found, got",commandName) return end
+        if command then warn("Command name not found, got",commandName)  input() return end
         local args = {}
         for i,v in pairs(splitText) do 
             if i < 2 then else 
@@ -456,6 +456,7 @@ function api.customConsole(consoleName)
         else 
              command.callback()
         end
+        input()
     end
     table.insert(mainLib.Commands, 
     {
