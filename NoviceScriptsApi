@@ -350,7 +350,7 @@ function api.customConsole(consoleName)
                 ["args"] = argsTable,
                 ["callback"] = callback
             } -- USE TABLE.UNPACK BTW IF YOU WANT TO MAKE IT SO THAT IT WIL SEND MULTIPLEA RGS
-            table.insert(lib.Table,[commandName] = packedArgs)
+            lib.Table[commandName] = packedArgs
         end
 
         return lib
