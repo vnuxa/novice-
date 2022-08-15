@@ -1,0 +1,293 @@
+-- // Netless settings \\ --
+--[[
+    HATS
+    https://www.roblox.com/catalog/63690008/Pal-Hair
+    https://www.roblox.com/catalog/62234425/Brown-Hair
+    https://www.roblox.com/catalog/376524487/Blonde-Spiked-Hair
+    https://www.roblox.com/catalog/376548738/Brown-Charmer-Hair
+    https://www.roblox.com/catalog/4819740796/Robox
+    https://www.roblox.com/catalog/48474313/Red-Roblox-Cap
+    https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair
+    https://www.roblox.com/catalog/451220849/Lavender-Updo
+    https://www.roblox.com/catalog/62724852/Chestnut-Bun
+
+    KEYBINDS
+    G
+    V
+    X
+    F
+    B
+    MODES
+    normal
+    stand
+]]
+local NetVelocity = Vector3.new(0, 75, 0)
+---------------------------
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+
+local console = api.customConsole("NOVICE   |   CONDO STAND")
+
+
+
+local RunService, UIS = game:GetService("RunService"), game:GetService("UserInputService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Character, Mouse = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait(), LocalPlayer:GetMouse()
+local Sine, CharAtt, Connections = 0, {}, {}
+local Mode, Anim, PenisVisible = "normal", "Idle", false
+local CustomAnim, Hidden = false, false
+
+local switching = false
+
+local Char = {
+    Head = Character:FindFirstChild("MeshPartAccessory"),
+    RightArm = Character:FindFirstChild("Pink Hair"),
+    LeftArm = Character:FindFirstChild("Hat1"),
+    RightLeg = Character:FindFirstChild("Pal Hair"),
+    LeftLeg = Character:FindFirstChild("LavanderHair"),
+    Torso1 = Character:FindFirstChild("Robloxclassicred"),
+    Torso2 = Character:FindFirstChild("Kate Hair"),
+    Penis1 = Character:FindFirstChild("MessyHair"),
+    Penis2 = Character:FindFirstChild("BrownCharmerHair")
+}
+local FakeTorso = Instance.new("Part"); FakeTorso.Name = "FakeTorso"; FakeTorso.Size = Vector3.new(2, 2, 1)
+FakeTorso.CFrame, FakeTorso.CanCollide, FakeTorso.Anchored = Character.HumanoidRootPart.CFrame, false, true
+FakeTorso.Transparency = 0.9; FakeTorso.Parent = game:GetService("Workspace")
+
+local function AddConnection(Connection, Function)
+    local Con = Connection:Connect(Function)
+    table.insert(Connections, Con)
+    return Con
+end
+local function Align(P0, P1, Position, Rotate)
+    local AlignPosition = Instance.new("AlignPosition", P0)
+    local AlignOrientation = Instance.new("AlignOrientation", P0)
+    local Attachment1, Attachment2 = Instance.new("Attachment", P0), Instance.new("Attachment", P1)
+
+    AlignPosition.MaxForce, AlignPosition.MaxVelocity, AlignPosition.Responsiveness, AlignPosition.ApplyAtCenterOfMass, AlignPosition.RigidityEnabled = 1000000, math.huge, 200, true, false
+    AlignOrientation.MaxTorque, AlignOrientation.MaxAngularVelocity, AlignOrientation.Responsiveness, AlignOrientation.ReactionTorqueEnabled, AlignOrientation.RigidityEnabled = 1000000, math.huge, 200, true, false
+
+    AlignPosition.Attachment0, AlignPosition.Attachment1 = Attachment1, Attachment2 -- Shortcut
+    AlignOrientation.Attachment0, AlignOrientation.Attachment1 = Attachment1, Attachment2 -- Shortcut
+
+    Attachment1.Position = Position or Vector3.new(0,0,0)
+    Attachment1.Rotation = Rotate or Vector3.new(0,0,0)
+    return Attachment2, Attachment1
+end
+local function Clerp(Pos, newPos, Time)
+    return Pos:lerp(newPos, math.clamp(Time, 0, 1))
+end
+
+for Index, Part in pairs(Char) do
+    if not Part:FindFirstChild("Handle") then continue end
+    local Handle = Part.Handle
+    local Mesh = Index ~= "Head" and Handle:FindFirstChildOfClass("SpecialMesh")
+    if Mesh then Mesh:Destroy() end
+
+    Handle:BreakJoints()
+    CharAtt[Index] = Align(Part.Handle, FakeTorso, nil, Index ~= "Head" and Vector3.new(90, 0, 0) or nil)
+end
+
+AddConnection(RunService.Heartbeat, function(deltaTime)
+    settings().Physics.AllowSleep = false
+    settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Disabled
+
+    for Index, Part in pairs(Char) do
+        local Handle = Part:FindFirstChild("Handle")
+        if not Handle then
+            Char[Index] = nil
+            print("Lost part: " .. Index)
+            return
+        end
+        task.spawn(function()
+            Handle.Velocity = NetVelocity
+        end)
+    end
+end)
+
+AddConnection(RunService.RenderStepped, function(deltaTime)
+    if switching then return end
+    -- // Movement \\ --
+    if Mode == "normal" then
+        local MoveDirection, RVector, KeysPressed = Vector3.new(0, 0, 0), game:GetService("Workspace").CurrentCamera.CFrame.RightVector, 0
+        if not UIS:GetFocusedTextBox() then
+            if UIS:IsKeyDown(Enum.KeyCode.W) then MoveDirection += Vector3.new(0, 0, 0.2665); KeysPressed += 1 end
+            if UIS:IsKeyDown(Enum.KeyCode.A) then MoveDirection += Vector3.new(-0.2665, 0, 0); KeysPressed += 1 end
+            if UIS:IsKeyDown(Enum.KeyCode.S) then MoveDirection += Vector3.new(0, 0, -0.2665); KeysPressed += 1 end
+            if UIS:IsKeyDown(Enum.KeyCode.D) then MoveDirection += Vector3.new(0.2665, 0, 0); KeysPressed += 1 end
+            MoveDirection = KeysPressed >= 2 and MoveDirection/1.4 or MoveDirection
+        end
+
+        local MoveVector = (-(RVector:Cross(Vector3.new(0, 1, 0))) * MoveDirection.Z) + (RVector * MoveDirection.X)
+        local Angle
+
+        if not CustomAnim then
+            Anim = MoveDirection ~= Vector3.new(0, 0, 0) and "Walking" or "Idle"
+        end
+
+        local ShiftLockEnabled = (UIS.MouseBehavior == Enum.MouseBehavior.LockCenter)
+        if ShiftLockEnabled then
+            local Pitch, Yaw, Roll = game:GetService("Workspace").CurrentCamera.CFrame:ToOrientation()
+            Angle = CFrame.Angles(0, Yaw, 0)
+        end
+        if Angle then
+            FakeTorso.CFrame = CFrame.new(FakeTorso.CFrame.Position + MoveVector) * Angle
+        else
+            local rootPos = FakeTorso.CFrame.Position + MoveVector
+            if MoveDirection.Magnitude > 0.25 then
+                FakeTorso.CFrame = CFrame.new(rootPos, (rootPos + MoveVector))
+            end
+        end
+    end
+    ---------------------
+
+    -- // Animations \\ --
+    local Y = 2 + math.sin(Sine/25)/2
+
+    if Mode == "stand" then
+        if not Hidden then
+            if Anim == "Fuck" then
+                FakeTorso.CFrame = Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(0, 0, 3.5 - math.sin(Sine/5)*4))
+                Y = 0
+            else
+                FakeTorso.CFrame = Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(2, 0, 1))
+            end
+        else
+            FakeTorso.CFrame = Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(4, -25, 1))
+        end
+    end
+
+    if Anim == "Idle" or Anim == "Fuck" then
+        CharAtt.Head.Position = Clerp(CharAtt.Head.Position, Vector3.new(0, Y + 1.9, 0), 1/15)
+
+        CharAtt.Torso1.Position = Clerp(CharAtt.Torso1.Position, Vector3.new(0.5, Y, 0), 1/15)
+        CharAtt.Torso2.Position = Clerp(CharAtt.Torso2.Position, Vector3.new(-0.5, Y, 0), 1/15)
+
+        CharAtt.RightArm.Position = Clerp(CharAtt.RightArm.Position, Vector3.new(1.5, Y+ 1, 0), 1/15); CharAtt.RightArm.Rotation = Clerp(CharAtt.RightArm.Rotation, Vector3.new(0, 0, 0), 1/15)
+        CharAtt.LeftArm.Position = Clerp(CharAtt.LeftArm.Position, Vector3.new(-1.5, Y, 0), 1/15); CharAtt.LeftArm.Rotation = Clerp(CharAtt.LeftArm.Rotation, Vector3.new(0, 0, -20), 1/15)
+
+        CharAtt.RightLeg.Position = Clerp(CharAtt.RightLeg.Position, Vector3.new(0.5, Y-2, 0), 1/15)
+        CharAtt.LeftLeg.Position = Clerp(CharAtt.LeftLeg.Position, Vector3.new(-0.5, Y-2, 0), 1/15)
+
+        if PenisVisible then
+            CharAtt.Penis1.Position = Clerp(CharAtt.Penis1.Position, Vector3.new(0, Y-1, -1.5), 1/15); CharAtt.Penis1.Rotation = Vector3.new(90, 0, 0)
+            CharAtt.Penis2.Position = Clerp(CharAtt.Penis2.Position, Vector3.new(0, Y-1, -3), 1/15) CharAtt.Penis2.Rotation = Vector3.new(90, 0, 0)
+        else
+            CharAtt.Penis1.Position = Clerp(CharAtt.Penis1.Position, Vector3.new(0, -25, -1.5), 1/15); CharAtt.Penis1.Rotation = Vector3.new(90, 0, 0)
+            CharAtt.Penis2.Position = Clerp(CharAtt.Penis2.Position, Vector3.new(0, -25, -3), 1/15) CharAtt.Penis2.Rotation = Vector3.new(90, 0, 0)
+        end
+    elseif Anim == "Walking" then
+        CharAtt.RightArm.Position = Clerp(CharAtt.RightArm.Position, Vector3.new(1.5, Y + 0.4, 0.2), 1/15); CharAtt.RightArm.Rotation = Clerp(CharAtt.RightArm.Rotation, Vector3.new(-75, 0, 20), 1/15)
+        CharAtt.LeftArm.Position = Clerp(CharAtt.LeftArm.Position, Vector3.new(-1.5, Y + 0.4, 0.2), 1/15); CharAtt.LeftArm.Rotation = Clerp(CharAtt.LeftArm.Rotation, Vector3.new(-75, 0, -20), 1/15)
+
+        CharAtt.Head.Position = Clerp(CharAtt.Head.Position, Vector3.new(0, Y + 1.9, 0), 1/15)
+
+        CharAtt.Torso1.Position = Clerp(CharAtt.Torso1.Position, Vector3.new(0.5, Y, 0), 1/15)
+        CharAtt.Torso2.Position = Clerp(CharAtt.Torso2.Position, Vector3.new(-0.5, Y, 0), 1/15)
+
+        CharAtt.RightLeg.Position = Clerp(CharAtt.RightLeg.Position, Vector3.new(0.5, Y-2, 0), 1/15)
+        CharAtt.LeftLeg.Position = Clerp(CharAtt.LeftLeg.Position, Vector3.new(-0.5, Y-2, 0), 1/15)
+
+        if PenisVisible then
+            CharAtt.Penis1.Position = Clerp(CharAtt.Penis1.Position, Vector3.new(0, Y-1, -1.5), 1/15); CharAtt.Penis1.Rotation = Vector3.new(90, 0, 0)
+            CharAtt.Penis2.Position = Clerp(CharAtt.Penis2.Position, Vector3.new(0, Y-1, -3), 1/15) CharAtt.Penis2.Rotation = Vector3.new(90, 0, 0)
+        else
+            CharAtt.Penis1.Position = Clerp(CharAtt.Penis1.Position, Vector3.new(0, -25, -1.5), 1); CharAtt.Penis1.Rotation = Vector3.new(90, 0, 0)
+            CharAtt.Penis2.Position = Clerp(CharAtt.Penis2.Position, Vector3.new(0, -25, -3), 1) CharAtt.Penis2.Rotation = Vector3.new(90, 0, 0)
+        end
+    elseif Anim == "Fap" then
+        CharAtt.Head.Position = Clerp(CharAtt.Head.Position, Vector3.new(0, Y + 1.9, 0), 1/15)
+
+        CharAtt.Torso1.Position = Clerp(CharAtt.Torso1.Position, Vector3.new(0.5, Y, 0), 1/15)
+        CharAtt.Torso2.Position = Clerp(CharAtt.Torso2.Position, Vector3.new(-0.5, Y, 0), 1/15)
+
+        CharAtt.RightArm.Position = Clerp(CharAtt.RightArm.Position, Vector3.new(1.3, Y-0.2, Sine % 80 > 15 and -3 or -1), 1/15); CharAtt.RightArm.Rotation = Clerp(CharAtt.RightArm.Rotation, Vector3.new(30, 0, -45), 1/15)
+        CharAtt.LeftArm.Position = Clerp(CharAtt.LeftArm.Position, Vector3.new(-1.5, Y, 0), 1/15); CharAtt.LeftArm.Rotation = Clerp(CharAtt.LeftArm.Rotation, Vector3.new(0, 0, -20), 1/15)
+
+        CharAtt.RightLeg.Position = Clerp(CharAtt.RightLeg.Position, Vector3.new(0.5, Y-2, 0), 1/15)
+        CharAtt.LeftLeg.Position = Clerp(CharAtt.LeftLeg.Position, Vector3.new(-0.5, Y-2, 0), 1/15)
+
+        CharAtt.Penis1.Position = Clerp(CharAtt.Penis1.Position, Vector3.new(0, Y-1, -1.5), 1/15); CharAtt.Penis1.Rotation = Vector3.new(90, 0, 0)
+        CharAtt.Penis2.Position = Clerp(CharAtt.Penis2.Position, Vector3.new(0, Y-1, -3), 1/15) CharAtt.Penis2.Rotation = Vector3.new(90, 0, 0)
+    end
+    -----------------------
+
+    Sine += 1
+end)
+
+task.wait(1)
+LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100000, 0)
+task.wait(0.1)
+LocalPlayer.Character.HumanoidRootPart.Anchored = true
+task.wait(1)
+game:GetService("Workspace").CurrentCamera.CameraSubject = FakeTorso
+
+Character.Humanoid.BreakJointsOnDeath = false
+AddConnection(UIS.InputBegan, function(Key)
+    if Key.KeyCode == Enum.KeyCode.F then
+        PenisVisible = not PenisVisible
+    elseif Key.KeyCode == Enum.KeyCode.G and PenisVisible then
+        CustomAnim = not CustomAnim
+        Anim = CustomAnim and "Fap" or "Idle"
+    elseif Key.KeyCode == Enum.KeyCode.V and PenisVisible then
+        CustomAnim = not CustomAnim
+        Anim = CustomAnim and "Fuck" or "Idle"
+    elseif Key.KeyCode == Enum.KeyCode.X then
+        Hidden = not Hidden
+    elseif Key.KeyCode == Enum.KeyCode.B then 
+        CustomAnim = not CustomAnim
+        Anim = CustomAnim and "Fuck" or "Idle"
+    end
+end)
+
+local page = console:AddPage("Main")
+
+page:AddCommand("mode",{"mode/string"},function(modeText)
+   
+    if modeText:lower() == "stand" and Mode ~= "stand" then
+        switching = true
+            LocalPlayer.Character.HumanoidRootPart.Anchored = false
+            LocalPlayer.Character.HumanoidRootPart.CFrame = FakeTorso.CFrame
+            LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+            task.wait(0.1)
+            game:GetService("Workspace").CurrentCamera.CameraSubject = Character
+
+            Mode, switching = "stand", false
+    elseif modeText:lower() == "normal" and Mode ~= "normal" then
+        switching = true
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100000, 0)
+            task.wait(0.1)
+            LocalPlayer.Character.HumanoidRootPart.Anchored = true
+            task.wait(1)
+            game:GetService("Workspace").CurrentCamera.CameraSubject = FakeTorso
+            
+            Mode, switching = "normal", false
+    end
+end)
+page:AddCommand("follow",{"player/string"},function(targetName)
+    local plr = api.addons:GetPlayer(targetName)
+    if plr then 
+        print("found plr ",plr.Name)
+        Character = plr.Character
+    end
+end)
+
+AddConnection(Character.Humanoid.Died, function()
+    for _, Connection in pairs(Connections) do
+        Connection:Disconnect()
+    end
+
+    Character.HumanoidRootPart.CFrame = FakeTorso.CFrame
+    Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+    Character.HumanoidRootPart.Anchored = false
+    Character.Humanoid:Destroy()
+
+    task.wait(0.3)
+    FakeTorso:Destroy()
+    for _, Part in pairs(CharAtt) do
+        Part:Destroy()
+    end
+    for _, Part in pairs(Char) do
+        Part.Handle.Velocity = Vector3.new(math.random(-30, 30), math.random(50, 75), math.random(-30, 30))
+    end
+end)
+console:Initialize()
