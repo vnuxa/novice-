@@ -533,7 +533,28 @@ function api.addons:GetExtraArgs(args)
     end
     return extraArgs
 end
-
+function api.addons:DisplayHats(hatTable)
+   local wearingId = {}
+   for i,v in pairs(game.Players:GetCharacterAppearanceInfoAsync(game.Players.LocalPlayer.UserId).assets) do 
+        if v.id then 
+            table.insert(wearingId,v.id)
+        end
+   end
+   local missingHats = {table.unpack(hatTable)}
+   for index,hatId in pairs(hatTable) do    
+        for _,assetId in pairs(wearingId) do 
+            print("trying to match")
+            if hatId == assetId then 
+                table.remove(hatTable,table.find(hatTable,hatId))
+            end
+        end
+   end
+   if #hatTable > 0 then
+        local humanoidDescription = Instance.new("HumanoidDescription")
+        humanoidDescription.HatAccessory = table.concat(hatTable,",")
+        GuiService:InspectPlayerFromHumanoidDescription(humanoidDescription, "To get the script to work, you need these hats")
+   end
+end
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
 --[[DOCUMENTATIOn
 local UI = lib.new("Console Library")
