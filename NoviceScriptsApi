@@ -550,9 +550,10 @@ function api.addons:DisplayHats(hatTable)
         end
    end
    if #hatTable > 0 then
+    local GuiService = game:GetService("GuiService")
         local humanoidDescription = Instance.new("HumanoidDescription")
         humanoidDescription.HatAccessory = table.concat(hatTable,",")
-        GuiService:InspectPlayerFromHumanoidDescription(humanoidDescription, "To get the script to work, you need these hats")
+        GuiService:InspectPlayerFromHumanoidDescription(humanoidDescription, "To get the script to work, you need these hats on your")
    end
 end
 api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
