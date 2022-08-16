@@ -550,6 +550,7 @@ function api.addons:DisplayHats(hatTable)
                 end
             end
         end
+        hatTable = newHatTable
    end
    local missingHats = {table.unpack(hatTable)}
    for index,hatId in pairs(hatTable) do    
