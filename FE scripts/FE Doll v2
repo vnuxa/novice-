@@ -1,0 +1,18 @@
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+
+api.addons:DisplayHats({
+48474294,
+48474313,
+62234425,
+63690008,
+376524487,
+376548738,
+451220849,
+1772336109 ,
+3822880197,
+4637156063
+})
+
+
+loadstring(game:HttpGet("https://textbin.net/raw/mrhsdsxbdr"))();
+
