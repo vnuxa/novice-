@@ -540,6 +540,17 @@ function api.addons:DisplayHats(hatTable)
             table.insert(wearingId,v.id)
         end
    end
+   local newHatTable = {}
+   if typeof(hatTable) == "string" then 
+        local splitString = string.split(hatTable,"/")
+        for i,v in pairs(splitString) do 
+            if i > 1 then 
+                if splitString[i-1] == "catalog" and tonumber(v) then 
+                    table.insert(newHatTable,tonumber(v))
+                end
+            end
+        end
+   end
    local missingHats = {table.unpack(hatTable)}
    for index,hatId in pairs(hatTable) do    
         for _,assetId in pairs(wearingId) do 

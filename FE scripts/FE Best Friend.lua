@@ -21,6 +21,18 @@
 -- K -> try itself 
  
  
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+    -- https://www.roblox.com/catalog/376527115/Jade-Necklace-with-Shell-Pendant
+-- https://www.roblox.com/catalog/1103003368/Orange-Beanie-with-Black-Hair
+-- https://www.roblox.com/catalog/3992084515/International-Fedora-Vietnam
+-- https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair
+-- https://www.roblox.com/catalog/451220849/Lavender-Updo
+-- https://www.roblox.com/catalog/62724852/Chestnut-Bun
+-- https://www.roblox.com/catalog/62234425/Brown-Hair
+-- https://www.roblox.com/catalog/63690008/Pal-Hair
+
+]])
  
  
 --this script to make your hats turn into blocks

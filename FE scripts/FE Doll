@@ -18,7 +18,8 @@
 SCRIPTS  > BANG
 WITHIHN THE GUI
 ]]
-
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats({1103003368,376527500,4246228452,3992084515,48474294,451220849,376526888,62234425,63690008})
 
 loadstring(game:HttpGet(("https://pastebin.com/raw/8hueixfc"),true))()
 
