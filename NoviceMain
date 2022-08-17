@@ -4932,7 +4932,57 @@ noviceModule = function()
 			
 			makeEsp(v.Character)
 		end
+		table.insert(savedThings.nameEspConnection, v.PlayerAdded:Connect(function(plr)
+			table.insert(savedThings.nameEspConnection, plr.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+		end))
 	end
+	savedThings.locEspConnection = {}
+	savedThings.LocationESP = function()
+	
+
+		
+
+		local makeEsp = function(char)
+            if char:FindFirstChild("Head") then 
+                if char:FindFirstChild("Head"):FindFirstChild("NameEsp") then 
+                else 
+                    
+                    local bill = Instance.new('BillboardGui')
+                    bill.Parent = char.Head
+                    bill.Name = 'LocEsp'
+                    bill.Size=UDim2.new(1,200,1,30)
+                    bill.Adornee=char.Head
+                    bill.AlwaysOnTop=true
+					bill.StudsOffsetWorldSpace = Vector3.new(0,2,0)
+                    local name = Instance.new('TextLabel',bill)
+                    name.TextWrapped=true
+                    name.Size = UDim2.new(1,0,1,0)
+                    name.TextYAlignment='Top'
+                    name.TextColor3=Color3.new(1,1,1)
+                    name.BackgroundTransparency=1
+                    name.FontSize = Enum.FontSize.Size18
+                    name.Font = Enum.Font.Gotham
+					local country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players:GetPlayerFromCharacter(char))
+                    name.Text = country
+                end
+            end 
+		end
+		for i,v in pairs(game.Players:GetPlayers()) do
+			table.insert(savedThings.locEspConnection, v.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+			
+			makeEsp(v.Character)
+		end
+		table.insert(savedThings.locEspConnection, v.PlayerAdded:Connect(function(plr)
+			table.insert(savedThings.locEspConnection, plr.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+		end))
+	end
+
 	lui.consoleGlobals = {}
 	function consoleAddons.GetPlayer(name)
 		for i,v in pairs(game:GetService("Players"):GetPlayers()) do
@@ -5153,6 +5203,26 @@ noviceModule = function()
 						v = nil
 					end
 					savedThings.nameEspConnection = {}
+				end
+			end,
+		},
+		["regions"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				if bool then
+					savedThings.LocationESP()
+				else 
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if v.Character.Head:FindFirstChild("LocEsp") then
+							v.Character.Head:FindFirstChild("LocEsp"):Destroy()
+						end
+					end
+					for i,v in pairs(savedThings.locEspConnection) do
+						v:Disconnect()
+						v = nil
+					end
+					savedThings.locEspConnection = {}
 				end
 			end,
 		},
