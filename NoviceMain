@@ -5481,6 +5481,131 @@ noviceModule = function()
 
 			end,
 		},
+		["smallify"] = {
+			callback = function()
+				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				api.MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0),
+				 Text = "Novice+",
+				  Description = [[Are you aware that you have set all of your avatar settings to the lowest, and the game is R15?
+					]], 
+					MessageBoxIcon = "Warn", MessageBoxButtons = "YesNo", Result = function(res)
+					if (res == "Yes") then
+						local LocalPlayer = game:GetService("Players").LocalPlayer
+						local Character = LocalPlayer.Character
+						local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+						local function rm()
+						for i,v in pairs(Character:GetDescendants()) do
+						if v:IsA("BasePart") then
+						if v.Name ~= "Head" then
+						for i,cav in pairs(v:GetDescendants()) do
+						if cav:IsA("Attachment") then
+						if cav:FindFirstChild("OriginalPosition") then
+						cav.OriginalPosition:Destroy()
+						end
+						end
+						end
+						v:FindFirstChild("OriginalSize"):Destroy()
+						if v:FindFirstChild("AvatarPartScaleType") then
+						v:FindFirstChild("AvatarPartScaleType"):Destroy()
+						end
+						end
+						end
+						end
+						end
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyTypeScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("HeadScale"):Destroy()
+						wait(1)
+					elseif (res == "No") then
+						MessageBox.Show({MessageBoxButtons = "OK", Description = "Please continue as ordered", Text = "Novice+"})
+					end
+				 end})
+			end
+		},
+		["giant"] = {
+			callback = function()
+				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				api.MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0),
+				 Text = "Novice+",
+				  Description = [[Are you aware that you have set your avatar settings to the highest except for proportions, and the game is R15?
+					]], 
+					MessageBoxIcon = "Warn", MessageBoxButtons = "YesNo", Result = function(res)
+					if (res == "Yes") then
+					local LocalPlayer = game:GetService("Players").LocalPlayer
+					local Character = LocalPlayer.Character
+					local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+					function rm()
+						for i,v in pairs(Character:GetDescendants()) do
+							if v:IsA("BasePart") then
+								if v.Name == "Handle" or v.Name == "Head" then
+									if Character.Head:FindFirstChild("OriginalSize") then
+										Character.Head.OriginalSize:Destroy()
+									end
+								else
+									for i,cav in pairs(v:GetDescendants()) do
+										if cav:IsA("Attachment") then
+											if cav:FindFirstChild("OriginalPosition") then
+												cav.OriginalPosition:Destroy()  
+											end
+										end
+									end
+									v:FindFirstChild("OriginalSize"):Destroy()
+									if v:FindFirstChild("AvatarPartScaleType") then
+										v:FindFirstChild("AvatarPartScaleType"):Destroy()
+									end
+								end
+							end
+						end
+					end
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("HeadScale"):Destroy()
+					wait(1)
+					elseif (res == "No") then
+						MessageBox.Show({MessageBoxButtons = "OK", Description = "Please continue to do as ordered", Text = "Novice+"})
+					end
+				 end})
+			end
+		},
 		["orbit"] = {
 			["status"] = {true,false},
 			["target"] = {"string"},
