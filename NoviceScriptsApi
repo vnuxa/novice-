@@ -623,7 +623,7 @@ api.files = function(filePath)
 
     return fileList 
 end
-local api.MessageBox =  loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/NotificationGUI/main/source.lua"))()
+api.MessageBox =  loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/NotificationGUI/main/source.lua"))()
 
 
 --[[
