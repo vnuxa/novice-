@@ -5488,7 +5488,7 @@ noviceModule = function()
 				 Text = "Novice+",
 				  Description = [[Are you aware that you have set all of your avatar settings to the lowest, and the game is R15?
 					]], 
-					MessageBoxIcon = "Warn", MessageBoxButtons = "YesNo", Result = function(res)
+					MessageBoxIcon = "Warning", MessageBoxButtons = "YesNo", Result = function(res)
 					if (res == "Yes") then
 						local LocalPlayer = game:GetService("Players").LocalPlayer
 						local Character = LocalPlayer.Character
@@ -5546,7 +5546,7 @@ noviceModule = function()
 				 Text = "Novice+",
 				  Description = [[Are you aware that you have set your avatar settings to the highest except for proportions, and the game is R15?
 					]], 
-					MessageBoxIcon = "Warn", MessageBoxButtons = "YesNo", Result = function(res)
+					MessageBoxIcon = "Warning", MessageBoxButtons = "YesNo", Result = function(res)
 					if (res == "Yes") then
 					local LocalPlayer = game:GetService("Players").LocalPlayer
 					local Character = LocalPlayer.Character
