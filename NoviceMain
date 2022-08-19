@@ -5544,8 +5544,7 @@ noviceModule = function()
 				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
 				api.MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0),
 				 Text = "Novice+",
-				  Description = [[Are you aware that you have set your avatar settings to the highest except for proportions, and the game is R15?
-					]], 
+				  Description = [[Are you aware that you have set your avatar settings to the highest except for proportions, and the game is R15?	]], 
 					MessageBoxIcon = "Warning", MessageBoxButtons = "YesNo", Result = function(res)
 					if (res == "Yes") then
 					local LocalPlayer = game:GetService("Players").LocalPlayer
