@@ -940,18 +940,12 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			end);
 		elseif Object:IsA("RemoteEvent")  then
 			RightClickDropdown:Button("Copy event", nil, false, function() 
-				local event = [[local remote = ]]..make_path(Object)..[[
-					local args = {}
-					remote:FireServer(table.unpack(args))
-				]]
+				local event = [[local remote = ]]..make_path(Object)..[[\nlocal args = {}\nremote:FireServer(table.unpack(args))]]
 				setclipboard(event)
 			end);
 		elseif Object:IsA("RemoteFunction")  then
 			RightClickDropdown:Button("Copy event", nil, false, function() 
-				local event = [[local remote = ]]..make_path(Object)..[[
-					local args = {}
-					remote:InvokeServer(table.unpack(args))
-				]]
+				local event = [[local remote = ]]..make_path(Object)..[[\nlocal args = {}\nremote:InvokeServer(table.unpack(args))]]
 				setclipboard(event)
 			end);
 		end
