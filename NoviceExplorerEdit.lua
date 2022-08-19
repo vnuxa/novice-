@@ -913,7 +913,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			RightClickDropdown:Button("Save To Clipboard", 2, false, function() 
 				wrap(function() setclipboard(decomp(Object)) end)();
 			end);
-			RightClickDropdown:Button("Save To Workspace", nil, false, function() 
+			RightClickDropdown:Button("Download Script", nil, false, function() 
 				wrap(function() writefile(("%s.lua"):format(Object.Name), decomp(Object)) end)();
 			end);
 			RightClickDropdown:Button("View Script", 9, false, function() 
@@ -921,7 +921,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 				wrap(function() ScriptEditor:CreateScript(Object.Name, decomp(Object)) end)();
 			end);
 		elseif Object:IsA("ClickDetector") then
-			RightClickDropdown:Button("Fire click detector", nil, false, function() 
+			RightClickDropdown:Button("Fire Click Detector", nil, false, function() 
 				if fireclickdetector then
 					fireclickdetector(Object);
 				else
@@ -929,7 +929,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 				end
 			end);
 		elseif Object:IsA("Part") or Object:IsA("MeshPart") or Object:IsA("Union") then 
-			RightClickDropdown:Button("Fire touch interest", nil, false, function() 
+			RightClickDropdown:Button("Fire Touch Interest", nil, false, function() 
 				if firetouchinterest then
 					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,Object,0)
 					wait(0.1)
@@ -939,17 +939,17 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 				end
 			end);
 		elseif Object:IsA("RemoteEvent")  then
-			RightClickDropdown:Button("Copy event", nil, false, function() 
+			RightClickDropdown:Button("Copy Event", nil, false, function() 
 				local event = "local remote = "..make_path(Object).."\nlocal args = {}\nremote:FireServer(table.unpack(args))"
 				setclipboard(event)
 			end);
 		elseif Object:IsA("RemoteFunction")  then
-			RightClickDropdown:Button("Copy event", nil, false, function() 
+			RightClickDropdown:Button("Copy Event", nil, false, function() 
 				local event = "local remote = "..make_path(Object).."\nlocal args = {}\nremote:InvokeServer(table.unpack(args))"
 				setclipboard(event)
 			end);
 		elseif Object:IsA("ProximityPrompt")  then
-			RightClickDropdown:Button("Fire proximity prompt", nil, false, function() 
+			RightClickDropdown:Button("Fire Proximity Prompt", nil, false, function() 
 				fireproximityprompt(Object,1)
 			end);
 		end
