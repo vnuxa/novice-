@@ -948,6 +948,10 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 				local event = "local remote = "..make_path(Object).."\nlocal args = {}\nremote:InvokeServer(table.unpack(args))"
 				setclipboard(event)
 			end);
+		elseif Object:IsA("ProximityPrompt")  then
+			RightClickDropdown:Button("Fire proximity prompt", nil, false, function() 
+				fireproximityprompt(Object,1)
+			end);
 		end
 		-- --;
 		
