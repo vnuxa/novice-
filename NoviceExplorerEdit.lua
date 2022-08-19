@@ -928,6 +928,32 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 					Notify:new("Error", "Please execute with an exploit that supports fireclickdetector.");
 				end
 			end);
+		elseif Object:IsA("Part") or Object:IsA("MeshPart") or Object:IsA("Union") then 
+			RightClickDropdown:Button("Fire touch interest", nil, false, function() 
+				if firetouchinterest then
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,Object,0)
+					wait(0.1)
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart,Object,1)
+				else
+					Notify:new("Error", "Please execute with an exploit that supports firetouchinterest.");
+				end
+			end);
+		elseif Object:IsA("RemoteEvent")  then
+			RightClickDropdown:Button("Copy event", nil, false, function() 
+				local event = [[local remote = ]]..make_path(Object)..[[
+					local args = {}
+					remote:FireServer(table.unpack(args))
+				]]
+				setclipboard(event)
+			end);
+		elseif Object:IsA("RemoteFunction")  then
+			RightClickDropdown:Button("Copy event", nil, false, function() 
+				local event = [[local remote = ]]..make_path(Object)..[[
+					local args = {}
+					remote:InvokeServer(table.unpack(args))
+				]]
+				setclipboard(event)
+			end);
 		end
 		-- --;
 		
