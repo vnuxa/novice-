@@ -16,7 +16,17 @@
 	note: works with any 6 hats
 
 ]]
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
 
+	roblox.com/catalog/62234425
+	roblox.com/catalog/63690008
+	roblox.com/catalog/62724852
+	roblox.com/catalog/451220849
+	roblox.com/catalog/48474294
+	roblox.com/catalog/48474313
+
+]])
 local netboost = Vector3.new(0, 45, 0)
 
 local ws = game:GetService("Workspace") 

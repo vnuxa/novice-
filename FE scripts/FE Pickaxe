@@ -29,6 +29,18 @@ g - hide
 
 
 ]]
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+	https://www.roblox.com/catalog/8136940617/Ice-Brain
+	https://www.roblox.com/catalog/451220849/Lavender-Updo
+	https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair
+	https://www.roblox.com/catalog/48474313/Red-Roblox-Cap
+	https://www.roblox.com/catalog/376527115/Jade-Necklace-with-Shell-Pendant
+	https://www.roblox.com/catalog/6829585000/ZZZ-Headband-Zara-Larsson
+	https://www.roblox.com/catalog/4381828509/Junkbot-Hat
+	https://www.roblox.com/catalog/63690008/Pal-Hair
+	https://www.roblox.com/catalog/62234425/Brown-Hair
+]])
 local HatChar = game.Players.LocalPlayer.Character
 
 game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 25

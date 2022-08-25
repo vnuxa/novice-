@@ -8,7 +8,17 @@
 --https://www.roblox.com/catalog/48474313/Red-Roblox-Cap
 --https://www.roblox.com/catalog/376527115/Jade-Necklace-with-Shell-Pendant
 local HatChar = game.Players.LocalPlayer.Character
-
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+    --https://www.roblox.com/catalog/5917433699/Old-Town-Cowboy-Hat-Lil-Nas-X-LNX
+    --https://www.roblox.com/catalog/8136940617/Ice-Brain
+    --https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair
+    --https://www.roblox.com/catalog/451220849/Lavender-Updo
+    --https://www.roblox.com/catalog/62724852/Chestnut-Bun
+    --https://www.roblox.com/catalog/63690008/Pal-Hair
+    --https://www.roblox.com/catalog/48474313/Red-Roblox-Cap
+    --https://www.roblox.com/catalog/376527115/Jade-Necklace-with-Shell-Pendant
+]])
 
 
 

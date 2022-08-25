@@ -8,7 +8,11 @@ F - FIST
 G - PULLOUT SWORD WHEN USING FISTS
 E - SHOOT FAKE GUN
 -]]
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+	https://www.roblox.com/catalog/7548993875/Slasher
 
+]])
 
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Tescalus/Pendulum-Hubs-Source/main/Pendulum%20Hub%20V5.lua"))()

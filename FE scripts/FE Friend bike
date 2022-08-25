@@ -28,5 +28,28 @@ https://www.roblox.com/catalog/9743558381/TJ-Wearable-BMX-Backpack
 --keys :
 --E it's broken if you use it in natural disaster survival
 --Q have to press this first after the script is executed
- 
+ local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+
+https://www.roblox.com/catalog/6470135113/Fan-Hand-Sign-Why-Dont-We-WDW
+``````````````````
+https://www.roblox.com/catalog/376527115/Jade-Necklace-with-Shell-Pendant
+``````````````````
+https://www.roblox.com/catalog/451220849/Lavender-Updo
+``````````````````
+https://www.roblox.com/catalog/63690008/Pal-Hair
+``````````````````
+https://www.roblox.com/catalog/376524487/Blonde-Spiked-Hair
+``````````````````
+https://www.roblox.com/catalog/1103003368/Orange-Beanie-with-Black-Hair
+``````````````````
+https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair
+``````````````````
+https://www.roblox.com/catalog/3033908130/International-Fedora-France
+``````````````````
+https://www.roblox.com/catalog/62724852/Chestnut-Bun
+``````````````````
+and this VVV
+https://www.roblox.com/catalog/9743558381/TJ-Wearable-BMX-Backpack
+]])
 loadstring(game:HttpGet(('https://pastefy.ga/6SiK0qV3/raw'),true))()

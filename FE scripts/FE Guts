@@ -4,6 +4,13 @@ https://www.roblox.com/catalog/6470135113/Fan-Hand-Sign-Why-Dont-We-WDW
 https://www.roblox.com/catalog/7548993875/Slasher
 made by sandbox#8694
 ]]--
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+    https://www.roblox.com/catalog/3033910400/International-Fedora-Germany
+    https://www.roblox.com/catalog/6470135113/Fan-Hand-Sign-Why-Dont-We-WDW
+    https://www.roblox.com/catalog/7548993875/Slasher
+
+]])
 local HatChar = game.Players.LocalPlayer.Character
 local Hat = HatChar:FindFirstChild("InternationalFedora")
 local Hat2 = HatChar:FindFirstChild("WDW_FoamFinger")
