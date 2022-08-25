@@ -334,7 +334,7 @@ end
 function api.gc:Filter(scriptPath,Type,callback) --Sends index, value, scrip
     for i,v in pairs(getgc()) do
         if string.lower(type(v)) == string.lower(Type) then 
-            callback(i,v,getfenv(v).script)
+            callback(v,debug.getinfo(v),getfenv(v).script)
         end
     end
 end
