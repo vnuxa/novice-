@@ -904,7 +904,9 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 		end);
 		RightClickDropdown:Button("Insert Object", nil, false, function() end);
 		RightClickDropdown:Divider();
-		RightClickDropdown:Button("Save Instance", nil, true, function() saveinstance(Object) end);
+		RightClickDropdown:Button("Save Instance", nil, true, function()
+			 saveinstance(Object) e
+		end);
 		RightClickDropdown:Button("Get Path", nil, false, function() setclipboard(make_path(Object)) end);
 		RightClickDropdown:Divider();
 		
@@ -914,7 +916,11 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 				wrap(function() setclipboard(decomp(Object)) end)();
 			end);
 			RightClickDropdown:Button("Download Script", nil, false, function() 
-				wrap(function() writefile(("%s.lua"):format(Object.Name), decomp(Object)) end)();
+				wrap(function()
+					local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+					local files = api.files("Explorer/"..tostring(game.PlaceId))
+					files[Object.Name] = decomp(Object)
+					 end)();
 			end);
 			RightClickDropdown:Button("View Script", 9, false, function() 
 				ScriptEditor:Show();
@@ -2338,7 +2344,9 @@ do
 
 		Folder.MouseButton1Click:Connect(function() 
 			if CurrentScript then 
-				writefile(("%s.lua"):format(CurrentScript.Name), CurrentScript.Code);
+				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				local files = api.files("Explorer/"..tostring(game.PlaceId))
+				files[CurrentScript.Name] = CurrentScript.Code
 			end
 		end);
 		Clipboard.MouseButton1Click:Connect(function()
