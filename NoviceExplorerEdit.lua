@@ -905,7 +905,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 		RightClickDropdown:Button("Insert Object", nil, false, function() end);
 		RightClickDropdown:Divider();
 		RightClickDropdown:Button("Save Instance", nil, true, function()
-			 saveinstance(Object) e
+			 saveinstance(Object) 
 		end);
 		RightClickDropdown:Button("Get Path", nil, false, function() setclipboard(make_path(Object)) end);
 		RightClickDropdown:Divider();
