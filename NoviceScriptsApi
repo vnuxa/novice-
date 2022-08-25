@@ -794,6 +794,7 @@ api.MessageBox =  function()
     
     return MessageBoxT
 end
+api.Scanner = {}
 
 
 --[[
