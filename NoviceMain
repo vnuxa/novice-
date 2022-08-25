@@ -2685,9 +2685,6 @@ local function Highlighter()
 			if (str ~= "") then
 				lines[#lines+1] = {splitString(str)};
 			end
-			for i,v in pairs(lines) do
-				print(i,v)
-			end
 			return lines;
 		end
 		--[[ UNNEEDED FOR NOW, MAYBE WOULD BE USED LATER
@@ -2781,14 +2778,12 @@ local function Highlighter()
 		numLines = #getLines(src)
 		local currentLine = #string.split(string.sub(textObject.Text,1,textObject.CursorPosition-1), "\n")
 		local textHeight = textObject.TextBounds.Y/numLines
-		print("CURRENT LINE NUMBER IS ".. currentLine)
 
 		local affectedLines = {}
 		local lineLabels = lineFolder:GetChildren()
 		if lineLabels then else lineLabels = {} end
 		for i,v in pairs(linesTable) do
 			if i < #lastLines then -- if there arent any new lines
-				print("line existed")
 				local lastLine = lastLines[i]
 				if lastLine == v then else 
 					local lineLabel = lineFolder:FindFirstChild("Line_"..i)
@@ -2797,7 +2792,6 @@ local function Highlighter()
 					end
 				end
 			else -- there are new lines 
-				print("new line")
 				local position 
 				local lineLabel = lineFolder:FindFirstChild("Line_"..i)
 				if lineLabel then 
@@ -2850,7 +2844,6 @@ local function Highlighter()
 			for l, line in ipairs(lines) do
 				if l > 1 then
 					-- Set line
-					print(table.concat(richText))
 					lineLabels[lineNumber].Text = table.concat(richText)
 					-- Move to next line
 					lineNumber += 1
@@ -2924,9 +2917,6 @@ local function Highlighter()
 
 		noviceOS.Lines.Text = linesText
 		-- Set final line
-		for i,v in pairs(lineLabels) do
-			print(i,v)
-		end
 		lineLabels[#lineLabels].Text = table.concat(richText)	
 
 		ActiveLabels[textObject] = lineLabels
@@ -2963,18 +2953,8 @@ local function Highlighter()
 		return cleanup
 	end
 
-	export type HighlighterColors = {
-		background: Color3?,
-		iden: Color3?,
-		keyword: Color3?,
-		builtin: Color3?,
-		string: Color3?,
-		number: Color3?,
-		comment: Color3?,
-		operator: Color3?
-	}
 
-	local function updateColors(colors: HighlighterColors?)
+	local function updateColors(colors)
 		-- Setup color data
 		TokenColors.background = (colors and colors.background) or Color3.fromRGB(47, 47, 47)
 		TokenColors.iden = (colors and colors.iden) or Color3.fromRGB(234, 234, 234)
@@ -4932,7 +4912,57 @@ noviceModule = function()
 			
 			makeEsp(v.Character)
 		end
+		table.insert(savedThings.nameEspConnection, v.PlayerAdded:Connect(function(plr)
+			table.insert(savedThings.nameEspConnection, plr.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+		end))
 	end
+	savedThings.locEspConnection = {}
+	savedThings.LocationESP = function()
+	
+
+		
+
+		local makeEsp = function(char)
+            if char:FindFirstChild("Head") then 
+                if char:FindFirstChild("Head"):FindFirstChild("NameEsp") then 
+                else 
+                    
+                    local bill = Instance.new('BillboardGui')
+                    bill.Parent = char.Head
+                    bill.Name = 'LocEsp'
+                    bill.Size=UDim2.new(1,200,1,30)
+                    bill.Adornee=char.Head
+                    bill.AlwaysOnTop=true
+					bill.StudsOffsetWorldSpace = Vector3.new(0,2,0)
+                    local name = Instance.new('TextLabel',bill)
+                    name.TextWrapped=true
+                    name.Size = UDim2.new(1,0,1,0)
+                    name.TextYAlignment='Top'
+                    name.TextColor3=Color3.new(1,1,1)
+                    name.BackgroundTransparency=1
+                    name.FontSize = Enum.FontSize.Size18
+                    name.Font = Enum.Font.Gotham
+					local country = game:GetService("LocalizationService"):GetCountryRegionForPlayerAsync(game.Players:GetPlayerFromCharacter(char))
+                    name.Text = country
+                end
+            end 
+		end
+		for i,v in pairs(game.Players:GetPlayers()) do
+			table.insert(savedThings.locEspConnection, v.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+			
+			makeEsp(v.Character)
+		end
+		table.insert(savedThings.locEspConnection, v.PlayerAdded:Connect(function(plr)
+			table.insert(savedThings.locEspConnection, plr.CharacterAdded:Connect(function(char)
+				makeEsp(char)
+			end))
+		end))
+	end
+
 	lui.consoleGlobals = {}
 	function consoleAddons.GetPlayer(name)
 		for i,v in pairs(game:GetService("Players"):GetPlayers()) do
@@ -5153,6 +5183,26 @@ noviceModule = function()
 						v = nil
 					end
 					savedThings.nameEspConnection = {}
+				end
+			end,
+		},
+		["regions"] = {
+			["status"] = {true,false},
+			callback = function(args)
+				local bool = consoleAddons.getBoolean(args)
+				if bool then
+					savedThings.LocationESP()
+				else 
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if v.Character.Head:FindFirstChild("LocEsp") then
+							v.Character.Head:FindFirstChild("LocEsp"):Destroy()
+						end
+					end
+					for i,v in pairs(savedThings.locEspConnection) do
+						v:Disconnect()
+						v = nil
+					end
+					savedThings.locEspConnection = {}
 				end
 			end,
 		},
@@ -5410,6 +5460,130 @@ noviceModule = function()
 				end)()
 
 			end,
+		},
+		["smallify"] = {
+			callback = function()
+				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				api.MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0),
+				 Text = "Novice+",
+				  Description = [[Are you aware that you have set all of your avatar settings to the lowest, and the game is R15?
+					]], 
+					MessageBoxIcon = "Warning", MessageBoxButtons = "YesNo", Result = function(res)
+					if (res == "Yes") then
+						local LocalPlayer = game:GetService("Players").LocalPlayer
+						local Character = LocalPlayer.Character
+						local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+						local function rm()
+						for i,v in pairs(Character:GetDescendants()) do
+						if v:IsA("BasePart") then
+						if v.Name ~= "Head" then
+						for i,cav in pairs(v:GetDescendants()) do
+						if cav:IsA("Attachment") then
+						if cav:FindFirstChild("OriginalPosition") then
+						cav.OriginalPosition:Destroy()
+						end
+						end
+						end
+						v:FindFirstChild("OriginalSize"):Destroy()
+						if v:FindFirstChild("AvatarPartScaleType") then
+						v:FindFirstChild("AvatarPartScaleType"):Destroy()
+						end
+						end
+						end
+						end
+						end
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyTypeScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+						wait(1)
+
+						rm()
+						wait(0.5)
+						Humanoid:FindFirstChild("HeadScale"):Destroy()
+						wait(1)
+					elseif (res == "No") then
+						MessageBox.Show({MessageBoxButtons = "OK", Description = "Please continue as ordered", Text = "Novice+"})
+					end
+				 end})
+			end
+		},
+		["giant"] = {
+			callback = function()
+				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				api.MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0),
+				 Text = "Novice+",
+				  Description = [[Are you aware that you have set your avatar settings to the highest except for proportions, and the game is R15?	]], 
+					MessageBoxIcon = "Warning", MessageBoxButtons = "YesNo", Result = function(res)
+					if (res == "Yes") then
+					local LocalPlayer = game:GetService("Players").LocalPlayer
+					local Character = LocalPlayer.Character
+					local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+					function rm()
+						for i,v in pairs(Character:GetDescendants()) do
+							if v:IsA("BasePart") then
+								if v.Name == "Handle" or v.Name == "Head" then
+									if Character.Head:FindFirstChild("OriginalSize") then
+										Character.Head.OriginalSize:Destroy()
+									end
+								else
+									for i,cav in pairs(v:GetDescendants()) do
+										if cav:IsA("Attachment") then
+											if cav:FindFirstChild("OriginalPosition") then
+												cav.OriginalPosition:Destroy()  
+											end
+										end
+									end
+									v:FindFirstChild("OriginalSize"):Destroy()
+									if v:FindFirstChild("AvatarPartScaleType") then
+										v:FindFirstChild("AvatarPartScaleType"):Destroy()
+									end
+								end
+							end
+						end
+					end
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+					wait(1)
+
+					rm()
+					wait(0.5)
+					Humanoid:FindFirstChild("HeadScale"):Destroy()
+					wait(1)
+					elseif (res == "No") then
+						MessageBox.Show({MessageBoxButtons = "OK", Description = "Please continue to do as ordered", Text = "Novice+"})
+					end
+				 end})
+			end
 		},
 		["orbit"] = {
 			["status"] = {true,false},
