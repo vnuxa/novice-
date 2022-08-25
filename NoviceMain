@@ -2685,9 +2685,6 @@ local function Highlighter()
 			if (str ~= "") then
 				lines[#lines+1] = {splitString(str)};
 			end
-			for i,v in pairs(lines) do
-				print(i,v)
-			end
 			return lines;
 		end
 		--[[ UNNEEDED FOR NOW, MAYBE WOULD BE USED LATER
@@ -2781,14 +2778,12 @@ local function Highlighter()
 		numLines = #getLines(src)
 		local currentLine = #string.split(string.sub(textObject.Text,1,textObject.CursorPosition-1), "\n")
 		local textHeight = textObject.TextBounds.Y/numLines
-		print("CURRENT LINE NUMBER IS ".. currentLine)
 
 		local affectedLines = {}
 		local lineLabels = lineFolder:GetChildren()
 		if lineLabels then else lineLabels = {} end
 		for i,v in pairs(linesTable) do
 			if i < #lastLines then -- if there arent any new lines
-				print("line existed")
 				local lastLine = lastLines[i]
 				if lastLine == v then else 
 					local lineLabel = lineFolder:FindFirstChild("Line_"..i)
@@ -2797,7 +2792,6 @@ local function Highlighter()
 					end
 				end
 			else -- there are new lines 
-				print("new line")
 				local position 
 				local lineLabel = lineFolder:FindFirstChild("Line_"..i)
 				if lineLabel then 
@@ -2850,7 +2844,6 @@ local function Highlighter()
 			for l, line in ipairs(lines) do
 				if l > 1 then
 					-- Set line
-					print(table.concat(richText))
 					lineLabels[lineNumber].Text = table.concat(richText)
 					-- Move to next line
 					lineNumber += 1
@@ -2924,9 +2917,6 @@ local function Highlighter()
 
 		noviceOS.Lines.Text = linesText
 		-- Set final line
-		for i,v in pairs(lineLabels) do
-			print(i,v)
-		end
 		lineLabels[#lineLabels].Text = table.concat(richText)	
 
 		ActiveLabels[textObject] = lineLabels
@@ -2963,18 +2953,8 @@ local function Highlighter()
 		return cleanup
 	end
 
-	export type HighlighterColors = {
-		background: Color3?,
-		iden: Color3?,
-		keyword: Color3?,
-		builtin: Color3?,
-		string: Color3?,
-		number: Color3?,
-		comment: Color3?,
-		operator: Color3?
-	}
 
-	local function updateColors(colors: HighlighterColors?)
+	local function updateColors(colors)
 		-- Setup color data
 		TokenColors.background = (colors and colors.background) or Color3.fromRGB(47, 47, 47)
 		TokenColors.iden = (colors and colors.iden) or Color3.fromRGB(234, 234, 234)
