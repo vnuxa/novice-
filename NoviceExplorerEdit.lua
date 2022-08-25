@@ -782,7 +782,6 @@ local RightClickDropdown = {
 }
 DropdownList.BackgroundColor3 = Color3.fromRGB(46,46,46)
 function RightClickDropdown:Button( Name, Icon, GrayedOut, func, Hotkey)    
-    print(Name,Icon,GrayedOut,typeof(func),Hotkey)    
     local Clone = SlotTemplate:Clone();
     DropdownList.ZIndex = 4
     Clone.Parent = DropdownList;
@@ -808,7 +807,6 @@ function RightClickDropdown:Button( Name, Icon, GrayedOut, func, Hotkey)
     Hover.MouseLeave:Connect(function() 
         Hover.BackgroundTransparency = 1;
     end);
-    print(GrayedOut)
  
     local HotkeyLabel = Clone:WaitForChild("Hotkey");
     if Hotkey then
@@ -918,6 +916,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			RightClickDropdown:Button("Download Script", nil, false, function() 
 				wrap(function()
 					local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+					local exlorer = api.files("Explorer/")
 					local files = api.files("Explorer/"..tostring(game.PlaceId))
 					files[Object.Name] = decomp(Object)
 					 end)();
@@ -1134,13 +1133,11 @@ local function ChildrenLoop(object, list)
 	if GetChildrenShowing()[object] then
 		for _, obj in pairs(object:GetChildren()) do
 			if OnlyShow then
-                print("OnlyShow is true")
 				if OnlyShow[obj] then
 					table.insert(list, obj);
 					ChildrenLoop(obj, list);
 				end
 			else
-                print("OnlyShow is false")
 				table.insert(list, obj);
 				ChildrenLoop(obj, list);
 			end
@@ -1171,9 +1168,6 @@ function GetShowList()
 		table.insert(ShowList, object);
 		ChildrenLoop(object, ShowList);
 	end
-    for i,v in pairs(ShowList) do 
-       print("show list is ",i,v) 
-    end
 	return ShowList;
 end
 
@@ -1529,14 +1523,12 @@ end);
         for _,Ancestor in pairs(Ancestors) do
             for _, obj in pairs(Ancestor:GetDescendants()) do
                 if string.find(Data,obj.Name:lower()) then
-                    print("found ",obj.Name,obj.Parent.Name)
                     table.insert(RetData, obj);
                 elseif string.find(Data,"classname:") then
                     local typeName = string.split(Data,"classname:")[2]
                     local tableStrings = string.split(typeName,",")
                     for i,v in pairs(tableStrings) do 
                         if string.lower(v) == string.lower(obj.ClassName) then 
-                            print("found ",obj.Name,obj.Parent.Name)
                             table.insert(RetData, obj);
                         end
                     end
@@ -2345,6 +2337,7 @@ do
 		Folder.MouseButton1Click:Connect(function() 
 			if CurrentScript then 
 				local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+				local exlorer = api.files("Explorer/")
 				local files = api.files("Explorer/"..tostring(game.PlaceId))
 				files[CurrentScript.Name] = CurrentScript.Code
 			end
