@@ -1,6 +1,7 @@
 -- explorer v1
 -- dont mind messy code most was written while doing an all nighter
--- frosty
+-- originally made by frosty, fixed by novice devs
+loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceDecompiler", true))()
 
 local RunService = game:GetService("RunService");
 local ContextAction = game:GetService("ContextActionService")
@@ -917,6 +918,7 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			end);
 			RightClickDropdown:Button("Download Script", nil, false, function() 
 				wrap(function()
+					
 					local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
 					local exlorer = api.files("Explorer/")
 					local files = api.files("Explorer/"..tostring(game.PlaceId))
