@@ -1,242 +1,362 @@
-local api = {}
+    local api = {}
 
----Remotes
+    ---Remotes
 
-api.Remotes = {}
-function api.Remotes.OnFire(callback) --Sends obj,args
-    local oldinvoke, oldfire
-    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
-        local succ,err = pcall(callback,Self,{...})
-        if err then 
-            error(err)
-        end
-       return oldinvoke(self, ...)
-    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
-        local succ,err = pcall(callback,Self,{...})
-        if err then 
-            error(err)
-        end
-       return oldfire(self, ...)
-    end)
-end
-function api.Remotes.RemoteOnFire(callback,remote) -- Sends args,caller
-    local oldinvoke, oldfire
-    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
-        if Self == remote then 
-             local succ,err = pcall(callback,Self,{...})
-             if err then 
-                error(err)
-            end
-        end
-       return oldinvoke(self, ...)
-    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
-        if Self == remote then 
+    api.Remotes = {}
+    function api.Remotes.OnFire(callback) --Sends obj,args
+        local oldinvoke, oldfire
+        oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
             local succ,err = pcall(callback,Self,{...})
             if err then 
                 error(err)
             end
-       end
-       return oldfire(self, ...)
-    end)
-
-end
-function api.Remotes:NullifyRemote(callback,remote,returnObject)
-    local oldinvoke, oldfire
-    oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
-        if Self == remote then 
-             local succ,err = pcall(callback,Self,{...})
-             if err then 
-                error(err)
-            end
-        end
-       return returnObject
-    end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
-        if Self == remote then 
+        return oldinvoke(self, ...)
+        end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
             local succ,err = pcall(callback,Self,{...})
             if err then 
                 error(err)
             end
-       end
-       return returnObject
-    end)
-end
-
---Http spy
-api.HttpRequests = {}
-function api.HttpRequests.OnRequest(callback) -- Sends url, path
-    local lol
-    local old;
-    old = hookfunction(game.HttpGet, function(path, url, ...)
-        local succ,err = pcall(callback,tostring(url),path)
-        if err then 
-            error(err)
-        end
-        return old(a,b,...) 
-    end)
-
-
-end
-function api.HttpRequests:Nullify(otherChecks,returnObject)
-    local lol
-    lol = hookfunc(game.HttpGet,function(path, url, ...)
-        local succ,err = pcall(callback,tostring(url),path)
-        if err then 
-            error(err)
-        end
-        return lol(path, url, ...)
-    end)
-end
---Index spy
-api.Index = {}
---[[Index info is written like this 
-Objects can be nil if you want it to be in general rather than on a specific object
-
-IndexInfo={
-    ["WalkSpeed"] = game.Players.LocalPlayer.Character --This path is an object
-}
-]]
-function api.Index.OnIndex(callback,IndexInfo) -- Sends Object,Key (such as "WalkSpeed")
-    local OldIndex = nil
-    OldIndex = hookmetamethod(game, "__index", function(Self, Key)
-        if not checkcaller() then
-            local hasKey = false 
-            for i,v in pairs(IndexInfo) do 
-                if Key == i then
-                    if v == nil then 
-                        local err,succ = pcall(callback,Self,Key)
-                        if err then 
-                            error(err)
-                        end
-                    elseif v == Self then 
-                        local err,succ = pcall(callback,Self,Key)
-                        if err then 
-                            error(err)
-                        end
-                    end
-                end
-            end
-        end
-        return OldIndex(Self, Key)
-    end)
-end
-
-function api.Index.OnAllIndex(callback) --Sends Object,Key
-    local OldIndex = nil
-    OldIndex = hookmetamethod(game, "__index", function(Self, Key)
-        if not checkcaller() then
-            local err,succ = pcall(callback,Self,Key)
-            if err then 
-                error(err)
-            end
-        end
-        return OldIndex(Self, Key)
-    end)
-end
-
---Namecall spy
-api.Namecall = {}
---[[otherChecks format:
-function(Method,Args)
-    if Args[1] == game.Players.LocalPlayer then --Put your custom arguments here
-        return true
+        return oldfire(self, ...)
+        end)
     end
-    return false 
-end
-]]
-function api.Namecall:Nullify(index,returnObject,otherChecks) --index can be "Kick", otherchecks is not mandatory, sends the namecallmethod to otherChecks
-    local OldNameCall = nil
-
-    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)    
-                local Args = {...}
-                local NamecallMethod = getnamecallmethod()
-            
-                if not checkcaller() and NamecallMethod == index then
-                    if otherChecks == nil then 
-                        return returnObject
-                    elseif otherChecks(NamecallMethod,Args) then 
-                        return returnObject
-                    end
-                end
-    
-        return OldNameCall(Self, ...)
-    end)
-end
-
-function api.Namecall.OnNamecall(callback) --Sends the method, args ,self (ussualy game)
-    local OldNameCall = nil
-
-    OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
-        local Args = {...}
-        local NamecallMethod = getnamecallmethod()
-    
-        if not checkcaller()  then
-            
-           local err,suc = pcall(callback,NamecallMethod,Args,Self)
-            if err then 
-                error(err)
-            end
-        end
-    
-        return OldNameCall(Self, ...)
-    end)
-end 
-
---Script api 
-api.Script = function(Object)
-    local lib = {}
-
-    if Object:IsA("LocalScript") or Object:IsA("ModuleScript") then 
-    else 
-        return nil 
-    end
-
-    lib.Args = nil 
-    if Object:IsA("ModuleScript") then  
-        lib.Args = require(Object)
-    else
-        lib.Args = getsenv(Object)
-    end
-
-
-    function difference(a, b)
-        local diff = {}
-        for i,v in pairs(a) do
-            if b[i] == v then 
-            else 
-                diff[tostring(i)] = v
-            end
-        end 
-        return diff
-    end
-    --NewArgs arguments cna be like this 
-    --[[
-        {
-            ["1"] = true,
-            ["test"] = false,
-        }
-    ]]
-    function lib:EditArgs(NewArgs)
-        local diff = difference(NewArgs,lib.Args)
-        for i,v in pairs(diff) do 
-            lib.Args[i] = v
-        end
-    end
-    function lib:Hook(func,callback)
-        local oldFunc
-        print("hook function args",func,callback)
-            print("hook function types",typeof(func),typeof(callback))
-        oldFunc = hookfunction(func,function(...)
-            if not checkcaller() then 
-                local args = {...}
-                local suc,err = pcall(callback,Self,...)
+    function api.Remotes.RemoteOnFire(callback,remote) -- Sends args,caller
+        local oldinvoke, oldfire
+        oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
+            if Self == remote then 
+                local succ,err = pcall(callback,Self,{...})
                 if err then 
                     error(err)
                 end
             end
-            return oldFunc(...)
+        return oldinvoke(self, ...)
+        end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
+            if Self == remote then 
+                local succ,err = pcall(callback,Self,{...})
+                if err then 
+                    error(err)
+                end
+        end
+        return oldfire(self, ...)
+        end)
+
+    end
+    function api.Remotes:NullifyRemote(callback,remote,returnObject)
+        local oldinvoke, oldfire
+        oldinvoke, oldfire = hookfunction(Instance.new("RemoteFunction").InvokeServer, function(Self, ...)
+            if Self == remote then 
+                local succ,err = pcall(callback,Self,{...})
+                if err then 
+                    error(err)
+                end
+            end
+        return returnObject
+        end), hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...) 
+            if Self == remote then 
+                local succ,err = pcall(callback,Self,{...})
+                if err then 
+                    error(err)
+                end
+        end
+        return returnObject
         end)
     end
-    function lib:Nullify(func,returnObject,otherChecks)
+
+    --Http spy
+    api.HttpRequests = {}
+    function api.HttpRequests.OnRequest(callback) -- Sends url, path
+        local lol
+        local old;
+        old = hookfunction(game.HttpGet, function(path, url, ...)
+            local succ,err = pcall(callback,tostring(url),path)
+            if err then 
+                error(err)
+            end
+            return old(a,b,...) 
+        end)
+
+
+    end
+    function api.HttpRequests:Nullify(otherChecks,returnObject)
+        local lol
+        lol = hookfunc(game.HttpGet,function(path, url, ...)
+            local succ,err = pcall(callback,tostring(url),path)
+            if err then 
+                error(err)
+            end
+            return lol(path, url, ...)
+        end)
+    end
+    --Index spy
+    api.Index = {}
+    --[[Index info is written like this 
+    Objects can be nil if you want it to be in general rather than on a specific object
+
+    IndexInfo={
+        ["WalkSpeed"] = game.Players.LocalPlayer.Character --This path is an object
+    }
+    ]]
+    function api.Index.OnIndex(callback,IndexInfo) -- Sends Object,Key (such as "WalkSpeed")
+        local OldIndex = nil
+        OldIndex = hookmetamethod(game, "__index", function(Self, Key)
+            if not checkcaller() then
+                local hasKey = false 
+                for i,v in pairs(IndexInfo) do 
+                    if Key == i then
+                        if v == nil then 
+                            local err,succ = pcall(callback,Self,Key)
+                            if err then 
+                                error(err)
+                            end
+                        elseif v == Self then 
+                            local err,succ = pcall(callback,Self,Key)
+                            if err then 
+                                error(err)
+                            end
+                        end
+                    end
+                end
+            end
+            return OldIndex(Self, Key)
+        end)
+    end
+
+    function api.Index.OnAllIndex(callback) --Sends Object,Key
+        local OldIndex = nil
+        OldIndex = hookmetamethod(game, "__index", function(Self, Key)
+            if not checkcaller() then
+                local err,succ = pcall(callback,Self,Key)
+                if err then 
+                    error(err)
+                end
+            end
+            return OldIndex(Self, Key)
+        end)
+    end
+
+    --Namecall spy
+    api.Namecall = {}
+    --[[otherChecks format:
+    function(Method,Args)
+        if Args[1] == game.Players.LocalPlayer then --Put your custom arguments here
+            return true
+        end
+        return false 
+    end
+    ]]
+    function api.Namecall:Nullify(index,returnObject,otherChecks) --index can be "Kick", otherchecks is not mandatory, sends the namecallmethod to otherChecks
+        local OldNameCall = nil
+
+        OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)    
+                    local Args = {...}
+                    local NamecallMethod = getnamecallmethod()
+                
+                    if not checkcaller() and NamecallMethod == index then
+                        if otherChecks == nil then 
+                            return returnObject
+                        elseif otherChecks(NamecallMethod,Args) then 
+                            return returnObject
+                        end
+                    end
+        
+            return OldNameCall(Self, ...)
+        end)
+    end
+
+    function api.Namecall.OnNamecall(callback) --Sends the method, args ,self (ussualy game)
+        local OldNameCall = nil
+
+        OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
+            local Args = {...}
+            local NamecallMethod = getnamecallmethod()
+        
+            if not checkcaller()  then
+                
+            local err,suc = pcall(callback,NamecallMethod,Args,Self)
+                if err then 
+                    error(err)
+                end
+            end
+        
+            return OldNameCall(Self, ...)
+        end)
+    end 
+
+    --Script api 
+    api.Script = function(Object)
+        local lib = {}
+
+        if Object:IsA("LocalScript") or Object:IsA("ModuleScript") then 
+        else 
+            return nil 
+        end
+
+        lib.Args = nil 
+        if Object:IsA("ModuleScript") then  
+            lib.Args = require(Object)
+        else
+            lib.Args = getsenv(Object)
+        end
+
+
+        function difference(a, b)
+            local diff = {}
+            for i,v in pairs(a) do
+                if b[i] == v then 
+                else 
+                    diff[tostring(i)] = v
+                end
+            end 
+            return diff
+        end
+        --NewArgs arguments cna be like this 
+        --[[
+            {
+                ["1"] = true,
+                ["test"] = false,
+            }
+        ]]
+        function lib:EditArgs(NewArgs)
+            local diff = difference(NewArgs,lib.Args)
+            for i,v in pairs(diff) do 
+                lib.Args[i] = v
+            end
+        end
+        function lib:Hook(func,callback)
+            local oldFunc
+            print("hook function args",func,callback)
+                print("hook function types",typeof(func),typeof(callback))
+            oldFunc = hookfunction(func,function(...)
+                if not checkcaller() then 
+                    local args = {...}
+                    local suc,err = pcall(callback,Self,...)
+                    if err then 
+                        error(err)
+                    end
+                end
+                return oldFunc(...)
+            end)
+        end
+        function lib:Nullify(func,returnObject,otherChecks)
+            local oldFunc
+            oldFunc = hookfunction(func,function(...)
+                if not checkcaller() then
+                    local Args = {...}
+                    if otherChecks == nil then 
+                        return returnObject
+                    elseif otherChecks(func,Args) then 
+                        return returnObject
+                    end
+                end
+                return oldFunc(...)
+            end)
+        end
+        
+        function lib:CopyValues()
+            setclipboard(table.concat(lib.Args))
+        end
+        return lib
+    end
+
+    api.reg = {}
+    function api.reg:FilterType(infoType,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
+        local reg = getreg()
+        for i,v in pairs(reg) do 
+            if infoType == nil then 
+                callback(debug.getinfo(v),v)
+            else 
+                if type(v) == infoType then 
+                    callback(debug.getinfo(v),v)
+                end
+            end
+        end
+    end
+    --[[Info ussualy contains 
+    source = [scriptPathhere],
+    what = Lua,
+    numparams = how many arguments,
+    short_src = [scriptPathhere],
+    currentLine = number, (in decompiler you can see)
+    name = string (sometimes they dont have names)
+    is_vararg = number (ussualy 0)
+    nups = number (idk this one)
+    ]]
+    function api.reg:Filter(ScriptPath,callback) -- Sends a table of function info
+        local found = {}
+        for _,Env in pairs(debug.getregistry()) do
+            if type(Env) == "function" and islclosure(Env) then
+                if getfenv(Env).script == ScriptPath then
+                    table.insert(found,Env)
+                end
+                
+            end
+        end
+        if found == 0 then error("Could not find any arguments",2) end
+        callback(found)
+    end
+    function api.reg:FilterName(infoName,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
+        local reg = getreg()
+        for i,v in pairs(reg) do 
+            local info = debug.getinfo(v)
+            if info then
+                if info.name == infoName then 
+                    callback(debug.getinfo(v),v)
+                end
+            end
+        end
+    end
+
+    api.gc = {}
+
+    function api.gc:FilterFunctions(constantTable,callback)
+        for i,v in pairs(getgc()) do
+            if type(v) == "function" and islclosure(v) and not checkcaller(v) then
+                local consts = getconstants(v)
+                if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
+                    return v
+                end
+            end
+        end
+    end
+    function api.gc:Filter(scriptPath,Type,callback) --Sends index, value, script. In callback you are supposed to put if's then else return end
+        if scriptPath.ClassName == "LocalScript" then if scriptPath.Disabled then error("Script is disabled, cannot read from disabled scripts") end end
+        for i,v in pairs(getgc()) do
+            if string.lower(type(v)) == string.lower(Type) then
+                if scriptPath ==  getfenv(v).script and string.len(info.name) > 1 then
+                    callback(v,debug.getinfo(v),getfenv(v).script)
+                end
+            end
+        end
+    end
+    function api.gc:GetVariables(scriptPath,variableType,filterName) --
+        if scriptPath.ClassName == "LocalScript" then if scriptPath.Disabled then error("Script is disabled, cannot read from disabled scripts") end end
+        local gcTable = {}
+        for i,v in pairs(getgc()) do
+            if string.lower(type(v)) == string.lower(Type) then
+                if scriptPath ==  getfenv(v).script  then
+                    if filterName then 
+                        if string.len(info.name) > 1 then
+                            table.insert(gcTable,v)
+                        end
+                    else 
+                        table.insert(gcTable,v)
+                    end
+                end
+            end
+        end
+        return gcTable
+    end
+    function api.gc:FilterConstants(infoType,constantTable,callback) -
+        for i,v in pairs(getgc()) do
+            if type(v) == infoType and islclosure(v) and not checkcaller(v) then
+                local consts = getconstants(v)
+                if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
+                    return v
+                end
+            end
+        end
+    end
+    api.functions = {}
+    function api.functions:Nullify(func,returnObject,otherChecks)
         local oldFunc
         oldFunc = hookfunction(func,function(...)
             if not checkcaller() then
@@ -250,626 +370,513 @@ api.Script = function(Object)
             return oldFunc(...)
         end)
     end
-    
-    function lib:CopyValues()
-        setclipboard(table.concat(lib.Args))
-    end
-    return lib
-end
 
-api.reg = {}
-function api.reg:FilterType(infoType,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
-    local reg = getreg()
-    for i,v in pairs(reg) do 
-        if infoType == nil then 
-            callback(debug.getinfo(v),v)
-        else 
-            if type(v) == infoType then 
-                callback(debug.getinfo(v),v)
-            end
-        end
-    end
-end
---[[Info ussualy contains 
-source = [scriptPathhere],
-what = Lua,
-numparams = how many arguments,
-short_src = [scriptPathhere],
-currentLine = number, (in decompiler you can see)
-name = string (sometimes they dont have names)
-is_vararg = number (ussualy 0)
-nups = number (idk this one)
-]]
-function api.reg:Filter(ScriptPath,callback) -- Sends a table of function info
-    local found = {}
-    for _,Env in pairs(debug.getregistry()) do
-        if type(Env) == "function" and islclosure(Env) then
-                if not parent_name then
-                    if getfenv(Env).script == ScriptPath then
-                        if isShowingInfo then
-                            table.insert(found,debug.getinfo(Env))
-                        else
-                            table.insert(found,Env)
-                        end
-                    end
-                else
-                    if getfenv(Env).script == ScriptPath then
-                        if isShowingInfo then
-                            table.insert(found,debug.getinfo)
-                        else
-                            table.insert(found,Env)
-                        end
-                    end
-                end
-            
-        end
-    end
-    if found == 0 then error("Could not find any arguments",2) end
-    callback(found)
-end
-function api.reg:FilterName(infoName,callback) -- Sends a table of info, such as info.name; info.func. Also sends the value
-    local reg = getreg()
-    for i,v in pairs(reg) do 
-        local info = debug.getinfo(v)
-        if info then
-            if info.name == infoName then 
-                callback(debug.getinfo(v),v)
-            end
-        end
-    end
-end
-
-api.gc = {}
-
-function api.gc:FilterFunctions(constantTable,callback)
-    for i,v in pairs(getgc()) do
-        if type(v) == "function" and islclosure(v) and not checkcaller(v) then
-            local consts = getconstants(v)
-            if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
-                return v
-            end
-        end
-    end
-end
-function api.gc:Filter(scriptPath,Type,callback) --Sends index, value, scrip
-    for i,v in pairs(getgc()) do
-        if string.lower(type(v)) == string.lower(Type) then 
-            callback(v,debug.getinfo(v),getfenv(v).script)
-        end
-    end
-end
-function api.gc:FilterConstants(infoType,constantTable,callback)
-    for i,v in pairs(getgc()) do
-        if type(v) == infoType and islclosure(v) and not checkcaller(v) then
-            local consts = getconstants(v)
-            if table.find(consts, "") and table.find(consts, "Filtered") and table.find(consts, "Clan") then
-                return v
-            end
-        end
-    end
-end
-api.functions = {}
-function api.functions:Nullify(func,returnObject,otherChecks)
-    local oldFunc
-    oldFunc = hookfunction(func,function(...)
-        if not checkcaller() then
-            local Args = {...}
-            if otherChecks == nil then 
-                return returnObject
-            elseif otherChecks(func,Args) then 
-                return returnObject
-            end
-        end
-        return oldFunc(...)
-    end)
-end
-
-function api.customConsole(consoleName)
-    local mainLib = {}
-    rconsolename(consoleName)
-    mainLib.Commands = {
-       
-    }
-
-    function mainLib:AddPage(pageName)
-        local lib = {}
-        table.insert(mainLib.Commands,
-        {
-            ["TableName"] = pageName,
-        })
-        lib.Table = mainLib.Commands[#mainLib.Commands]
+    function api.customConsole(consoleName)
+        local mainLib = {}
+        rconsolename(consoleName)
+        mainLib.Commands = {
         
-        function lib:AddCommand(commandName,argsTable,callback)
-            local packedArgs = {
-                ["args"] = argsTable,
-                ["callback"] = callback
-            } -- USE TABLE.UNPACK BTW IF YOU WANT TO MAKE IT SO THAT IT WIL SEND MULTIPLEA RGS
-            lib.Table[commandName] = packedArgs
-        end
+        }
 
-        return lib
-    end
-    local function getCommands()
-        local argsToColor = {
-            ["string"] = "@@LIGHT_CYAN@@",
-            ["number"] = "@@YELLOW@@",
-            ["boolean"] = "@@LIGHT_GREEN@@",
-        }
-        local keywordColor = {
-            ["["] = "@@LIGHT_MAGENTA@@",
-            ["*"] = "@@LIGHT_GREEN@@",
-            ["]"] = "@@LIGHT_MAGENTA@@",
-        }
-        local function customPrint(text,newLine)
-            for i = 1,string.len(text) do 
-                local char = string.sub(text, i, i)
-                for index,value in pairs(keywordColor) do 
-                    if char == index then 
-                        rconsoleprint(value)
-                        break
-                    end
-                end
-                rconsoleprint(char)
-                rconsoleprint('@@WHITE@@')
-            end
-            if newLine then
-                rconsoleprint('\n')
-            end
-        end
-        local function bulkPrint(textTable,newline)
-            for index,value in pairs(textTable) do
-                for i,v in pairs(argsToColor) do 
-                    if string.find(value,i) then 
-                        rconsoleprint(v)
-                    end
-                end
+        function mainLib:AddPage(pageName)
+            local lib = {}
+            table.insert(mainLib.Commands,
+            {
+                ["TableName"] = pageName,
+            })
+            lib.Table = mainLib.Commands[#mainLib.Commands]
             
-                rconsoleprint(value.." ")
-                rconsoleprint('@@WHITE@@')
+            function lib:AddCommand(commandName,argsTable,callback)
+                local packedArgs = {
+                    ["args"] = argsTable,
+                    ["callback"] = callback
+                } -- USE TABLE.UNPACK BTW IF YOU WANT TO MAKE IT SO THAT IT WIL SEND MULTIPLEA RGS
+                lib.Table[commandName] = packedArgs
             end
-            if newLine then
-                rconsoleprint('\n')
-            end
+
+            return lib
         end
-        for index,commands in pairs(mainLib.Commands) do 
-            customPrint("[=]:    "..commands["TableName"],true)
-            for name,values in pairs(commands) do 
-                if name ~= "TableName" then
-                    if values.args then
-                        rconsoleprint("	["..commands["TableName"] .."]	"..name .." (")
-                        --[[
-                        local argsTypes = {}
-                        local argsNames = {}
-                        for i,v in pairs(values[1]) do 
-                            local splitArgs = string.split(v,"/")
-                            local arg = splitArgs[1]
-                            local argType = splitArgs[2]
-                            argsTypes[i] = argType
-                            argsNames[i] = arg
+        local function getCommands()
+            local argsToColor = {
+                ["string"] = "@@LIGHT_CYAN@@",
+                ["number"] = "@@YELLOW@@",
+                ["boolean"] = "@@LIGHT_GREEN@@",
+            }
+            local keywordColor = {
+                ["["] = "@@LIGHT_MAGENTA@@",
+                ["*"] = "@@LIGHT_GREEN@@",
+                ["]"] = "@@LIGHT_MAGENTA@@",
+            }
+            local function customPrint(text,newLine)
+                for i = 1,string.len(text) do 
+                    local char = string.sub(text, i, i)
+                    for index,value in pairs(keywordColor) do 
+                        if char == index then 
+                            rconsoleprint(value)
+                            break
                         end
-                        ]]
-                        bulkPrint(values.args)
-                        customPrint(")",true)
-                    else 
-                        rconsoleprint("	["..commands["TableName"] .."]	"..name .."\n")
                     end
+                    rconsoleprint(char)
+                    rconsoleprint('@@WHITE@@')
                 end
+                if newLine then
+                    rconsoleprint('\n')
+                end
+            end
+            local function bulkPrint(textTable,newline)
+                for index,value in pairs(textTable) do
+                    for i,v in pairs(argsToColor) do 
+                        if string.find(value,i) then 
+                            rconsoleprint(v)
+                        end
+                    end
+                
+                    rconsoleprint(value.." ")
+                    rconsoleprint('@@WHITE@@')
+                end
+                if newLine then
+                    rconsoleprint('\n')
+                end
+            end
+            for index,commands in pairs(mainLib.Commands) do 
+                customPrint("[=]:    "..commands["TableName"],true)
+                for name,values in pairs(commands) do 
+                    if name ~= "TableName" then
+                        if values.args then
+                            rconsoleprint("	["..commands["TableName"] .."]	"..name .." (")
+                            --[[
+                            local argsTypes = {}
+                            local argsNames = {}
+                            for i,v in pairs(values[1]) do 
+                                local splitArgs = string.split(v,"/")
+                                local arg = splitArgs[1]
+                                local argType = splitArgs[2]
+                                argsTypes[i] = argType
+                                argsNames[i] = arg
+                            end
+                            ]]
+                            bulkPrint(values.args)
+                            customPrint(")",true)
+                        else 
+                            rconsoleprint("	["..commands["TableName"] .."]	"..name .."\n")
+                        end
+                    end
 
+                end
             end
         end
-    end
-    local input = nil 
-    input = function()
-        local text =  rconsoleinput()
-        local splitText = string.split(text," ")
-        local pageName = splitText[1]
-        local commandName = splitText[2]
-        local command = nil 
+        local input = nil 
+        input = function()
+            local text =  rconsoleinput()
+            local splitText = string.split(text," ")
+            local pageName = splitText[1]
+            local commandName = splitText[2]
+            local command = nil 
 
-        for i,v in pairs(mainLib.Commands) do
-            if string.lower(v["TableName"]) == string.lower(pageName) then 
-                for i2,v2 in pairs(v) do 
-                    print(i2,"that was i2")
-                    if string.lower(commandName) == string.lower(i2) then 
-                        print("v2 is",v2)
-                        command = v2
+            for i,v in pairs(mainLib.Commands) do
+                if string.lower(v["TableName"]) == string.lower(pageName) then 
+                    for i2,v2 in pairs(v) do 
+                        print(i2,"that was i2")
+                        if string.lower(commandName) == string.lower(i2) then 
+                            print("v2 is",v2)
+                            command = v2
+                            break 
+                        end
+                    end
+                    if command ~= nil then 
                         break 
                     end
                 end
-                if command ~= nil then 
-                     break 
+            end
+            if command then else  warn("Command name not found, got",commandName)  input() return end
+            local args = {}
+            for i,v in pairs(splitText) do 
+                if i < 3 then
+                print(i,"is lower than 2",v) else
+                    print(i,"is higher than 2",v) 
+                    table.insert(args,v)
                 end
             end
-        end
-        if command then else  warn("Command name not found, got",commandName)  input() return end
-        local args = {}
-        for i,v in pairs(splitText) do 
-            if i < 3 then
-            print(i,"is lower than 2",v) else
-                print(i,"is higher than 2",v) 
-                table.insert(args,v)
-            end
-        end
-        if command.args then
-            local argsTypes = {}
-            for i,v in pairs(command.args) do 
-                local splitArgs = string.split(v,"/")
-                local argType = splitArgs[2]
-                argsTypes[i] = argType
-            end
-            for i,v in pairs(args) do 
-                local argType = argsTypes[i]
-                if argType == "boolean" then 
-                    local status = false 
-                    if v == "on" or v == "true" then 
-                        status = true 
+            if command.args then
+                local argsTypes = {}
+                for i,v in pairs(command.args) do 
+                    local splitArgs = string.split(v,"/")
+                    local argType = splitArgs[2]
+                    argsTypes[i] = argType
+                end
+                for i,v in pairs(args) do 
+                    local argType = argsTypes[i]
+                    if argType == "boolean" then 
+                        local status = false 
+                        if v == "on" or v == "true" then 
+                            status = true 
+                        end
+                        args[i] = status 
+                    elseif argType == "number" then 
+                        args[i] = tonumber(v)
                     end
-                    args[i] = status 
-                elseif argType == "number" then 
-                    args[i] = tonumber(v)
+                end
+                print("ok so",table.unpack(args))
+                local err,succ = pcall(command["callback"],table.unpack(args))
+                if err then 
+                    warn(err)
+                end
+            else 
+                print("no args")
+                local err,succ = pcall(command["callback"])
+                if err then 
+                    warn(err)
                 end
             end
-            print("ok so",table.unpack(args))
-            local err,succ = pcall(command["callback"],table.unpack(args))
-            if err then 
-                warn(err)
+            input()
+        end
+        table.insert(mainLib.Commands, 
+        {
+            ["TableName"] = "Console",
+            ["commands"] = {
+                ["args"] = nil,
+                ["callback"] = function() --sends tuple arguments
+                    getCommands()
+                end
+            }, 
+            ["clear"] = {
+                ["args"] = nil,
+                ["callback"] = function() --sends tuple arguments
+                    rconsoleclear()
+                end
+            },
+        })
+        function mainLib:Initialize()
+            getCommands()
+            input()
+        end
+        return mainLib
+    end
+    api.addons = {}
+    function api.addons:GetPlayer(name)
+        for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+            if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
+                return v
             end
+        end    
+    end
+    function api.addons:getObject(argsTable,name)
+        for i,v in pairs(argsTable) do
+            if v.Name:lower():sub(1, #name) == name:lower()  then
+                return v
+            end
+        end 
+    end
+    function api.addons:getBoolean(stringBool)
+        local bool = false
+        if stringBool == "true" or stringBool == "on" then
+            bool = true
+        end
+        return bool
+    end
+    function api.addons:GetExtraArgs(args)
+        local extraArgs = string.split(args,",")
+        local hasExtra = false
+        if #extraArgs > 1 then
+            hasExtra = true
         else 
-            print("no args")
-            local err,succ = pcall(command["callback"])
-            if err then 
-                warn(err)
+            extraArgs = nil
+        end
+        return extraArgs
+    end
+    function api.addons:DisplayHats(hatTable)
+    local wearingId = {}
+    for i,v in pairs(game.Players:GetCharacterAppearanceInfoAsync(game.Players.LocalPlayer.UserId).assets) do 
+            if v.id then 
+                table.insert(wearingId,v.id)
             end
-        end
-        input()
     end
-    table.insert(mainLib.Commands, 
-    {
-        ["TableName"] = "Console",
-        ["commands"] = {
-            ["args"] = nil,
-            ["callback"] = function() --sends tuple arguments
-                getCommands()
-            end
-        }, 
-        ["clear"] = {
-            ["args"] = nil,
-            ["callback"] = function() --sends tuple arguments
-                rconsoleclear()
-            end
-        },
-    })
-    function mainLib:Initialize()
-        getCommands()
-        input()
-    end
-    return mainLib
-end
-api.addons = {}
-function api.addons:GetPlayer(name)
-    for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-        if v.Name:lower():sub(1, #name) == name:lower() or v.	DisplayName:lower():sub(1, #name) == name:lower() then
-            return v
-        end
-    end    
-end
-function api.addons:getObject(argsTable,name)
-    for i,v in pairs(argsTable) do
-        if v.Name:lower():sub(1, #name) == name:lower()  then
-            return v
-        end
-    end 
-end
-function api.addons:getBoolean(stringBool)
-    local bool = false
-    if stringBool == "true" or stringBool == "on" then
-        bool = true
-    end
-    return bool
-end
-function api.addons:GetExtraArgs(args)
-    local extraArgs = string.split(args,",")
-    local hasExtra = false
-    if #extraArgs > 1 then
-        hasExtra = true
-    else 
-        extraArgs = nil
-    end
-    return extraArgs
-end
-function api.addons:DisplayHats(hatTable)
-   local wearingId = {}
-   for i,v in pairs(game.Players:GetCharacterAppearanceInfoAsync(game.Players.LocalPlayer.UserId).assets) do 
-        if v.id then 
-            table.insert(wearingId,v.id)
-        end
-   end
-   local newHatTable = {}
-   if typeof(hatTable) == "string" then 
-        local splitString = string.split(hatTable,"/")
-        for i,v in pairs(splitString) do 
-            if i > 1 then 
-                if splitString[i-1] == "catalog" and tonumber(v) then 
-                    table.insert(newHatTable,tonumber(v))
+    local newHatTable = {}
+    if typeof(hatTable) == "string" then 
+            local splitString = string.split(hatTable,"/")
+            for i,v in pairs(splitString) do 
+                if i > 1 then 
+                    if splitString[i-1] == "catalog" and tonumber(v) then 
+                        table.insert(newHatTable,tonumber(v))
+                    end
                 end
             end
-        end
-        hatTable = newHatTable
-    else 
-        newHatTable = hatTable
-   end
-   local missingHats = {table.unpack(newHatTable)}
-   for index,hatId in pairs(newHatTable) do    
-        for _,assetId in pairs(wearingId) do 
-            print("trying to match")
-            if string.find(assetId,hatId) then 
-                table.remove(newHatTable,table.find(newHatTable,hatId))
+            hatTable = newHatTable
+        else 
+            newHatTable = hatTable
+    end
+    local missingHats = {table.unpack(newHatTable)}
+    for index,hatId in pairs(newHatTable) do    
+            for _,assetId in pairs(wearingId) do 
+                print("trying to match")
+                if string.find(assetId,hatId) then 
+                    table.remove(newHatTable,table.find(newHatTable,hatId))
+                end
+            end
+    end
+    if #newHatTable > 0 then
+        local GuiService = game:GetService("GuiService")
+            local humanoidDescription = Instance.new("HumanoidDescription")
+            humanoidDescription.HatAccessory = table.concat(newHatTable,",")
+            GuiService:InspectPlayerFromHumanoidDescription(humanoidDescription, "To get the script to work, you need these hats on your")
+    end
+    end
+    api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
+    --[[DOCUMENTATIOn
+    local UI = lib.new("Console Library")
+    local Page = UI.Page("Hi")
+    local Page2 = UI.Page("Hello")
+    Page.toggle("autofarm",true,print)
+    Page.call("Hello",function()
+    print("called")
+    end)
+    Page2.str("some_str","ayo",function(str)
+    print("some str changed to "..str)
+    end)
+    Page2.int("some_int",0,100,50,function(int)
+    print("some int changed to "..int)
+    end)
+    Page2.list("some_list",{"Gamers","Bobux"},"Gamers",function(list)
+    print("some list changed to "..list)
+    end)
+
+    Page.show()
+    ]]
+    api.files = function(filePath)
+        if isfolder(filePath) then 
+        else makefolder(filePath) end
+        local oldTable = listfiles(filePath)
+        local originalTable = {}
+        for i,v in pairs(oldTable) do 
+            if string.find(v,".") then
+                local index = string.split(v,[[\]])
+                originalTable[string.gsub(index[#index],".lua","")] = readfile(v)
             end
         end
-   end
-   if #newHatTable > 0 then
-    local GuiService = game:GetService("GuiService")
-        local humanoidDescription = Instance.new("HumanoidDescription")
-        humanoidDescription.HatAccessory = table.concat(newHatTable,",")
-        GuiService:InspectPlayerFromHumanoidDescription(humanoidDescription, "To get the script to work, you need these hats on your")
-   end
-end
-api.console = loadstring(game:HttpGet("https://raw.githubusercontent.com/SaijiKung/Mexuit/main/Console%20Lib",true))();
---[[DOCUMENTATIOn
-local UI = lib.new("Console Library")
-local Page = UI.Page("Hi")
-local Page2 = UI.Page("Hello")
-Page.toggle("autofarm",true,print)
-Page.call("Hello",function()
-   print("called")
-end)
-Page2.str("some_str","ayo",function(str)
-   print("some str changed to "..str)
-end)
-Page2.int("some_int",0,100,50,function(int)
-   print("some int changed to "..int)
-end)
-Page2.list("some_list",{"Gamers","Bobux"},"Gamers",function(list)
-   print("some list changed to "..list)
-end)
+        for i,v in pairs(originalTable) do 
+            if string.find(v,".") then
+                print("from original table",i,v)
+            end
+        end
+        local fileList = setmetatable({},{
+            __newindex = function(self,index,value)
+                print(self,index,value)
+                print("trying to find",filePath..[[/]]..index..".lua")
+                writefile(filePath..[[/]]..index..".lua",tostring(value))
+            
+                originalTable[index] = value
+            end,
+            __index = function(self,index)
+                print("hi you mentioned index",index,originalTable[index])
+                return originalTable[index]
+            end
+        })
 
-Page.show()
-]]
-api.files = function(filePath)
-    if isfolder(filePath) then 
-    else makefolder(filePath) end
-    local oldTable = listfiles(filePath)
-    local originalTable = {}
-    for i,v in pairs(oldTable) do 
-        if string.find(v,".") then
-            local index = string.split(v,[[\]])
-             originalTable[string.gsub(index[#index],".lua","")] = readfile(v)
-        end
+        return fileList 
     end
-    for i,v in pairs(originalTable) do 
-        if string.find(v,".") then
-            print("from original table",i,v)
-        end
-    end
-    local fileList = setmetatable({},{
-        __newindex = function(self,index,value)
-            print(self,index,value)
-            print("trying to find",filePath..[[/]]..index..".lua")
-             writefile(filePath..[[/]]..index..".lua",tostring(value))
-           
-            originalTable[index] = value
-        end,
-        __index = function(self,index)
-            print("hi you mentioned index",index,originalTable[index])
-            return originalTable[index]
-        end
-    })
-
-    return fileList 
-end
-api.MessageBox =  function()
-    local MessageBoxT = {
-        BoxIcons = {
-            ["Question"] = "http://www.roblox.com/asset/?id=8800441559",
-            ["Error"] = "http://www.roblox.com/asset/?id=8800303348",
-            ["Warning"] = "http://www.roblox.com/asset/?id=8800428538"
+    api.MessageBox =  function()
+        local MessageBoxT = {
+            BoxIcons = {
+                ["Question"] = "http://www.roblox.com/asset/?id=8800441559",
+                ["Error"] = "http://www.roblox.com/asset/?id=8800303348",
+                ["Warning"] = "http://www.roblox.com/asset/?id=8800428538"
+            }
         }
-    }
-    
-    local ID = 8801438982
-    
-    local CurrentCamera;
-    local plrs = game:GetService("Players")
-    local plr = game:GetService("Players").LocalPlayer
-    local TweenService = game:GetService("TweenService")
-    local inpService = game:GetService("UserInputService")
-    local Mouse = plr:GetMouse()
-    
-    while (not CurrentCamera) do
-        CurrentCamera = workspace.CurrentCamera
-        wait()
-    end
-    
-    local minimized = false
-    
-    local function ToBounds(X,Y, MW)
-        if (X - MW.Size.X.Offset / 2 < 0) then
-            X = MW.Size.X.Offset / 2
-        end
-    
-        if ((MW.AbsoluteSize.Y - Y) - MW.Size.Y.Offset / 2 >= MW.AbsoluteSize.Y) then
-            Y = MW.Size.Y.Offset / 2
-        end
-    
-        if ((X + MW.AbsoluteSize.X) >= (CurrentCamera.ViewportSize.X) + MW.Size.X.Offset / 2) then
-            X = CurrentCamera.ViewportSize.X - MW.AbsoluteSize.X + MW.Size.X.Offset / 2
-        end
-    
-        if (((Y + MW.AbsoluteSize.Y) + 35) >= (CurrentCamera.ViewportSize.Y) + MW.Size.Y.Offset / 2) then
-            Y = (CurrentCamera.ViewportSize.Y - MW.AbsoluteSize.Y) - 35 + MW.Size.Y.Offset / 2
-        end
-    
-    
-        return UDim2.new(0, X, 0, Y)
-    end
-    
-    local function Tween(object, time, properties)
-        local info = TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-        TweenService:Create(object, info, properties):Play()
-    end
-    
-    
-    -- thank you kesh for drag :) <3
-    local function ApplyDrag(Component, MainWindow)
-        local MouseDown = false
-        local MB1 = Enum.UserInputType.MouseButton1 -- no way in hell am i indexing that 24/7
-        local MM = Enum.UserInputType.MouseMovement -- no way in hell am i indexing that 24/7
-    
-        local Position = Vector2.new()
-    
-        local InputBegan = Component.InputBegan:Connect(function(input)
-            if (input.UserInputType == MB1) then
-                Component.BackgroundTransparency = 0
-                Component["Box-Title"].TextColor3 = Color3.fromRGB(255,255,255)
-                Component["Close"]["btn"].TextColor3 = Color3.fromRGB(255,255,255)
-                MouseDown = true
-                Position = Vector2.new(input.Position.X-MainWindow.AbsolutePosition.X-MainWindow.Size.X.Offset / 2, input.Position.Y-MainWindow.AbsolutePosition.Y-MainWindow.Size.Y.Offset / 2)
-            end
-        end)
-    
-        local InputEnded = Component.InputEnded:Connect(function(input)
-            if (input.UserInputType == MB1) then
-                MouseDown = false
-                Component.BackgroundTransparency = 1
-                Component["Box-Title"].TextColor3 = Color3.fromRGB(0,0,0)
-                Component["Close"]["btn"].TextColor3 = Color3.fromRGB(0,0,0)
-            end
-        end)
-    
-        local InputChanged;
-    
-        InputChanged = game:GetService("UserInputService").InputChanged:Connect(function(input)
-            if (MouseDown and input.UserInputType == MM) then
-                Tween(MainWindow, 0.1, {Position = ToBounds((Mouse.X-Position.X), (Mouse.Y-Position.Y), MainWindow)})
-                --MainWindow.Position = ToBounds((Mouse.X-Position.X), (Mouse.Y-Position.Y), MainWindow)
-            end
-        end)
-    end
-    
-    function MessageBoxT.Show(option)
-        option = typeof(option) == "table" and option or {}
-        local MessageDescription = tostring(option.Description) and option.Description or "This is an Notification"
-        local Options = tostring(option.MessageBoxButtons) and option.MessageBoxButtons or "OK"
-        local MessageIcon = tostring(option.MessageBoxIcon) and option.MessageBoxIcon or "Warning"
-        local ResultCallback = typeof(option.Result) == "function" and option.Result or function() end
-        local MessageTitle = tostring(option.Text) and option.Text or ""
-        local CustomPos = option.Position or UDim2.new(0.5,0,0.5,0)
-    
-        local GUI
-    
-        local Addup = 0
-    
-        if (game.CoreGui:FindFirstChild("Notifications")) then 
-        GUI = game.CoreGui:FindFirstChild("Notifications")
-        else 
-            GUI = Instance.new("ScreenGui", game.CoreGui)
-            GUI.Name = "Notifications"
-        end
-    
-        local MessageBox = game:GetObjects("rbxassetid://"..ID)[1]
-        MessageBox["UIScale"].Scale = 1
-        MessageBox:Clone()
-        MessageBox.Parent = GUI
-        MessageBox.Position = CustomPos
-        MessageBox.Position = UDim2.new(0, MessageBox.AbsolutePosition.X, 0, MessageBox.AbsolutePosition.Y)
-    
-        --// Applying Options
-        MessageBox["Message-Header"]["Box-Title"].Text = MessageTitle
-        MessageBox["MessageDescription"].Text = MessageDescription
-        MessageBox["Message-Icons"]["Error"].Image = MessageBoxT.BoxIcons["Error"]
-        MessageBox["Message-Icons"]["Warning"].Image = MessageBoxT.BoxIcons["Warning"]
-        MessageBox["Message-Icons"]["Question"].Image = MessageBoxT.BoxIcons["Question"]
-    
-        ApplyDrag(MessageBox["Message-Header"], MessageBox)
-    
-        local Icon = MessageBox["Message-Icons"]:FindFirstChild(MessageIcon)
-        Icon.Parent = MessageBox
-        Icon.Visible = true
-        local Buttons = nil
         
-        if Options ~= "None" then
-            Buttons = MessageBox["MessageBoxButtons"][Options]:Clone()
-            Buttons.Visible = true
-            Buttons.Parent = MessageBox
-            Addup = 36
-        else
-            Addup = 6
+        local ID = 8801438982
+        
+        local CurrentCamera;
+        local plrs = game:GetService("Players")
+        local plr = game:GetService("Players").LocalPlayer
+        local TweenService = game:GetService("TweenService")
+        local inpService = game:GetService("UserInputService")
+        local Mouse = plr:GetMouse()
+        
+        while (not CurrentCamera) do
+            CurrentCamera = workspace.CurrentCamera
+            wait()
         end
-    
-        if MessageBox["MessageDescription"].TextBounds.Y >= 16 then
-            MessageBox["MessageDescription"].Position = UDim2.new(0, 48,0, 42)
-            Addup -= 14
+        
+        local minimized = false
+        
+        local function ToBounds(X,Y, MW)
+            if (X - MW.Size.X.Offset / 2 < 0) then
+                X = MW.Size.X.Offset / 2
+            end
+        
+            if ((MW.AbsoluteSize.Y - Y) - MW.Size.Y.Offset / 2 >= MW.AbsoluteSize.Y) then
+                Y = MW.Size.Y.Offset / 2
+            end
+        
+            if ((X + MW.AbsoluteSize.X) >= (CurrentCamera.ViewportSize.X) + MW.Size.X.Offset / 2) then
+                X = CurrentCamera.ViewportSize.X - MW.AbsoluteSize.X + MW.Size.X.Offset / 2
+            end
+        
+            if (((Y + MW.AbsoluteSize.Y) + 35) >= (CurrentCamera.ViewportSize.Y) + MW.Size.Y.Offset / 2) then
+                Y = (CurrentCamera.ViewportSize.Y - MW.AbsoluteSize.Y) - 35 + MW.Size.Y.Offset / 2
+            end
+        
+        
+            return UDim2.new(0, X, 0, Y)
         end
-    
-        MessageBox.Size = UDim2.new(0, MessageBox["MessageDescription"].TextBounds.X + 100,0, MessageBox["MessageDescription"].TextBounds.Y + 70 + Addup)
-        MessageBox.BackgroundColor3 = Color3.fromRGB(43,43,43)
-        if Buttons ~= nil then
-            Buttons.BackgroundColor3 = Color3.fromRGB(38,38,38)
-            for i,v in pairs(Buttons:GetChildren()) do
-                if v:IsA("TextButton") then
-                    v.MouseButton1Click:Connect(function()
-                        ResultCallback(v.Text)
-                        game.TweenService:Create(MessageBox["UIScale"], TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                            Scale = 0
-                        }):Play()
-                        wait(0.1)
-                        MessageBox:Destroy()
-                    end)
+        
+        local function Tween(object, time, properties)
+            local info = TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+            TweenService:Create(object, info, properties):Play()
+        end
+        
+        
+        -- thank you kesh for drag :) <3
+        local function ApplyDrag(Component, MainWindow)
+            local MouseDown = false
+            local MB1 = Enum.UserInputType.MouseButton1 -- no way in hell am i indexing that 24/7
+            local MM = Enum.UserInputType.MouseMovement -- no way in hell am i indexing that 24/7
+        
+            local Position = Vector2.new()
+        
+            local InputBegan = Component.InputBegan:Connect(function(input)
+                if (input.UserInputType == MB1) then
+                    Component.BackgroundTransparency = 0
+                    Component["Box-Title"].TextColor3 = Color3.fromRGB(255,255,255)
+                    Component["Close"]["btn"].TextColor3 = Color3.fromRGB(255,255,255)
+                    MouseDown = true
+                    Position = Vector2.new(input.Position.X-MainWindow.AbsolutePosition.X-MainWindow.Size.X.Offset / 2, input.Position.Y-MainWindow.AbsolutePosition.Y-MainWindow.Size.Y.Offset / 2)
+                end
+            end)
+        
+            local InputEnded = Component.InputEnded:Connect(function(input)
+                if (input.UserInputType == MB1) then
+                    MouseDown = false
+                    Component.BackgroundTransparency = 1
+                    Component["Box-Title"].TextColor3 = Color3.fromRGB(0,0,0)
+                    Component["Close"]["btn"].TextColor3 = Color3.fromRGB(0,0,0)
+                end
+            end)
+        
+            local InputChanged;
+        
+            InputChanged = game:GetService("UserInputService").InputChanged:Connect(function(input)
+                if (MouseDown and input.UserInputType == MM) then
+                    Tween(MainWindow, 0.1, {Position = ToBounds((Mouse.X-Position.X), (Mouse.Y-Position.Y), MainWindow)})
+                    --MainWindow.Position = ToBounds((Mouse.X-Position.X), (Mouse.Y-Position.Y), MainWindow)
+                end
+            end)
+        end
+        
+        function MessageBoxT.Show(option)
+            option = typeof(option) == "table" and option or {}
+            local MessageDescription = tostring(option.Description) and option.Description or "This is an Notification"
+            local Options = tostring(option.MessageBoxButtons) and option.MessageBoxButtons or "OK"
+            local MessageIcon = tostring(option.MessageBoxIcon) and option.MessageBoxIcon or "Warning"
+            local ResultCallback = typeof(option.Result) == "function" and option.Result or function() end
+            local MessageTitle = tostring(option.Text) and option.Text or ""
+            local CustomPos = option.Position or UDim2.new(0.5,0,0.5,0)
+        
+            local GUI
+        
+            local Addup = 0
+        
+            if (game.CoreGui:FindFirstChild("Notifications")) then 
+            GUI = game.CoreGui:FindFirstChild("Notifications")
+            else 
+                GUI = Instance.new("ScreenGui", game.CoreGui)
+                GUI.Name = "Notifications"
+            end
+        
+            local MessageBox = game:GetObjects("rbxassetid://"..ID)[1]
+            MessageBox["UIScale"].Scale = 1
+            MessageBox:Clone()
+            MessageBox.Parent = GUI
+            MessageBox.Position = CustomPos
+            MessageBox.Position = UDim2.new(0, MessageBox.AbsolutePosition.X, 0, MessageBox.AbsolutePosition.Y)
+        
+            --// Applying Options
+            MessageBox["Message-Header"]["Box-Title"].Text = MessageTitle
+            MessageBox["MessageDescription"].Text = MessageDescription
+            MessageBox["Message-Icons"]["Error"].Image = MessageBoxT.BoxIcons["Error"]
+            MessageBox["Message-Icons"]["Warning"].Image = MessageBoxT.BoxIcons["Warning"]
+            MessageBox["Message-Icons"]["Question"].Image = MessageBoxT.BoxIcons["Question"]
+        
+            ApplyDrag(MessageBox["Message-Header"], MessageBox)
+        
+            local Icon = MessageBox["Message-Icons"]:FindFirstChild(MessageIcon)
+            Icon.Parent = MessageBox
+            Icon.Visible = true
+            local Buttons = nil
+            
+            if Options ~= "None" then
+                Buttons = MessageBox["MessageBoxButtons"][Options]:Clone()
+                Buttons.Visible = true
+                Buttons.Parent = MessageBox
+                Addup = 36
+            else
+                Addup = 6
+            end
+        
+            if MessageBox["MessageDescription"].TextBounds.Y >= 16 then
+                MessageBox["MessageDescription"].Position = UDim2.new(0, 48,0, 42)
+                Addup -= 14
+            end
+        
+            MessageBox.Size = UDim2.new(0, MessageBox["MessageDescription"].TextBounds.X + 100,0, MessageBox["MessageDescription"].TextBounds.Y + 70 + Addup)
+            MessageBox.BackgroundColor3 = Color3.fromRGB(43,43,43)
+            if Buttons ~= nil then
+                Buttons.BackgroundColor3 = Color3.fromRGB(38,38,38)
+                for i,v in pairs(Buttons:GetChildren()) do
+                    if v:IsA("TextButton") then
+                        v.MouseButton1Click:Connect(function()
+                            ResultCallback(v.Text)
+                            game.TweenService:Create(MessageBox["UIScale"], TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                                Scale = 0
+                            }):Play()
+                            wait(0.1)
+                            MessageBox:Destroy()
+                        end)
+                    end
                 end
             end
+        
+            MessageBox["UIScale"].Scale = 0
+        
+            game.TweenService:Create(MessageBox["UIScale"], TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                Scale = 1
+            }):Play()
         end
-    
-        MessageBox["UIScale"].Scale = 0
-    
-        game.TweenService:Create(MessageBox["UIScale"], TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-            Scale = 1
-        }):Play()
+        
+        return MessageBoxT
     end
-    
-    return MessageBoxT
-end
-api.Scanner = {}
+    api.Scanner = {}
 
 
---[[
-   MessageBoxIcons:
-      • Question
-      • Error
-      • Warning
+    --[[
+    MessageBoxIcons:
+        • Question
+        • Error
+        • Warning
 
-   MessageBoxButtons:
-      • YesNo
-      • OKCancel
-      • OK
---]]
--- AnchorPoint is 0.5,0.5
---[[ --EXAMPLE
-MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0), Text = "Notification UI", Description = "Windows 10 MessageBox\nMade by : xHeptc\n \nDo you like this?", MessageBoxIcon = "Question", MessageBoxButtons = "YesNo", Result = function(res)
-   if (res == "Yes") then
-       MessageBox.Show({MessageBoxButtons = "OK", Description = "Wow, you said Yes! Thank you", Text = "YAYYY!"})
-   elseif (res == "No") then
-       MessageBox.Show({MessageBoxButtons = "OK", Description = "Ahh, sorry to dissapoint, I'll try better next time!", Text = "Nooooo"})
-   end
-end})
-]]
-function api:DecodeJSON(jsonString)
-    local HttpService = game:GetService("HttpService")
-    local data = HttpService:JSONDecode(jsonString)
-    return data
-end
-function api:EncodeJSON(dictionary)
-    local HttpService = game:GetService("HttpService")
-    local json = HttpService:JSONEncode(dictionary)
-    return json
-end
-return api 
+    MessageBoxButtons:
+        • YesNo
+        • OKCancel
+        • OK
+    --]]
+    -- AnchorPoint is 0.5,0.5
+    --[[ --EXAMPLE
+    MessageBox.Show({Position = UDim2.new(0.5,0,0.5,0), Text = "Notification UI", Description = "Windows 10 MessageBox\nMade by : xHeptc\n \nDo you like this?", MessageBoxIcon = "Question", MessageBoxButtons = "YesNo", Result = function(res)
+    if (res == "Yes") then
+        MessageBox.Show({MessageBoxButtons = "OK", Description = "Wow, you said Yes! Thank you", Text = "YAYYY!"})
+    elseif (res == "No") then
+        MessageBox.Show({MessageBoxButtons = "OK", Description = "Ahh, sorry to dissapoint, I'll try better next time!", Text = "Nooooo"})
+    end
+    end})
+    ]]
+    function api:DecodeJSON(jsonString)
+        local HttpService = game:GetService("HttpService")
+        local data = HttpService:JSONDecode(jsonString)
+        return data
+    end
+    function api:EncodeJSON(dictionary)
+        local HttpService = game:GetService("HttpService")
+        local json = HttpService:JSONEncode(dictionary)
+        return json
+    end
+    return api 
