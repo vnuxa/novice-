@@ -112,7 +112,7 @@ if Drawing then
 			Line.Color = CheckmarkBlue;
 			objects[("Line%d"):format(i)] = Line;
 		end
-			
+
 		while true do
 			local object = SelectionBox.Adornee;
 			if SelectionBox.Adornee and object and object:IsA("BasePart") then
@@ -251,7 +251,7 @@ do
 		local Classes = JsonDecoded.Classes;
 		local ClassesDictionary = {};
 		local WaitingForInherit = {};
-		
+
 		-- this basically ends up formatting the API dump into a properties list
 		-- this is what my properties table on the github is 
 
@@ -263,7 +263,7 @@ do
 			end
 			return false;
 		end
-		
+
 		for _, class in pairs(Classes) do
 			local Super, Members, Name = class.Superclass, class.Members, class.Name;
 			local properties = {};
@@ -284,13 +284,13 @@ do
 			WaitingForInherit[Name] = Super;
 			ClassesDictionary[Name] = {Super = Super, Properties = properties, Name = Name};
 		end
-		
+
 		local function GetLength(List)
 			local Num = 0;
 			for k, v in pairs(List) do Num = Num + 1 end;
 			return Num
 		end
-		
+
 		-- made this more efficient in my js code kinda too lazy to update it
 		while GetLength(WaitingForInherit) ~= 0 do
 			for Name, Super in pairs(WaitingForInherit) do
@@ -302,7 +302,7 @@ do
 				end
 			end
 		end
-		
+
 		ClassProperties = ClassesDictionary;
 	else
 		-- gotta keep it studio safe!
@@ -364,13 +364,13 @@ do
 		if drag_frame then
 			local small_x = pos.X.Scale * gui.AbsoluteSize.X + pos.X.Offset;
 			local small_y = pos.Y.Scale * gui.AbsoluteSize.Y + pos.Y.Offset;
-				
+
 			local far_x = small_x + gui.Size.X.Offset;
 			local far_y = small_y + gui.Size.Y.Offset;
-			
+
 			local true_x = math.clamp(small_x, 0, drag_frame.AbsoluteSize.X - (far_x - small_x));
 			local true_y = math.clamp(small_y, 0, drag_frame.AbsoluteSize.Y - (far_y - small_y));
-			
+
 			pos = UDim2.new(0, true_x, 0, true_y);
 		end
 
@@ -380,12 +380,12 @@ do
 			gui.Position = pos;
 		end
 	end
-	
+
 	function drag(object, move_frame, tween, border_frame, update_func)
 		move_frame = move_frame or object;
-		
+
 		local connections = {};
-		
+
 		table.insert(connections, object.InputBegan:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 then
 				is_dragging = true;
@@ -396,11 +396,11 @@ do
 				tween_time = tween;
 
 				BringWindowToFront(move_frame);
-				
+
 				if update_func then
 					update_func(true);
 				end
-				
+
 				table.insert(connections, input.Changed:Connect(function()
 					if input.UserInputState == Enum.UserInputState.End then
 						is_dragging = false;
@@ -409,7 +409,7 @@ do
 						end
 					end
 				end))
-				
+
 			end
 		end))
 
@@ -418,7 +418,7 @@ do
 				input_drag = input;
 			end
 		end))
-				
+
 		-- return --
 		return {
 			disconnect = function()
@@ -426,7 +426,7 @@ do
 			end	
 		}
 	end
-	
+
 	UserInputService.InputChanged:Connect(function(input)
 		if input == input_drag and is_dragging then
 			update(input, item_drag);
@@ -442,73 +442,73 @@ local ColorObject; do
 		local max, min = math.max(r, g, b), math.min(r, g, b);
 		local h, s, v;
 		v = max;
-	
+
 		local d = max - min;
 		if max == 0 then s = 0 else s = d / max end;
-			if max == min then
-				h = 0; -- achromatic
-			else
-				if max == r then
-					h = (g - b) / d ;
-					if g < b then 
-						h = h + 6 ;
-					end
-				elseif max == g then 
-					h = (b - r) / d + 2;
-				elseif max == b then
-					h = (r - g) / d + 4;
+		if max == min then
+			h = 0; -- achromatic
+		else
+			if max == r then
+				h = (g - b) / d ;
+				if g < b then 
+					h = h + 6 ;
+				end
+			elseif max == g then 
+				h = (b - r) / d + 2;
+			elseif max == b then
+				h = (r - g) / d + 4;
 			end
 			h = h / 6;
 		end
-	
+
 		return h, s, v;
 	end
-	
+
 	local current_input, callback;
-	
+
 	ColorObject = {
 		h = nil,
 		s = nil,
 		v = nil,
-	
+
 		new = function(this, frame, starting, cb)
 			local self = setmetatable({}, this);
 			self.Frame = frame:Clone();
 			self.Frame.Parent = Gui;
 			self.cb = cb;
 			self.previous = starting;
-			
+
 			self.h, self.s, self.v = rgb_to_hsv(starting.r, starting.g, starting.b);
 			self:Update();
-			
+
 			local Hue = self.Frame:WaitForChild("Hue");
 			local Mask = self.Frame:WaitForChild("Mask");
 			local ExitB = self.Frame:WaitForChild("Topbar"):WaitForChild("Exit");
 
 			ExitButton(ExitB);
-			
+
 			ExitB.MouseButton1Click:Connect(function() 
 				self:cancel();
 			end);
 			self.Frame:WaitForChild("Cancel").MouseButton1Click:Connect(function() self:cancel(); end);
 			self.Frame:WaitForChild("Ok").MouseButton1Click:Connect(function() self:hide(); end);
-			
+
 			drag(self.Frame.Topbar, self.Frame);
 			BringWindowToFront(self.Frame);
-			
+
 			Mask.InputBegan:Connect(function(input) 
 				if input.UserInputType == Enum.UserInputType.MouseButton1 and not current_input then
 					callback = function() 
 						self:SetMaskToMouse();
 						self:Update();
 					end;
-										
+
 					local conn; conn = Mask.InputChanged:Connect(function(inp) 
 						if inp.UserInputType == Enum.UserInputType.MouseMovement then
 							current_input = inp;
 						end
 					end);
-					
+
 					local c; c = input.Changed:Connect(function() 
 						if input.UserInputState == Enum.UserInputState.End then
 							current_input = nil;
@@ -518,20 +518,20 @@ local ColorObject; do
 					end);
 				end
 			end);
-			
+
 			Hue.InputBegan:Connect(function(input) 
 				if input.UserInputType == Enum.UserInputType.MouseButton1 and not current_input then
 					callback = function() 
 						self:SetHueToMouse();
 						self:Update();
 					end;
-										
+
 					local conn; conn = Hue.InputChanged:Connect(function(inp) 
 						if inp.UserInputType == Enum.UserInputType.MouseMovement then
 							current_input = inp;
 						end
 					end);
-					
+
 					local c; c = input.Changed:Connect(function() 
 						if input.UserInputState == Enum.UserInputState.End then
 							current_input = nil;
@@ -541,7 +541,7 @@ local ColorObject; do
 					end);
 				end
 			end);
-			
+
 			return self;
 		end,
 		show = function(self)
@@ -594,7 +594,7 @@ local ColorObject; do
 		end
 	};
 	ColorObject.__index = ColorObject;
-	
+
 	UserInputService.InputChanged:Connect(function(input) 
 		if input == current_input and callback then
 			callback();
@@ -711,9 +711,9 @@ local function decomp(obj)
 	cached_decomp[obj] = decompile(obj);
 	local RunService = game:GetService("RunService")
 	RunService.Heartbeat:wait();
-    if cached_decomp[obj] then else
+	if cached_decomp[obj] then else
 		Notify:new("Decompiling error", "Got bad allocation, script may be too big.");
-    end
+	end
 	return cached_decomp[obj];
 end
 
@@ -776,7 +776,7 @@ end;
 
 local Last;
 local RightClickDropdown = {
-	
+
 	Divider = function(self)
 		if Last then
 			Last.Divider.Visible = true;
@@ -785,44 +785,44 @@ local RightClickDropdown = {
 }
 DropdownList.BackgroundColor3 = Color3.fromRGB(46,46,46)
 function RightClickDropdown:Button( Name, Icon, GrayedOut, func, Hotkey)    
-    local Clone = SlotTemplate:Clone();
-    DropdownList.ZIndex = 4
-    Clone.Parent = DropdownList;
-    Clone.Position = UDim2.new(0, 0, 0, SlotSize.Y * (#DropdownList:GetChildren() - 1));
-    DropdownList.BackgroundTransparency = 0
-    Dropdown.Size = UDim2.new(0.65, 0, 0, SlotSize.Y * (#DropdownList:GetChildren()));
-    Last = Clone;
-    local Hover = Clone:WaitForChild("Hover");
-    Hover.ZIndex = 5
-    local Ic = Clone:WaitForChild("Icon");
-    if Icon then
-        Ic.ImageRectOffset = Vector2.new((Icon - 1) * 17, 0)
-    else
-        Ic.Visible = false;
-    end
-    local press = Hover.MouseButton1Down:Connect(function()
-        func()
-        HideClickMenu();
-    end)
-    Hover.MouseEnter:Connect(function() 
-        Hover.BackgroundTransparency = 0;
-    end);
-    Hover.MouseLeave:Connect(function() 
-        Hover.BackgroundTransparency = 1;
-    end);
- 
-    local HotkeyLabel = Clone:WaitForChild("Hotkey");
-    if Hotkey then
-        HotkeyLabel.Text = Hotkey;
-        HotkeyLabel.Visible = true;
-    end
-    
-    local Label = Clone:WaitForChild("Label");
-    Label.Text = Name;
-    if GrayedOut then
-        Label.TextColor3 = Color3.fromRGB(127, 127, 127);
-        HotkeyLabel.TextColor3 = Color3.fromRGB(127, 127, 127);
-    end
+	local Clone = SlotTemplate:Clone();
+	DropdownList.ZIndex = 4
+	Clone.Parent = DropdownList;
+	Clone.Position = UDim2.new(0, 0, 0, SlotSize.Y * (#DropdownList:GetChildren() - 1));
+	DropdownList.BackgroundTransparency = 0
+	Dropdown.Size = UDim2.new(0.65, 0, 0, SlotSize.Y * (#DropdownList:GetChildren()));
+	Last = Clone;
+	local Hover = Clone:WaitForChild("Hover");
+	Hover.ZIndex = 5
+	local Ic = Clone:WaitForChild("Icon");
+	if Icon then
+		Ic.ImageRectOffset = Vector2.new((Icon - 1) * 17, 0)
+	else
+		Ic.Visible = false;
+	end
+	local press = Hover.MouseButton1Down:Connect(function()
+		func()
+		HideClickMenu();
+	end)
+	Hover.MouseEnter:Connect(function() 
+		Hover.BackgroundTransparency = 0;
+	end);
+	Hover.MouseLeave:Connect(function() 
+		Hover.BackgroundTransparency = 1;
+	end);
+
+	local HotkeyLabel = Clone:WaitForChild("Hotkey");
+	if Hotkey then
+		HotkeyLabel.Text = Hotkey;
+		HotkeyLabel.Visible = true;
+	end
+
+	local Label = Clone:WaitForChild("Label");
+	Label.Text = Name;
+	if GrayedOut then
+		Label.TextColor3 = Color3.fromRGB(127, 127, 127);
+		HotkeyLabel.TextColor3 = Color3.fromRGB(127, 127, 127);
+	end
 end
 
 -- right click menu click off --
@@ -856,15 +856,15 @@ local function GetChildrenShowing()
 end
 
 -- right click menu --
-		
+
 local function RightClickMenu()
 	local Object;
 	for object in pairs(Selection) do Object = object break end;
 	if Object then
-        
-local ListLayout = Instance.new("UIListLayout")
-ListLayout.Parent = DropdownList
-DropdownList.AutomaticSize = Enum.AutomaticSize.Y
+
+		local ListLayout = Instance.new("UIListLayout")
+		ListLayout.Parent = DropdownList
+		DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 
 		-- general instance buttons --
 		-- for some reason roblox just doesn't like you using control --
@@ -906,11 +906,11 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 		RightClickDropdown:Button("Insert Object", nil, false, function() end);
 		RightClickDropdown:Divider();
 		RightClickDropdown:Button("Save Instance", nil, true, function()
-			 saveinstance(Object) 
+			saveinstance(Object) 
 		end);
 		RightClickDropdown:Button("Get Path", nil, false, function() setclipboard(make_path(Object)) end);
 		RightClickDropdown:Divider();
-		
+
 		-- script buttons --
 		if Object:IsA("LocalScript") or Object:IsA("ModuleScript") then
 			RightClickDropdown:Button("Save To Clipboard", 2, false, function() 
@@ -918,12 +918,12 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			end);
 			RightClickDropdown:Button("Download Script", nil, false, function() 
 				wrap(function()
-					
+
 					local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
 					local exlorer = api.files("Explorer/")
 					local files = api.files("Explorer/"..tostring(game.PlaceId))
 					files[Object.Name] = decomp(Object)
-					 end)();
+				end)();
 			end);
 			RightClickDropdown:Button("View Script", 9, false, function() 
 				ScriptEditor:Show();
@@ -963,55 +963,55 @@ DropdownList.AutomaticSize = Enum.AutomaticSize.Y
 			end);
 		end
 		-- --;
-		
+
 		Dropdown.Visible = true;
 		Dropdown.Position = UDim2.new(0, Mouse.X - ExplorerFrame.AbsolutePosition.X + 5, 0, Mouse.Y - ExplorerFrame.AbsolutePosition.Y);
 	end
 end
 
 -- hotkeys
-	AddHotkey("Cut", {Enum.KeyCode.LeftShift, Enum.KeyCode.X}, function() 
-		local clip = {};
-		for _, obj in pairs(STL()) do
-			table.insert(clip, obj:Clone());
-			obj:Destroy();
-		end
-		clipboard = clip;
-		Selection = {};
-	end);
-	AddHotkey("Copy", {Enum.KeyCode.LeftShift, Enum.KeyCode.C}, function() 
-		clipboard = STL();
-	end);
-	AddHotkey("Paste Into", {Enum.KeyCode.LeftShift, Enum.KeyCode.V}, function() 
-		local Object = STL()[1];
-		local new = {};
-		for _, obj in pairs(clipboard) do
-			local x = obj:Clone();
-			new[x] = x;
-			x.Parent = Object;
-		end
-		Selection = new;
-	end);
-	AddHotkey("Duplicate", {Enum.KeyCode.LeftShift, Enum.KeyCode.D}, function() 
-		local Object = STL()[1];
-		local new = {};
-		for _, obj in pairs(STL()) do
-			local x = obj:Clone();
-			new[x] = x;
-			x.Parent = Object.Parent;
-		end
-		Selection = new;
-	end);
-	AddHotkey("Delete", Enum.KeyCode.Delete, function(Selection) 
-		for _, object in pairs(STL()) do object:Destroy() end;
-		Selection = {};
-	end);
-	AddHotkey("Teleport To", Enum.KeyCode.F, function(Selection) 
-		local Object = STL()[1];
-		if Object:IsA("BasePart") then 
-			if Client.Character and Client.Character.PrimaryPart then Client.Character:SetPrimaryPartCFrame(Object.CFrame) end;
-		end
-	end);
+AddHotkey("Cut", {Enum.KeyCode.LeftShift, Enum.KeyCode.X}, function() 
+	local clip = {};
+	for _, obj in pairs(STL()) do
+		table.insert(clip, obj:Clone());
+		obj:Destroy();
+	end
+	clipboard = clip;
+	Selection = {};
+end);
+AddHotkey("Copy", {Enum.KeyCode.LeftShift, Enum.KeyCode.C}, function() 
+	clipboard = STL();
+end);
+AddHotkey("Paste Into", {Enum.KeyCode.LeftShift, Enum.KeyCode.V}, function() 
+	local Object = STL()[1];
+	local new = {};
+	for _, obj in pairs(clipboard) do
+		local x = obj:Clone();
+		new[x] = x;
+		x.Parent = Object;
+	end
+	Selection = new;
+end);
+AddHotkey("Duplicate", {Enum.KeyCode.LeftShift, Enum.KeyCode.D}, function() 
+	local Object = STL()[1];
+	local new = {};
+	for _, obj in pairs(STL()) do
+		local x = obj:Clone();
+		new[x] = x;
+		x.Parent = Object.Parent;
+	end
+	Selection = new;
+end);
+AddHotkey("Delete", Enum.KeyCode.Delete, function(Selection) 
+	for _, object in pairs(STL()) do object:Destroy() end;
+	Selection = {};
+end);
+AddHotkey("Teleport To", Enum.KeyCode.F, function(Selection) 
+	local Object = STL()[1];
+	if Object:IsA("BasePart") then 
+		if Client.Character and Client.Character.PrimaryPart then Client.Character:SetPrimaryPartCFrame(Object.CFrame) end;
+	end
+end);
 
 -- explorer stuff --
 
@@ -1088,7 +1088,7 @@ local function FillList()
 				end
 			end,
 		};
-		
+
 		ObjectData.Dropdown.Parent.MouseButton1Down:Connect(function() 
 			if not ObjectData.CurrentObject then return end;
 			local ChildrenShowing = GetChildrenShowing();
@@ -1128,7 +1128,7 @@ local function FillList()
 			ObjectData:Select();
 			RightClickMenu();
 		end);
-			
+
 		table.insert(ListObjects, ObjectData);
 	end
 end
@@ -1189,7 +1189,7 @@ function UpdateList(ShowList)
 	local Indent = 0;
 	for _, connection in pairs(PreviousConnections) do connection:Disconnect() end;
 	PreviousConnections = {};
-	
+
 	if Start > 1 then
 		for i = 1, Start - 1 do
 			local Object = ShowList[i];
@@ -1204,14 +1204,14 @@ function UpdateList(ShowList)
 					-- doesn't do much but it's worth it --
 
 					--if TotalObjects < 35000 then : ugh disabled cause it caused problems
-						local parent = Object;
-						while NextObject and NextObject.Parent ~= parent do
-							if parent == nil then break end;
-							parent = parent.Parent;
-							if NextObject.Parent ~= parent then
-								Indent = math.clamp(Indent - 1, 0, math.huge);
-							end
+					local parent = Object;
+					while NextObject and NextObject.Parent ~= parent do
+						if parent == nil then break end;
+						parent = parent.Parent;
+						if NextObject.Parent ~= parent then
+							Indent = math.clamp(Indent - 1, 0, math.huge);
 						end
+					end
 					--end
 
 				end
@@ -1229,9 +1229,9 @@ function UpdateList(ShowList)
 			local Size, Offset = GetIconFromClass(Object.ClassName);
 			ObjectFrame.Icon.ImageRectOffset = Offset;
 			ObjectFrame.Icon.ImageRectSize = Size;
-			
+
 			-- connections --
-			
+
 			table.insert(PreviousConnections, Object:GetPropertyChangedSignal("Name"):Connect(function() 
 				ObjectFrame.Label.Text = Object.Name;
 			end))
@@ -1243,9 +1243,9 @@ function UpdateList(ShowList)
 				UpdateList(GetShowList());
 				UpdateScrollbar();
 			end))
-			
+
 			-- --
-			
+
 			local NextObject = ShowList[i + 1];
 			if NextObject and FindFirstChild(Object, NextObject) then
 				Indent = Indent + 1;
@@ -1276,12 +1276,12 @@ function UpdateList(ShowList)
 	end
 end
 local function IsParentOf(objList,parent)
-    for i,v in pairs(objList) do 
-        if i == parent then 
-              return true 
-        end
-    end
-    return false
+	for i,v in pairs(objList) do 
+		if i == parent then 
+			return true 
+		end
+	end
+	return false
 end
 local function ShowChildrenTilWorkspace(Childrenshowing, Onlyshowing, object)
 	local parent = object;
@@ -1350,47 +1350,47 @@ end
 local function DirectShow(obs)
 	-- only works with Workspace rn
 	local Objects = {
-        workspace,
-        game:GetService("Players"),
-    game:GetService("CoreGui"),
-    game:GetService("Lighting"),
-    game:GetService("ReplicatedFirst"),
-    game:GetService("ReplicatedStorage"),
-    game:GetService("StarterGui"),
-    game:GetService("StarterPack"),
-    game:GetService("StarterPlayer"),
-    game:GetService("Teams"),
-    game:GetService("SoundService"),
-    game:GetService("Chat"),
-}; 
+		workspace,
+		game:GetService("Players"),
+		game:GetService("CoreGui"),
+		game:GetService("Lighting"),
+		game:GetService("ReplicatedFirst"),
+		game:GetService("ReplicatedStorage"),
+		game:GetService("StarterGui"),
+		game:GetService("StarterPack"),
+		game:GetService("StarterPlayer"),
+		game:GetService("Teams"),
+		game:GetService("SoundService"),
+		game:GetService("Chat"),
+	}; 
 	local Childrenshowing = {
-        [workspace] = true,
-        [game:GetService("Players")] = true,
-        [ game:GetService("CoreGui")] = true,
-        [game:GetService("Lighting")] = true,
-        [game:GetService("ReplicatedFirst")] = true,
-        [game:GetService("ReplicatedStorage")] = true,
-        [game:GetService("StarterGui")] = true,
-        [game:GetService("StarterPack")] = true,
-        [game:GetService("StarterPlayer")] = true,
-        [game:GetService("Teams")] = true,
-        [game:GetService("SoundService")] = true,
-        [game:GetService("Chat")] = true,
-    }; 
+		[workspace] = true,
+		[game:GetService("Players")] = true,
+		[ game:GetService("CoreGui")] = true,
+		[game:GetService("Lighting")] = true,
+		[game:GetService("ReplicatedFirst")] = true,
+		[game:GetService("ReplicatedStorage")] = true,
+		[game:GetService("StarterGui")] = true,
+		[game:GetService("StarterPack")] = true,
+		[game:GetService("StarterPlayer")] = true,
+		[game:GetService("Teams")] = true,
+		[game:GetService("SoundService")] = true,
+		[game:GetService("Chat")] = true,
+	}; 
 	local Onlyshowing = {
-        [workspace] = true,
-        [game:GetService("Players")] = true,
-        [ game:GetService("CoreGui")] = true,
-        [game:GetService("Lighting")] = true,
-        [game:GetService("ReplicatedFirst")] = true,
-        [game:GetService("ReplicatedStorage")] = true,
-        [game:GetService("StarterGui")] = true,
-        [game:GetService("StarterPack")] = true,
-        [game:GetService("StarterPlayer")] = true,
-        [game:GetService("Teams")] = true,
-        [game:GetService("SoundService")] = true,
-        [game:GetService("Chat")] = true,
-    }; 
+		[workspace] = true,
+		[game:GetService("Players")] = true,
+		[ game:GetService("CoreGui")] = true,
+		[game:GetService("Lighting")] = true,
+		[game:GetService("ReplicatedFirst")] = true,
+		[game:GetService("ReplicatedStorage")] = true,
+		[game:GetService("StarterGui")] = true,
+		[game:GetService("StarterPack")] = true,
+		[game:GetService("StarterPlayer")] = true,
+		[game:GetService("Teams")] = true,
+		[game:GetService("SoundService")] = true,
+		[game:GetService("Chat")] = true,
+	}; 
 
 	for _, object in pairs(obs) do
 		ShowChildrenTilWorkspace(Childrenshowing, Onlyshowing, object);
@@ -1419,166 +1419,166 @@ end);
 
 -- Scrollbar --
 
-	-- looking back on this, this is still very ugly code that im too laze to improve --
-	local function GetScrollPercent(ListObjects)
-		return (Start - 1) / (#ListObjects - 3);
-	end
+-- looking back on this, this is still very ugly code that im too laze to improve --
+local function GetScrollPercent(ListObjects)
+	return (Start - 1) / (#ListObjects - 3);
+end
 
-	local Button = Zone:WaitForChild("Button");
-	
-	function UpdateScrollbar()
-		local List = GetShowList();
-		local Num = #List;
-		
-		local GoesOverBy = Num - #ListObjects;
-		ScrollButton.Position = UDim2.new(0, 0, GetScrollPercent(List), 0);
-		local IterateAmount = 1;
-		for _, func in pairs(ScrollUpdates) do func() end;
-		
-		local ViewportRatio = Zone.AbsoluteSize.Y / (Num * TemplateSize.Y);
-		if ViewportRatio < 1 then
-			Scrollbar.Visible = true;
-			Button.Size = UDim2.new(1, 0, 0, Zone.AbsoluteSize.Y * ViewportRatio);
-		else
-			Scrollbar.Visible = false;
-			Start = 1;
-			UpdateList(GetShowList());
-		end
+local Button = Zone:WaitForChild("Button");
+
+function UpdateScrollbar()
+	local List = GetShowList();
+	local Num = #List;
+
+	local GoesOverBy = Num - #ListObjects;
+	ScrollButton.Position = UDim2.new(0, 0, GetScrollPercent(List), 0);
+	local IterateAmount = 1;
+	for _, func in pairs(ScrollUpdates) do func() end;
+
+	local ViewportRatio = Zone.AbsoluteSize.Y / (Num * TemplateSize.Y);
+	if ViewportRatio < 1 then
+		Scrollbar.Visible = true;
+		Button.Size = UDim2.new(1, 0, 0, Zone.AbsoluteSize.Y * ViewportRatio);
+	else
+		Scrollbar.Visible = false;
+		Start = 1;
+		UpdateList(GetShowList());
 	end
-	
-	local YDelta = 0;
-	local function StartScroll()
-		RunService:BindToRenderStep("Scrollbar", 1, function() 
-			local List = GetShowList();
-			local Percentage = math.clamp((Mouse.Y - Zone.AbsolutePosition.Y) / Zone.AbsoluteSize.Y, 0, 1);
-			ScrollButton.Position = UDim2.new(0, 0, Percentage, -YDelta);
-			Start = math.floor(Percentage * (#List - #ListObjects)) + 1;
-			UpdateList(List);
-			UpdateScrollbar();
+end
+
+local YDelta = 0;
+local function StartScroll()
+	RunService:BindToRenderStep("Scrollbar", 1, function() 
+		local List = GetShowList();
+		local Percentage = math.clamp((Mouse.Y - Zone.AbsolutePosition.Y) / Zone.AbsoluteSize.Y, 0, 1);
+		ScrollButton.Position = UDim2.new(0, 0, Percentage, -YDelta);
+		Start = math.floor(Percentage * (#List - #ListObjects)) + 1;
+		UpdateList(List);
+		UpdateScrollbar();
+	end);
+end
+local function EndScroll()
+	RunService:UnbindFromRenderStep("Scrollbar");
+end
+
+UpArrow.MouseButton1Down:Connect(function() 
+	Start = math.clamp(Start - 1, 1, math.huge);
+	UpdateList(GetShowList());
+	UpdateScrollbar();
+end)
+DownArrow.MouseButton1Down:Connect(function() 
+	local ShowList = GetShowList();
+	Start = math.clamp(Start + 1, 1, math.clamp(#ShowList - #ListObjects + 1, 1, math.huge));
+	UpdateList(ShowList)
+	UpdateScrollbar();
+end)
+
+ScrollButton.InputBegan:Connect(function(input) 
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		StartScroll();
+		YDelta = Mouse.Y - ScrollButton.AbsolutePosition.Y;
+		input.Changed:Connect(function() 
+			if input.UserInputState == Enum.UserInputState.End then
+				EndScroll();
+			end
 		end);
 	end
-	local function EndScroll()
-		RunService:UnbindFromRenderStep("Scrollbar");
-	end
-	
-	UpArrow.MouseButton1Down:Connect(function() 
-		Start = math.clamp(Start - 1, 1, math.huge);
-		UpdateList(GetShowList());
-		UpdateScrollbar();
-	end)
-	DownArrow.MouseButton1Down:Connect(function() 
-		local ShowList = GetShowList();
-		Start = math.clamp(Start + 1, 1, math.clamp(#ShowList - #ListObjects + 1, 1, math.huge));
-		UpdateList(ShowList)
-		UpdateScrollbar();
-	end)
-	
-	ScrollButton.InputBegan:Connect(function(input) 
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			StartScroll();
-			YDelta = Mouse.Y - ScrollButton.AbsolutePosition.Y;
-			input.Changed:Connect(function() 
-				if input.UserInputState == Enum.UserInputState.End then
-					EndScroll();
-				end
-			end);
+end)
+local LastMaxZoom, LastMinZoom;
+Explorer.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		ExplorerHovering = true;
+		LastMaxZoom = Client.CameraMaxZoomDistance;
+		LastMinZoom = Client.CameraMinZoomDistance;
+		local Head = (Client.Character or Client.CharacterAdded:Wait()):WaitForChild("Head");
+		local Zoom = (workspace.CurrentCamera.CoordinateFrame.p - Head.Position).Magnitude;
+		Client.CameraMaxZoomDistance = Zoom;
+		Client.CameraMinZoomDistance = Zoom;
+	end 
+end)
+Explorer.InputChanged:Connect(function(input) 
+	if input.UserInputType == Enum.UserInputType.MouseWheel and ExplorerHovering then
+		if input.Position.Z == 1 then
+			Start = math.clamp(Start - 2, 1, math.huge);
+			UpdateList(GetShowList());
+			UpdateScrollbar();
+		else
+			local ShowList = GetShowList();
+			Start = math.clamp(Start + 2, 1, math.clamp(#ShowList - #ListObjects + 2, 1, math.huge));
+			UpdateList(ShowList)
+			UpdateScrollbar();
 		end
-	end)
-	local LastMaxZoom, LastMinZoom;
-	Explorer.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement then
-			ExplorerHovering = true;
-			LastMaxZoom = Client.CameraMaxZoomDistance;
-			LastMinZoom = Client.CameraMinZoomDistance;
-			local Head = (Client.Character or Client.CharacterAdded:Wait()):WaitForChild("Head");
-			local Zoom = (workspace.CurrentCamera.CoordinateFrame.p - Head.Position).Magnitude;
-			Client.CameraMaxZoomDistance = Zoom;
-			Client.CameraMinZoomDistance = Zoom;
-		end 
-	end)
-	Explorer.InputChanged:Connect(function(input) 
-		if input.UserInputType == Enum.UserInputType.MouseWheel and ExplorerHovering then
-			if input.Position.Z == 1 then
-				Start = math.clamp(Start - 2, 1, math.huge);
-				UpdateList(GetShowList());
-				UpdateScrollbar();
-			else
-				local ShowList = GetShowList();
-				Start = math.clamp(Start + 2, 1, math.clamp(#ShowList - #ListObjects + 2, 1, math.huge));
-				UpdateList(ShowList)
-				UpdateScrollbar();
+	end
+end)
+Explorer.InputEnded:Connect(function(input) 
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		ExplorerHovering = false;
+		Client.CameraMaxZoomDistance = LastMaxZoom;
+		Client.CameraMinZoomDistance = LastMinZoom;
+	end
+end)
+
+-- our filter workspace!!
+
+local function FindInAncestor(Data,Ancestors)
+	local RetData = {};
+
+	Data = Data:lower();
+	for _,Ancestor in pairs(Ancestors) do
+		for _, obj in pairs(Ancestor:GetDescendants()) do
+			if string.find(Data,obj.Name:lower()) then
+				table.insert(RetData, obj);
+			elseif string.find(Data,"classname:") then
+				local typeName = string.split(Data,"classname:")[2]
+				local tableStrings = string.split(typeName,",")
+				for i,v in pairs(tableStrings) do 
+					if string.lower(v) == string.lower(obj.ClassName) then 
+						table.insert(RetData, obj);
+					end
+				end
 			end
 		end
-	end)
-	Explorer.InputEnded:Connect(function(input) 
-		if input.UserInputType == Enum.UserInputType.MouseMovement then
-			ExplorerHovering = false;
-			Client.CameraMaxZoomDistance = LastMaxZoom;
-			Client.CameraMinZoomDistance = LastMinZoom;
-		end
-	end)
-	
-	-- our filter workspace!!
-
-	local function FindInAncestor(Data,Ancestors)
-		local RetData = {};
-
-		Data = Data:lower();
-        for _,Ancestor in pairs(Ancestors) do
-            for _, obj in pairs(Ancestor:GetDescendants()) do
-                if string.find(Data,obj.Name:lower()) then
-                    table.insert(RetData, obj);
-                elseif string.find(Data,"classname:") then
-                    local typeName = string.split(Data,"classname:")[2]
-                    local tableStrings = string.split(typeName,",")
-                    for i,v in pairs(tableStrings) do 
-                        if string.lower(v) == string.lower(obj.ClassName) then 
-                            table.insert(RetData, obj);
-                        end
-                    end
-                end
-            end
-        end
-
-		return RetData;
 	end
 
-	FilterInput.FocusLost:Connect(function(Enter) 
-		if not Enter then return end;
+	return RetData;
+end
 
-		local Text = FilterInput.Text;
-		if #Text == 0 then
-			ShowDataModel();
-			return;
-		end
+FilterInput.FocusLost:Connect(function(Enter) 
+	if not Enter then return end;
 
-		local a = tick();
-        local checkIn = {
-        workspace,
-        game:GetService("Players"),
-        game:GetService("CoreGui"),
-        game:GetService("Lighting"),
-        game:GetService("ReplicatedFirst"),
-        game:GetService("ReplicatedStorage"),
-        game:GetService("StarterGui"),
-        game:GetService("StarterPack"),
-        game:GetService("StarterPlayer"),
-        game:GetService("Teams"),
-        game:GetService("SoundService"),
-        game:GetService("Chat"),
-        }
-            local Data = FindInAncestor(FilterInput.Text,checkIn);
-            DirectShow(Data);
-	end)
+	local Text = FilterInput.Text;
+	if #Text == 0 then
+		ShowDataModel();
+		return;
+	end
 
-	-- exit
+	local a = tick();
+	local checkIn = {
+		workspace,
+		game:GetService("Players"),
+		game:GetService("CoreGui"),
+		game:GetService("Lighting"),
+		game:GetService("ReplicatedFirst"),
+		game:GetService("ReplicatedStorage"),
+		game:GetService("StarterGui"),
+		game:GetService("StarterPack"),
+		game:GetService("StarterPlayer"),
+		game:GetService("Teams"),
+		game:GetService("SoundService"),
+		game:GetService("Chat"),
+	}
+	local Data = FindInAncestor(FilterInput.Text,checkIn);
+	DirectShow(Data);
+end)
 
-	ExplorerExitButton.MouseButton1Click:Connect(function() 
-		Gui:Destroy();
-		script:Destroy();
-	end)
+-- exit
 
-	ExitButton(ExplorerExitButton)
+ExplorerExitButton.MouseButton1Click:Connect(function() 
+	Gui:Destroy();
+	script:Destroy();
+end)
+
+ExitButton(ExplorerExitButton)
 
 -- Properties
 
@@ -1588,24 +1588,24 @@ do
 	local UpArrow = PropertyScroll:WaitForChild("UpArrow");
 	local Zone = PropertyScroll:WaitForChild("Zone");
 	local ScrollButton = Zone:WaitForChild("Button");
-	
+
 	local ListObjects, ShowList, Categories, Connections = {}, {}, {}, {};
 	local Start = 1;
 	local UpdateList, UpdateShowList;
 	local CurrentLoaded;
-	
+
 	local function GetScrollPercent(ListObjects)
 		return (Start - 1) / (#ListObjects - 3);
 	end
-	
+
 	local function UpdateScrollbar()
 		local List = ShowList;
 		local Num = #List;
-		
+
 		local GoesOverBy = Num - #ListObjects;
 		ScrollButton.Position = UDim2.new(0, 0, GetScrollPercent(List), 0);
 		--for _, func in pairs(ScrollUpdates) do func() end;
-		
+
 		local ViewportRatio = Zone.AbsoluteSize.Y / (Num * PropertySize.Y);
 		if ViewportRatio < 1 then
 			PropertyScroll.Visible = true;
@@ -1616,7 +1616,7 @@ do
 			UpdateList(ShowList);
 		end
 	end
-	
+
 	local YDelta = 0;
 	local function StartScroll()
 		RunService:BindToRenderStep("Scrollbar", 1, function() 
@@ -1631,7 +1631,7 @@ do
 	local function EndScroll()
 		RunService:UnbindFromRenderStep("Scrollbar");
 	end
-	
+
 	UpArrow.MouseButton1Down:Connect(function() 
 		Start = math.clamp(Start - 1, 1, math.huge);
 		UpdateList(ShowList);
@@ -1642,7 +1642,7 @@ do
 		UpdateList(ShowList)
 		UpdateScrollbar();
 	end);
-	
+
 	ScrollButton.InputBegan:Connect(function(input) 
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			StartScroll();
@@ -1699,7 +1699,7 @@ do
 				Frame = Object,
 				YPosition = (i - 1) * Size,
 				CurrentObject = nil,
-				
+
 				TextInput = nil,
 				ButtonClick = nil
 			};
@@ -1732,7 +1732,7 @@ do
 				local Hover = frame:WaitForChild("Hover");
 				local Check = frame:WaitForChild("Check");
 				local Mark = Check:WaitForChild("Frame"):WaitForChild("Mark");
-                
+
 				ObjectData["bool"] = {Frame = frame, Label = label, Check = Check, Hover = Hover, Mark = Mark};
 			end;
 			do -- int
@@ -1757,7 +1757,7 @@ do
 				local Click = frame:WaitForChild("Click");
 				ObjectData["Color3"] = {Frame = frame, Label = label, Box = Box, Hover = hover, Click = Click};
 			end;
-			
+
 			ObjectData.Dropdown.MouseButton1Down:Connect(function() 
 				if not ObjectData.CurrentObject then return end;
 				ObjectData.CurrentObject.DropdownOpened = not ObjectData.CurrentObject.DropdownOpened;
@@ -1769,14 +1769,14 @@ do
 				UpdateShowList();
 				UpdateList(ShowList)
 			end);
-				
+
 			-- event types (Object, EventArguments) :
 			-- TextInput : Textbox.FocusLost
 			-- ButtonClick : TextButton.MouseButton1Click
 			-- ButtonHover (bool hovering) : TextButton.MouseEnter/TextButton.MouseLeave
-				
+
 			-- connecting up connections --
-				
+
 			for _, obj in pairs(Object:GetDescendants()) do
 				if obj:IsA("TextBox") then
 					obj.FocusLost:Connect(function(...) 
@@ -1802,13 +1802,13 @@ do
 					end);
 				end
 			end
-			
+
 			-- ok --
-				
+
 			table.insert(ListObjects, ObjectData);
 		end
 	end
-	
+
 	function UpdateList(ShowList)   
 		-- Need to change so everything isn't being indexed by name and rather by a reference w/ Name Randomization 
 		for i = Start, Start + #ListObjects - 1 do
@@ -1826,29 +1826,29 @@ do
 
 				--local ValueFrame = Frame:FindFirstChild(ValueType);
 				local ValueFrame = ObjectFrame[ValueType];
-				
+
 				if not ObjectFrame.CurrentObject.DropdownOpened then
 					ObjectFrame.Dropdown.Rotation = -90;
 				else
 					ObjectFrame.Dropdown.Rotation = 0;
 				end
 				if ValueFrame then
-                    ValueFrame.Name = Object.Name
+					ValueFrame.Name = Object.Name
 					ValueFrame.Label.Text = Object.Name;
-                    ValueFrame.Label.Parent.Parent.Name = Object.Name
+					ValueFrame.Label.Parent.Parent.Name = Object.Name
 					ValueFrame.Frame.Visible = true;
 					ObjectFrame.Divider.Visible = true;
-					
+
 					if Object.ReadOnly then
 						ValueFrame.Label.TextColor3 = ReadOnlyColor;
 					else
 						ValueFrame.Label.TextColor3 = TextColor;
 					end
-					
+
 					-- TODO --
 					-- this is the part where you control the properties such as changing them and showing them! --
 					-- add all roblox datatypes and not just have string and boolean --
-					
+
 					if ValueType == "string" then
 						ValueFrame.Box.Text = tostring(Object.Value);
 						if Object.ReadOnly then
@@ -1920,7 +1920,7 @@ do
 			end
 		end
 	end
-	
+
 	local function DropdownLoop(Data, ShowList)
 		if Data.DropdownOpened then
 			for _, property in pairs(Data.Dropdown) do
@@ -1981,19 +1981,19 @@ do
 				});
 			end
 		end
-		
+
 		local NewCategories = {};
 		for category, properties in pairs(Categories) do
 			table.insert(NewCategories, {category, properties});
 		end
-		
+
 
 		-- this isn't techincally mimicing the real explorer as the real explorer only sorts into alphabetical order
 		-- for the categories then for the properties but oh well
 		table.sort(NewCategories, function(a, b) 
 			return sort_alphabetical(a[1]:sub(1,1), b[1]:sub(1,1));
 		end)
-		
+
 		ShowList = {};
 		for _, data in pairs(NewCategories) do
 			local category, properties = unpack(data);
@@ -2007,31 +2007,31 @@ do
 			table.insert(ShowList, Data);
 			DropdownLoop(Data, ShowList);
 		end
-      
-        local searchbar= propretySearchbar --put the textbox of your searchbar here instead of nil
-        local function UpdateInputOfSearchText()
-            local InputText=string.upper(searchbar.Text)
-            for i,v in pairs(PropertiesList:GetChildren()) do 
-                if searchbar.Text == "" then 
-                    v.Visible = true
-                else 
-                    if string.find(string.upper(v.Name),InputText) then
-                        v.Visible = true
-                    else 
-                        v.Visible = false
-                    end 
-                end
-            end
-           
-            
-        end
+
+		local searchbar= propretySearchbar --put the textbox of your searchbar here instead of nil
+		local function UpdateInputOfSearchText()
+			local InputText=string.upper(searchbar.Text)
+			for i,v in pairs(PropertiesList:GetChildren()) do 
+				if searchbar.Text == "" then 
+					v.Visible = true
+				else 
+					if string.find(string.upper(v.Name),InputText) then
+						v.Visible = true
+					else 
+						v.Visible = false
+					end 
+				end
+			end
+
+
+		end
 		UpdateList(ShowList);
-        UpdateInputOfSearchText()
-        searchbar:GetPropertyChangedSignal("Text"):Connect(UpdateInputOfSearchText)
-       
-    
-       
-    
+		UpdateInputOfSearchText()
+		searchbar:GetPropertyChangedSignal("Text"):Connect(UpdateInputOfSearchText)
+
+
+
+
 	end
 
 	FillList()
@@ -2040,7 +2040,7 @@ end
 -- script viewer
 
 do
-	
+
 	local CodeReview = Gui:WaitForChild("CodeReview");
 	local Code = CodeReview:WaitForChild("Code");
 	local HorizontalOutline = CodeReview:WaitForChild("HorizontalOutline");
@@ -2062,9 +2062,9 @@ do
 	local DownArrow = Finder:WaitForChild("DownArrow");
 	local FinderExit = Finder:WaitForChild("Exit");
 	local Template = TabTemplate:Clone(); TabTemplate:Destroy();
-	
+
 	do
-	
+
 		local Lexer;
 		-- lost my own lexer and too lazy to recreate, using a modified penlight lexer as it's fast and already made
 		if RunService:IsStudio() then
@@ -2073,33 +2073,33 @@ do
 			local String = game:HttpGet("https://pastebin.com/raw/1FkZFmhb");
 			Lexer = loadstring(String)().scan;
 		end
-		
+
 		local TabSelectionColor = Color3.fromRGB(37, 37, 37);
 		local TabColor = Color3.fromRGB(53, 53, 53);
 		local CurrentScript = nil;
-		
+
 		-- MONOKAI THEME --
 		local Colors = {
 			Selection = Color3.fromRGB(68, 71, 90),
-			Comment = Color3.fromRGB(121, 121, 121),
-			InbuiltFunction = Color3.fromRGB(102, 217, 239),
+			Comment = Color3.fromRGB(140, 140, 155),
+			InbuiltFunction = Color3.fromRGB(131, 206, 255),
 			Function = Color3.fromRGB(226, 226, 226),
 			Orange = Color3.fromRGB(255, 184, 108),
-			Keyword = Color3.fromRGB(249, 38, 114),
-			Operator = Color3.fromRGB(248, 248, 242),
+			Keyword = Color3.fromRGB(215, 174, 255),
+			Operator = Color3.fromRGB(255, 239, 148),
 			Red = Color3.fromRGB(255, 85, 85),
-			String = Color3.fromRGB(230, 219, 90),
+			String = Color3.fromRGB(196, 255, 193),
 			Text = Color3.fromRGB(248, 248, 242),
-			Number = Color3.fromRGB(174, 129, 255)
+			Number = Color3.fromRGB(255, 125, 125)
 		};
-		
+
 		local function CenterUI()
 			local Absolute = Gui.AbsoluteSize;
 			local Size = CodeReview.AbsoluteSize;
 			local X, Y = Absolute.X / 2 - (Size.X / 2), Absolute.Y / 2 - (Size.Y / 2);
 			CodeReview.Position = UDim2.new(0, X, 0, Y);
 		end
-		
+
 		local function GetColor(token)
 			if token == "keyword" then
 				return Colors.Keyword;
@@ -2119,15 +2119,15 @@ do
 				return Colors.Text;
 			end
 		end
-		
+
 		local function ShowCode(String)
 			local CurrentLine = 0;
 			local _, NumberLines = String:gsub("\n","");
 			NumberLines = NumberLines + 1;
-			
-			local LineSize, FontSize, Font = 20, 22, "SourceSans";
+
+			local LineSize, FontSize, Font = 15, 15, "Code";
 			local CurrentX, CurrentY = 0, 0;
-			
+
 			local Data = {};
 			for token, src in Lexer(String) do
 				if src:find("\n") then
@@ -2159,9 +2159,9 @@ do
 					VerticalOutline.Visible = false;
 				end
 			end
-			
+
 			local SpaceSize;
-			
+
 			for i, data in pairs(Data) do
 				--if i % 20 == 0 then RunService.RenderStepped:Wait() UpdateVertical() end
 
@@ -2169,7 +2169,7 @@ do
 				local Color = GetColor(token);
 				local ThisLineSize = LineSize;
 				local good = true;
-				
+
 				if src:sub(1,1) == "\n" then
 					CurrentX = 0;
 					CurrentY = CurrentY + LineSize;
@@ -2187,7 +2187,7 @@ do
 					local _, extra = src:gsub("\t", "");
 					--extra = extra * 15;
 					extra = extra * (6 * 4)
-					
+
 					local Size = Vector2.new();
 					Label.TextColor3 = Color;
 					Label.TextXAlignment = "Left";
@@ -2200,19 +2200,20 @@ do
 					Label.Size = UDim2.new(0, Size.X, 0, ThisLineSize);
 					Label.Position = UDim2.new(0, CurrentX + extra, 0, CurrentY);
 					Label.Name = ("Line%d"):format((CurrentY / LineSize) + 1);
-					
+
 					if src == " " then
 						SpaceSize = Label.TextBounds.X;
 					end
-					
+
 					if Size.X == 0 then
 						Label:Destroy();
 					end
-					
+
 					CurrentX = CurrentX + Size.X;
+					task.wait(0.0001)
 				end
 			end
-			
+
 			for i = 1, NumberLines do
 				local Label = Instance.new("TextLabel");
 				Label.Size = UDim2.new(0.6, 0, 0, 20);
@@ -2225,20 +2226,20 @@ do
 				Label.Text = tostring(i);
 				Label.Parent = LineNumbers;
 			end
-			
+
 			UpdateVertical();
-			
+
 			local Size = math.clamp((#tostring(NumberLines)) * 12, 35, math.huge);
 			LineNumbers.Size = UDim2.new(0, Size, 1, 0);
 			EditorFrame.Position = UDim2.new(0, Size + 5, 0, 0);
-			
+
 			if false then -- todo : horizontal scaling
-				
+
 			else
 				HorizontalOutline.Visible = false;
 			end
 		end
-		
+
 		local function ClearEditor()
 			EditorFrame:ClearAllChildren();
 			for _, obj in pairs(LineNumbers:GetChildren()) do
@@ -2247,7 +2248,7 @@ do
 				end
 			end
 		end
-		
+
 		do
 			local Scripts = {};
 			ScriptEditor = {
@@ -2260,16 +2261,16 @@ do
 					self.IsScript = true;
 					self.original = s;
 					self.Name = name;
-					
+
 					local Clone = Template:Clone();
 					local Label = Clone:WaitForChild("Label");
 					local Exit = Clone:WaitForChild("Close");
 					self.Button = Clone;
-					
+
 					Label.Text = name;
 					Clone.Parent = TabFrame;
 					Clone.Size = UDim2.new(0, Label.TextBounds.X + 30, 1, 0);
-					
+
 					Clone.MouseButton1Click:Connect(function() 
 						self:Select();
 					end)
@@ -2279,9 +2280,9 @@ do
 					ExitButton(Exit);
 
 					self:Select();
-					
+
 					table.insert(Scripts, self);
-					
+
 					return self;
 				end,
 				Select = function(self)
@@ -2331,7 +2332,7 @@ do
 				end
 			}
 		end
-		
+
 		-- Topbar / Ribbon Stuff
 		Exit.MouseButton1Click:Connect(function() 
 			ScriptEditor:Hide();
@@ -2351,7 +2352,7 @@ do
 				setclipboard(CurrentScript.Code);
 			end
 		end);
-		
+
 		-- so the camera script doesn't zoom in and out during scrolling
 		-- still breaks sometimes NICE
 		local LastMaxZoom, LastMinZoom;
@@ -2367,9 +2368,9 @@ do
 			Client.CameraMaxZoomDistance = LastMaxZoom;
 			Client.CameraMinZoomDistance = LastMinZoom;
 		end);
-		
+
 		CenterUI();
-		
+
 		-- Shift + F for word finder
 		local NumKeysDown = 0;
 		local function NewFunc(name, state)
@@ -2385,13 +2386,13 @@ do
 			return Enum.ContextActionResult.Pass
 		end
 		ContextAction:BindAction("FindHotkey", NewFunc, false, Enum.KeyCode.F, Enum.KeyCode.LeftShift);
-		
+
 		-- highlight the words on new match(es)
-		
+
 		local match_location, max_matches = 0, 0;
 		local matching_str = "";
 		local last_wins = {};
-		
+
 		local function update_match()
 			Matches.Text = ("%d of %d"):format(match_location, max_matches);
 			for _, label in pairs(last_wins) do
@@ -2407,23 +2408,23 @@ do
 					table.insert(matches, match);
 					bad_code = bad_code:sub(match + 1);
 				end
-				
+
 				local selected = matches[match_location];
 				if selected then
 					local codetil = code:sub(1, selected);
 					local _, lines = codetil:gsub("\n", "");
 					lines = lines + 1;
 					local match_left = matching_str;
-					
+
 					local line_labels = {};
 					for _, label in pairs(EditorFrame:GetChildren()) do
-						if label.Name == ("Line%d"):format(lines) and label.Text:match(matching_str) then
+						if  string.find(string.lower(label.Text),string.lower(matching_str)) then
 							table.insert(line_labels, label);
 						end
 					end
-					
+
 					local wins = line_labels[match_location] or line_labels[1];
-					
+
 					--[[
 					for i, label in pairs(line_labels) do 
 						-- ffs i give up, for special characters it breaks and for having it 
@@ -2454,9 +2455,9 @@ do
 						end
 					end
 					]]
-					
+
 					for i, label in pairs({wins}) do
-						Code.CanvasPosition = Vector2.new(0, label.Position.Y.Offset);
+						Code.CanvasPosition = Vector2.new(label.Position.X.Offset, label.Position.Y.Offset);
 						label.BackgroundColor3 = Colors.Selection;
 						label.BackgroundTransparency = 0;
 					end
@@ -2464,7 +2465,7 @@ do
 				end
 			end
 		end
-		
+
 		local function find(str)
 			if #str == 0 then return end;
 			match_location = 1;
@@ -2477,7 +2478,7 @@ do
 				update_match();
 			end
 		end
-		
+
 		ExitButton(FinderExit);
 		FinderExit.MouseButton1Click:Connect(function() 
 			Finder.Visible = false;
@@ -2499,13 +2500,13 @@ do
 			end
 			update_match();
 		end);
-		
+
 		FinderInput.FocusLost:Connect(function() 
 			find(FinderInput.Text);
 		end);
-			
+
 		update_match();
-	
+
 	end
 end
 
@@ -2514,24 +2515,24 @@ end
 local function Load()
 	local OriginalSize = ExplorerFrame.Size;
 	local OriginalSize2 = PropertiesFrame.Size;
-	
+
 	ExplorerFrame.ClipsDescendants = true;
 	PropertiesFrame.ClipsDescendants = true;
-	
+
 	ExplorerFrame.Size = UDim2.new(OriginalSize.X.Scale, OriginalSize.X.Offset, 0, 0);
 	PropertiesFrame.Size = UDim2.new(OriginalSize2.X.Scale, OriginalSize2.X.Offset, 0, 0);
-	
+
 	ExplorerFrame.Visible = true;
 	PropertiesFrame.Visible = true;
-	
+
 	ExplorerFrame:TweenSize(OriginalSize, 1, Enum.EasingStyle.Linear, 0.2, 1);
 	wait(0.2);
 	PropertiesFrame:TweenSize(OriginalSize2, 1, Enum.EasingStyle.Linear, 0.2, 1);
 	wait(0.2);
-	
+
 	ExplorerFrame.ClipsDescendants = false;
 	PropertiesFrame.ClipsDescendants = false;
-	
+
 end
 
 -----------
@@ -2541,7 +2542,7 @@ local function Boot()
 
 	drag(ExplorerFrame:WaitForChild("Topbar"), ExplorerFrame);
 	drag(CodeReview:WaitForChild("Ribbon"), CodeReview);
-	
+
 	FillList();
 	UpdateList(GetShowList());
 	UpdateScrollbar();
@@ -2554,7 +2555,7 @@ local function Boot()
 	table.insert(ChildAddedUpdates, HoverUpdates);
 	table.insert(ScrollUpdates, HoverUpdates);
 	table.insert(ScrollUpdates, UpdateSelections);
-	
+
 	delay(0, Load);
 
 	-- for studio testing --
@@ -2570,16 +2571,16 @@ local function Boot()
 
 		Gui.Parent = game:GetService("CoreGui");
 	end
-	
+
 	-- temporary?
-	
+
 	RunService.RenderStepped:Connect(function() 
 		PropertiesFrame.Position = ExplorerFrame.Position + UDim2.new(0, 0, 0, ExplorerFrame.AbsoluteSize.Y);
 	end);
 	ExplorerFrame:GetPropertyChangedSignal("ZIndex"):Connect(function() 
 		SetZIndex(PropertiesFrame, ExplorerFrame.ZIndex - 1);
 	end);
-	
+
 	--print("Successfully booted in " .. tostring(tick() - START) .. " seconds!");
 end
 
