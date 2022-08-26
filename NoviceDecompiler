@@ -353,6 +353,7 @@ end
 
 local AdvVar = true -- advanced variable names (might be cringe to read)
 genv.decompile = (function(Script, ...)
+    print("decompiling")
     if typeof(Script) == "Instance" then
         local isModuleScript = IsA(Script, "ModuleScript")
         if (isModuleScript or IsA(Script, "LocalScript")) then
