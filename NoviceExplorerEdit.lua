@@ -707,10 +707,9 @@ local function decomp(obj)
 	end
 
 	if cached_decomp[obj] then return cached_decomp[obj]; end;
-	local succ, err = pcall(function()
-		cached_decomp[obj] = decompile(obj);
-	end)
-	repeat task.wait(0.025) until cached_decomp[obj] or succ or succ == false
+	cached_decomp[obj] = decompile(obj);
+	local RunService = game:GetService("RunService")
+	RunService.Heartbeat:wait();
     if cached_decomp[obj] then else
 		Notify:new("Decompiling error", "Got bad allocation, script may be too big.");
     end
