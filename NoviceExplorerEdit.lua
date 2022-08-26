@@ -2454,9 +2454,7 @@ do
 					]]
 					
 					for i, label in pairs({wins}) do
-						if i == 1 then
-							Code.CanvasPosition = Vector2.new(0, label.Position.Y.Offset);
-						end
+						Code.CanvasPosition = Vector2.new(0, label.Position.Y.Offset);
 						label.BackgroundColor3 = Colors.Selection;
 						label.BackgroundTransparency = 0;
 					end
