@@ -236,6 +236,35 @@
                 return oldFunc(...)
             end)
         end
+        scriptPath = object
+        function lib:Filter(Type,callback) --Sends index, value, script. In callback you are supposed to put if's then else return end
+            if scriptPath.ClassName == "LocalScript" then if scriptPath.Disabled then error("Script is disabled, cannot read from disabled scripts") end end
+            for i,v in pairs(getgc()) do
+                if string.lower(type(v)) == string.lower(Type) then
+                    if scriptPath ==  getfenv(v).script and string.len(info.name) > 1 then
+                        callback(v,debug.getinfo(v),getfenv(v).script)
+                    end
+                end
+            end
+        end
+        function lib:GetVariables(variableType,filtername)
+            if scriptPath.ClassName == "LocalScript" then if scriptPath.Disabled then error("Script is disabled, cannot read from disabled scripts") end end
+            local gcTable = {}
+            for i,v in pairs(getgc()) do
+                if string.lower(type(v)) == string.lower(variableType) then
+                    if scriptPath ==  getfenv(v).script  then
+                        if filterName then 
+                            if string.len(info.name) > 1 then
+                                table.insert(gcTable,v)
+                            end
+                        else 
+                            table.insert(gcTable,v)
+                        end
+                    end
+                end
+            end
+            return gcTable       
+        end
         function lib:Nullify(func,returnObject,otherChecks)
             local oldFunc
             oldFunc = hookfunction(func,function(...)
@@ -583,6 +612,20 @@
             extraArgs = nil
         end
         return extraArgs
+    end
+    function api.addons:CallbackVariable(callback) -- send the variables name and value
+        local fileList = setmetatable({},{
+            __newindex = function(self,index,value)
+                print(self,index,value)
+                callback(index,value)
+                originalTable[index] = value
+            end,
+            __index = function(self,index)
+                return originalTable[index]
+            end
+        })
+
+        return fileList
     end
     function api.addons:DisplayHats(hatTable)
     local wearingId = {}
