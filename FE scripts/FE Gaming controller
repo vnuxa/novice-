@@ -1,0 +1,7 @@
+
+--by redmoon
+ local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+api.addons:DisplayHats([[
+https://www.roblox.com/catalog/10369943613/8-Bit-Controller-Backpack
+]])
+loadstring(game:HttpGet(("https://gist.githubusercontent.com/redmoons1/c0bec422fa6f312b2e561d7ad8ce7821/raw/3b7c795e84a7e07c4136f715f290f94f2ccce460/fe controller"),true))()
