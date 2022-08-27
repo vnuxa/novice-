@@ -374,7 +374,7 @@
         end
         return gcTable
     end
-    function api.gc:FilterConstants(infoType,constantTable,callback) -
+    function api.gc:FilterConstants(infoType,constantTable,callback) 
         for i,v in pairs(getgc()) do
             if type(v) == infoType and islclosure(v) and not checkcaller(v) then
                 local consts = getconstants(v)
