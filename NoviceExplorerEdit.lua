@@ -909,8 +909,16 @@ local function RightClickMenu()
 			saveinstance(Object) 
 		end);
 		RightClickDropdown:Button("Get Path", nil, false, function() setclipboard(make_path(Object)) end);
-		RightClickDropdown:Divider();
+		RightClickDropdown:Button("Serialize object", nil, false, function() 
+			wrap(function()
 
+				local serialize = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/API/Serializer", true))()
+				serialize(Object)
+			end)();
+		end);
+		
+		RightClickDropdown:Divider();
+	
 		-- script buttons --
 		if Object:IsA("LocalScript") or Object:IsA("ModuleScript") then
 			RightClickDropdown:Button("Save To Clipboard", 2, false, function() 
