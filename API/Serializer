@@ -1,0 +1,1402 @@
+--Instance serializer
+-- Util --
+local Util = {}
+
+local ESCAPE_SEQUENCES = {
+	[7] = "\\a",
+	[8] = "\\b",
+	[9] = "\\t",
+	[10] = "\\n",
+	[11] = "\\v",
+	[12] = "\\f",
+	[13] = "\\r",
+	[92] = "\\\\",
+	[34] = '\\"',
+}
+
+-- stylua: ignore
+local NAME_CHARACTERS = { [0] =
+	"Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+	"m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
+	"z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+	"M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
+}
+
+function Util.pluginWarn(str, ...)
+	warn("[Instance Serializer] " .. string.format(str, ...))
+	return true
+end
+
+function Util.pluginError(str, ...)
+	error("[Instance Serializer] " .. string.format(str, ...), 3)
+	return true
+end
+
+function Util.lookupify(tbl)
+	for i, v in ipairs(tbl) do
+		tbl[i] = nil
+		tbl[v] = true
+	end
+	return tbl
+end
+
+function Util.escapeString(str)
+	local chars = {}
+	local n = 1
+	for _, code in utf8.codes(str) do
+		if ESCAPE_SEQUENCES[code] then
+			chars[n] = ESCAPE_SEQUENCES[code]
+		elseif code >= 255 then
+			chars[n] = "\\u{" .. string.format("%x", code) .. "}"
+		elseif code <= 31 or code >= 127 then
+			chars[n] = "\\" .. tostring(code)
+		elseif code <= 126 then
+			chars[n] = utf8.char(code)
+		end
+		n = n + 1
+	end
+	return table.concat(chars)
+end
+
+function Util.makeLuaName(num)
+	-- Omits tokens such that 1-26 = a-z, 27-52 = A-Z, 53 = aa, 54 = ba, and so on.
+	-- Yes, I would like it to be `ab` too. No, I'm not going to bother fixing it since it doesn't matter.
+	local finishedName = ""
+	repeat
+		finishedName = finishedName .. NAME_CHARACTERS[num % 52]
+		num = math.floor(num / 52)
+	until num <= 0
+	return finishedName
+end
+
+
+-- ToString --
+local ToString = {}
+local util = Util
+
+local pluginError = util.pluginError
+local escapeString = util.escapeString
+
+local powers_of_10 = {}
+for i = 0, 10 do
+	powers_of_10[i] = 10 ^ i
+end
+
+local function round(n, prec)
+	local pow = powers_of_10[prec]
+	return math.floor(n * pow + 0.5) / pow
+end
+
+local function genEnumList(data, enum, concatSep)
+	local on = {}
+	for _, item in ipairs(enum:GetEnumItems()) do
+		if data[item] then
+			on[#on + 1] = string.format("Enum.%s.%s", tostring(enum), item.Name)
+		end
+	end
+	return table.concat(on, concatSep)
+end
+
+-- Now I know what you're thinking... Why not just use `tostring` for this function where I can?
+-- While I don't expect Roblox to change any of the results for `tostring`, they could without announcement.
+-- Casting them to strings isn't explicitly defined anywhere, so I'm not relying upon it.
+
+local function toString(...)
+	local results = table.create(select("#", ...))
+	local data = { ... }
+	for i, v in ipairs(data) do
+		local dataType = typeof(v)
+		if dataType == "string" then
+			results[i] = '"' .. escapeString(v) .. '"' -- In a twist of fate, tostring(string) does something!
+		elseif dataType == "boolean" or dataType == "nil" then
+			results[i] = tostring(v)
+		elseif dataType == "number" then
+			results[i] = tostring(round(v, 7))
+		elseif dataType == "Axes" then
+			results[i] = string.format(
+				"Axes.new(%s)",
+				genEnumList(v, Enum.Axis, ",")
+			)
+		elseif dataType == "BrickColor" then
+			results[i] = string.format("BrickColor.new(%q)", v.Name)
+		elseif dataType == "CFrame" then
+			--stylua: ignore start
+			-- This is kind of a nightmare if it's formatted so let's not
+			local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = v:GetComponents()
+			if r00 == 1 and r01 == 0 and r02 == 0 and r10 == 0 and r11 == 1 and r12 == 0 and r20 == 0 and r21 == 0 and r22 == 1 then
+				results[i] = string.format("CFrame.new(%s,%s,%s)", tostring(x), tostring(y), tostring(z))
+			else
+				results[i] = string.format("CFrame.new(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+					tostring(x), tostring(y), tostring(z), tostring(r00), tostring(r01), tostring(r02),
+					tostring(r10), tostring(r11), tostring(r12), tostring(r20), tostring(r21), tostring(r22)
+				)
+			end
+		elseif dataType == "Color3" then
+			results[i] = string.format(
+				"Color3.fromRGB(%u,%u,%u)",
+				(v.R * 255) + 0.5,
+				(v.G * 255) + 0.5,
+				(v.B * 255) + 0.5
+			)
+		elseif dataType == "ColorSequence" then
+			local keypoints = v.Keypoints
+			if #keypoints == 2 and keypoints[1].Value == keypoints[2].Value then
+				local c = keypoints[1].Value
+				results[i] = string.format(
+					"ColorSequence.new(Color3.fromRGB(%u,%u,%u))",
+					(c.R * 255) + 0.5,
+					(c.G * 255) + 0.5,
+					(c.B * 255) + 0.5
+				)
+			elseif #keypoints == 2 then
+				local c1 = keypoints[1].Value
+				local c2 = keypoints[2].Value
+				results[i] = string.format(
+					"ColorSequence.new(Color3.fromRGB(%u,%u,%u),Color3.fromRGB(%u,%u,%u))",
+					(c1.R * 255) + 0.5,
+					(c1.G * 255) + 0.5,
+					(c1.B * 255) + 0.5,
+					(c2.R * 255) + 0.5,
+					(c2.G * 255) + 0.5,
+					(c2.B * 255) + 0.5
+				)
+			else
+				results[i] = string.format(
+					"ColorSequence.new({%s})",
+					toString(unpack(keypoints))
+				)
+			end
+		elseif dataType == "ColorSequenceKeypoint" then
+			local c = v.Value
+			results[i] = string.format(
+				"ColorSequenceKeypoint.new(%s,Color3.fromRGB(%u,%u,%u))",
+				tostring(round(v.Time, 7)),
+				(c.R * 255) + 0.5,
+				(c.G * 255) + 0.5,
+				(c.B * 255) + 0.5
+			)
+		elseif dataType == "EnumItem" then
+			results[i] = tostring(v.Value)
+		elseif dataType == "Faces" then
+			results[i] = string.format(
+				"Faces.new(%s)",
+				genEnumList(v, Enum.NormalId, ",")
+			)
+		elseif dataType == "NumberRange" then
+			results[i] = string.format(
+				"NumberRange.new(%s,%s)",
+				tostring(round(v.Min, 7)),
+				tostring(round(v.Max, 7))
+			)
+		elseif dataType == "NumberSequence" then
+			local keypoints = v.Keypoints
+			if #keypoints == 2 and keypoints[1].Value == keypoints[2].Value then
+				results[i] = string.format(
+					"NumberSequence.new(%s)",
+					toString(keypoints[1].Value)
+				)
+			elseif #keypoints == 2 then
+				results[i] = string.format(
+					"NumberSequence.new(%s)",
+					toString(keypoints[1].Value, keypoints[2].Value)
+				)
+			else
+				results[i] = string.format(
+					"NumberSequence.new({%s})",
+					toString(unpack(keypoints))
+				)
+			end
+		elseif dataType == "NumberSequenceKeypoint" then
+			if v.Envelope == 0 then
+				results[i] = string.format(
+					"NumberSequenceKeypoint.new(%s,%s)",
+					tostring(round(v.Time, 7)),
+					tostring(round(v.Value, 7))
+				)
+			else
+				results[i] = string.format(
+					"NumberSequenceKeypoint.new(%s,%s,%s)",
+					tostring(round(v.Time, 7)),
+					tostring(round(v.Value, 7)),
+					tostring(round(v.Envelope, 7))
+				)
+			end
+		elseif dataType == "PhysicalProperties" then
+			local fWeight, eWeight = v.FrictionWeight, v.ElasticityWeight
+			if fWeight == 1 and eWeight == 1 then
+				results[i] = string.format(
+					"PhysicalProperties.new(%s,%s,%s)",
+					tostring(round(v.Density, 7)),
+					tostring(round(v.Friction, 7)),
+					tostring(round(v.Elasticity, 7))
+				)
+			else
+				results[i] = string.format(
+					"PhysicalProperties.new(%s,%s,%s,%s,%s)",
+					tostring(round(v.Density, 7)),
+					tostring(round(v.Friction, 7)),
+					tostring(round(v.Elasticity, 7)),
+					tostring(round(fWeight, 7)),
+					tostring(round(eWeight, 7))
+				)
+			end
+		elseif dataType == "Ray" then
+			local origin, dir = v.Origin, v.Direction
+			results[i] = string.format(
+				"Ray.new(Vector3.new(%s,%s,%s),Vector3.new(%s,%s,%s))",
+				tostring(origin.X),
+				tostring(origin.Y),
+				tostring(origin.Z),
+				tostring(dir.X),
+				tostring(dir.Y),
+				tostring(dir.Z)
+			)
+		elseif dataType == "Rect" then
+			results[i] = string.format(
+				"Rect.new(%s,%s,%s,%s)",
+				tostring(v.Min.X),
+				tostring(v.Min.Y),
+				tostring(v.Max.X),
+				tostring(v.Max.Y)
+			)
+		elseif dataType == "UDim" then
+			results[i] = string.format(
+				"UDim.new(%s,%s)",
+				tostring(round(v.Scale, 7)),
+				tostring(round(v.Offset, 7))
+			)
+		elseif dataType == "UDim2" then
+			results[i] = string.format(
+				"UDim2.new(%s,%s,%s,%s)",
+				tostring(round(v.X.Scale, 7)),
+				tostring(round(v.X.Offset, 7)),
+				tostring(round(v.Y.Scale, 7)),
+				tostring(round(v.Y.Offset, 7))
+			)
+		elseif dataType == "Vector2" then
+			results[i] = string.format(
+				"Vector2.new(%s,%s)",
+				tostring(v.X),
+				tostring(v.Y)
+			)
+		elseif dataType == "Vector3" then
+			results[i] = string.format(
+				"Vector3.new(%s,%s,%s)",
+				tostring(v.X),
+				tostring(v.Y),
+				tostring(v.Z)
+			)
+		else
+			pluginError("Attempted to serialize value of type '%s'", dataType)
+		end
+	end
+
+	return table.concat(results, ",")
+end
+
+local function toStringVerbose(...)
+	local results = table.create(select("#", ...))
+	local data = { ... }
+	for i, v in ipairs(data) do
+		local dataType = typeof(v)
+		if dataType == "string" then
+			results[i] = '"' .. escapeString(v) .. '"'
+		elseif dataType == "boolean" or dataType == "nil" then
+			results[i] = tostring(v)
+		elseif dataType == "number" then
+			results[i] = tostring(round(v, 7))
+		elseif dataType == "Axes" then
+			results[i] = string.format(
+				"Axes.new(%s)",
+				genEnumList(v, Enum.Axis, ",")
+			)
+		elseif dataType == "BrickColor" then
+			results[i] = string.format('BrickColor.new("%s")', v.Name)
+		elseif dataType == "CFrame" then
+			-- stylua: ignore start
+			local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = v:GetComponents()
+			if r00 == 1 and r01 == 0 and r02 == 0 and r10 == 0 and r11 == 1 and r12 == 0 and r20 == 0 and r21 == 0 and r22 == 1 then
+				results[i] = string.format("CFrame.new(%s, %s, %s)", tostring(x), tostring(y), tostring(z))
+			else
+				results[i] = string.format("CFrame.new(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					tostring(x), tostring(y), tostring(z), tostring(r00), tostring(r01), tostring(r02),
+					tostring(r10), tostring(r11), tostring(r12), tostring(r20), tostring(r21), tostring(r22)
+				)
+			end
+		elseif dataType == "Color3" then
+			results[i] = string.format(
+				"Color3.fromRGB(%u, %u, %u)",
+				(v.R * 255) + 0.5,
+				(v.G * 255) + 0.5,
+				(v.B * 255) + 0.5
+			)
+		elseif dataType == "ColorSequence" then
+			local keypoints = v.Keypoints
+			if #keypoints == 2 and keypoints[1].Value == keypoints[2].Value then
+				local c = keypoints[1].Value
+				results[i] = string.format(
+					"ColorSequence.new(Color3.fromRGB(%u, %u, %u))",
+					(c.R * 255) + 0.5,
+					(c.G * 255) + 0.5,
+					(c.B * 255) + 0.5
+				)
+			elseif #keypoints == 2 then
+				local c1 = keypoints[1].Value
+				local c2 = keypoints[2].Value
+				results[i] = string.format(
+					"ColorSequence.new(Color3.fromRGB(%u, %u, %u), Color3.fromRGB(%u, %u, %u))",
+					(c1.R * 255) + 0.5,
+					(c1.G * 255) + 0.5,
+					(c1.B * 255) + 0.5,
+					(c2.R * 255) + 0.5,
+					(c2.G * 255) + 0.5,
+					(c2.B * 255) + 0.5
+				)
+			else
+				results[i] = string.format(
+					"ColorSequence.new({%s})",
+					toStringVerbose(unpack(keypoints))
+				)
+			end
+		elseif dataType == "ColorSequenceKeypoint" then
+			local c = v.Value
+			results[i] = string.format(
+				"ColorSequenceKeypoint.new(%s, Color3.fromRGB(%u, %u, %u))",
+				tostring(round(v.Time, 7)),
+				(c.R * 255) + 0.5,
+				(c.G * 255) + 0.5,
+				(c.B * 255) + 0.5
+			)
+		elseif dataType == "EnumItem" then
+			results[i] = string.format(
+				"Enum.%s.%s",
+				tostring(v.EnumType),
+				v.Name
+			) --verbose
+		elseif dataType == "Faces" then
+			results[i] = string.format(
+				"Faces.new(%s)",
+				genEnumList(v, Enum.NormalId, ", ")
+			)
+		elseif dataType == "NumberRange" then
+			results[i] = string.format(
+				"NumberRange.new(%s, %s)",
+				tostring(round(v.Min, 7)),
+				tostring(round(v.Max, 7))
+			)
+		elseif dataType == "NumberSequence" then
+			local keypoints = v.Keypoints
+			if #keypoints == 2 and keypoints[1].Value == keypoints[2].Value then
+				results[i] = string.format(
+					"NumberSequence.new(%s)",
+					toStringVerbose(keypoints[1].Value)
+				)
+			elseif #keypoints == 2 then
+				results[i] = string.format(
+					"NumberSequence.new(%s)",
+					toStringVerbose(keypoints[1].Value, keypoints[2].Value)
+				)
+			else
+				results[i] = string.format(
+					"NumberSequence.new({%s})",
+					toStringVerbose(unpack(keypoints))
+				)
+			end
+		elseif dataType == "NumberSequenceKeypoint" then
+			if v.Envelope == 0 then
+				results[i] = string.format(
+					"NumberSequenceKeypoint.new(%s, %s)",
+					tostring(round(v.Time, 7)),
+					tostring(round(v.Value, 7))
+				)
+			else
+				results[i] = string.format(
+					"NumberSequenceKeypoint.new(%s, %s, %s)",
+					tostring(round(v.Time, 7)),
+					tostring(round(v.Value, 7)),
+					tostring(round(v.Envelope, 7))
+				)
+			end
+		elseif dataType == "PhysicalProperties" then
+			local fWeight, eWeight = v.FrictionWeight, v.ElasticityWeight
+			if fWeight == 1 and eWeight == 1 then
+				results[i] = string.format(
+					"PhysicalProperties.new(%s, %s, %s)",
+					tostring(round(v.Density, 7)),
+					tostring(round(v.Friction, 7)),
+					tostring(round(v.Elasticity, 7))
+				)
+			else
+				results[i] = string.format(
+					"PhysicalProperties.new(%s, %s, %s, %s, %s)",
+					tostring(round(v.Density, 7)),
+					tostring(round(v.Friction, 7)),
+					tostring(round(v.Elasticity, 7)),
+					tostring(round(fWeight, 7)),
+					tostring(round(eWeight, 7))
+				)
+			end
+		elseif dataType == "Ray" then
+			local origin, dir = v.Origin, v.Direction
+			results[i] = string.format(
+				"Ray.new(Vector3.new(%s, %s, %s),Vector3.new(%s, %s, %s))",
+				tostring(origin.X),
+				tostring(origin.Y),
+				tostring(origin.Z),
+				tostring(dir.X),
+				tostring(dir.Y),
+				tostring(dir.Z)
+			)
+		elseif dataType == "Rect" then
+			results[i] = string.format(
+				"Rect.new(%s, %s, %s, %s)",
+				tostring(v.Min.X),
+				tostring(v.Min.Y),
+				tostring(v.Max.X),
+				tostring(v.Max.Y)
+			)
+		elseif dataType == "UDim" then
+			results[i] = string.format(
+				"UDim.new(%s, %s)",
+				tostring(round(v.Scale, 7)),
+				tostring(round(v.Offset, 7))
+			)
+		elseif dataType == "UDim2" then
+			results[i] = string.format(
+				"UDim2.new(%s, %s, %s, %s)",
+				tostring(round(v.X.Scale, 7)),
+				tostring(round(v.X.Offset, 7)),
+				tostring(round(v.Y.Scale, 7)),
+				tostring(round(v.Y.Offset, 7))
+			)
+		elseif dataType == "Vector2" then
+			results[i] = string.format(
+				"Vector2.new(%s, %s)",
+				tostring(v.X),
+				tostring(v.Y)
+			)
+		elseif dataType == "Vector3" then
+			results[i] = string.format(
+				"Vector3.new(%s, %s, %s)",
+				tostring(v.X),
+				tostring(v.Y),
+				tostring(v.Z)
+			)
+		else
+			pluginError("Attempted to serialize value of type '%s'", dataType)
+		end
+	end
+
+	return table.concat(results, ", ")
+end
+
+ToString.toString = toString
+ToString.toStringVerbose = toStringVerbose
+
+
+-- API --
+local TESTING_LOCALLY = false -- If true, there must be a module named `api` that returns the api dump json
+
+local util = Util
+local pluginWarn, pluginError = util.pluginWarn, util.pluginError
+
+local HttpService = game:GetService("HttpService")
+
+local API_URL =
+	"https://raw.githubusercontent.com/CloneTrooper1019/Roblox-Client-Tracker/roblox/API-Dump.json"
+
+local PROPERTY_RESTRICTED_TAGS = { "ReadOnly", "NotScriptable" }
+local INSTANCE_RESTRICTED_TAGS = { "NotScriptable" }
+local SECURITY_RESTRICTED_TAGS = {
+	["RobloxSecurity"] = true,
+	["NotAccessibleSecurity"] = true,
+	["RobloxScriptSecurity"] = true,
+}
+
+local FORBIDDEN_PROPERTIES = {
+	["BasePart"] = {
+		["Position"] = true, -- Position, Rotation, and Orientation are all overruled by CFrame
+		["Rotation"] = true,
+		["Orientation"] = true,
+		["BrickColor"] = true,
+		["brickColor"] = true, -- Could be solved by moving how forbidden properties are handled but I don't care enough to fix it
+	},
+	["FormFactorPart"] = {
+		["FormFactor"] = true,
+		["formFactor"] = false,
+	},
+	["GuiObject"] = {
+		["Transparency"] = true,
+	},
+}
+
+local PRELOAD_CLASSES = {
+	"Part",
+	"Frame",
+	"ScrollingFrame",
+	"TextLabel",
+	"TextButton",
+	"TextBox",
+	"ImageLabel",
+	"ImageButton",
+	"Humanoid",
+}
+
+local function tablesOverlap(tbl1, tbl2)
+	local longTbl = #tbl1 > #tbl2 and tbl1 or tbl2
+	local shortTbl = longTbl == tbl1 and tbl2 or tbl1
+	for _, v1 in ipairs(longTbl) do -- This is probably the best way to do this
+		for _, v2 in ipairs(shortTbl) do
+			if v1 == v2 then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+local requestData = {
+	Url = API_URL,
+	Method = "GET",
+}
+
+local function generateAPI()
+	local jsonSuccess, apiJson
+	if TESTING_LOCALLY then
+		jsonSuccess, apiJson = pcall(
+			HttpService.JSONDecode,
+			HttpService,
+			require(game.ServerScriptService.api)
+		)
+	else
+		--[[local requestSuccess, requestResponse = pcall(
+			HttpService.RequestAsync,
+			HttpService,
+			requestData
+		)
+		if not requestSuccess then -- HttpService not on
+			pluginWarn(
+				"HttpService.HttpEnabled is not true. HttpService is required briefly upon loading the serializer to get the Roblox API."
+			)
+			pluginWarn("Please enable HttpEnabled and retry.")
+			return false
+		end
+		if not requestResponse.Success then
+			pluginWarn(
+				"RequestAsync failed to get the API dump (status: %i %s)",
+				requestResponse.StatusCode,
+				requestResponse.StatusMessage
+			)
+			pluginWarn("Please retry. If this persists, contact Dekkonot.")
+			return false
+		end--]]
+		local ApiDump = game:HttpGet(API_URL)
+		jsonSuccess, apiJson = pcall(
+			HttpService.JSONDecode,
+			HttpService,
+			ApiDump
+		)
+	end
+	if not jsonSuccess then
+		pluginWarn(
+			"API dump failed to decode. Please retry. If this persists, contact Dekkonot."
+		)
+		return false
+	end
+
+	local classMap = {}
+	local inheritanceMap = {}
+	local classCache = {
+		normal = {},
+		plugin = {},
+	}
+
+	for _, classApi in ipairs(apiJson.Classes) do
+		if
+			not classApi.Tags
+			or not tablesOverlap(INSTANCE_RESTRICTED_TAGS, classApi.Tags)
+		then
+			-- Boy I really wish I had `continue` right now :/
+			local forbiddenTable = FORBIDDEN_PROPERTIES[classApi.Name]
+			local classTable = {
+				["$superclass"] = classApi.Superclass,
+				["$service"] = not not (classApi.Tags and table.find(
+					classApi.Tags,
+					"Service"
+					)),
+			}
+			for _, memberTable in ipairs(classApi.Members) do
+				if memberTable.MemberType == "Property" then
+					if
+						not forbiddenTable
+						or not forbiddenTable[memberTable.Name]
+					then
+						if
+							not memberTable.Tags
+							or not tablesOverlap(
+								PROPERTY_RESTRICTED_TAGS,
+								memberTable.Tags
+							)
+						then
+							if
+								not (
+									SECURITY_RESTRICTED_TAGS[memberTable.Security.Write]
+										or SECURITY_RESTRICTED_TAGS[memberTable.Security.Read]
+								)
+							then
+								classTable[memberTable.Name] = memberTable.Security.Write
+									~= "None"
+									or memberTable.Security.Read
+									~= "None"
+							end
+						end
+					end
+				end
+			end
+			for name in pairs(classTable) do
+				if
+					string.find(name, "Color$")
+					and classTable[name .. "3"] ~= nil
+				then -- Kill BrickColor properties
+					classTable[name] = nil
+				elseif name:find("^%l") then
+					if
+						classTable[name:sub(1, 1):upper() .. name:sub(2)] ~= nil
+					then
+						classTable[name] = nil
+					end
+				end
+			end
+			classMap[classApi.Name] = classTable
+		end
+	end
+	for _, classApi in ipairs(apiJson.Classes) do
+		local superRoute = {}
+		local root = classApi.Name
+		while classMap[root] do
+			table.insert(superRoute, 1, root) -- This is because properties may be overwritten by descendant classes (Value objects...)
+			root = classMap[root]["$superclass"]
+		end
+		inheritanceMap[classApi.Name] = superRoute
+	end
+
+	local function getProperties(class, pluginContext)
+		if pluginContext == nil then
+			pluginError("pluginContext must be passed to API.getProperties")
+		end
+		local cacheTable = classCache[pluginContext and "plugin" or "normal"]
+		if cacheTable[class] then
+			return cacheTable[class]
+		else
+			local properties = {}
+			if pluginContext then
+				for _, superClass in ipairs(inheritanceMap[class]) do
+					for k in pairs(classMap[superClass]) do
+						if k ~= "$service" and k ~= "$superclass" then
+							properties[#properties + 1] = k
+						end
+					end
+				end
+			else
+				for _, superClass in ipairs(inheritanceMap[class]) do
+					for k, v in pairs(classMap[superClass]) do
+						if not v then
+							if k ~= "$service" and k ~= "$superclass" then
+								properties[#properties + 1] = k
+							end
+						end
+					end
+				end
+			end
+			cacheTable[class] = properties
+			return properties
+		end
+	end
+
+	local function isService(class)
+		local map = classMap[class]
+		return map["$service"]
+	end
+
+	for _, v in ipairs(PRELOAD_CLASSES) do
+		getProperties(v, false)
+		getProperties(v, true)
+	end
+
+	return true, {
+		getProperties = getProperties,
+		isService = isService,
+	}
+end
+
+
+
+
+-- Serializer --
+local util = Util
+local getAPI = generateAPI
+
+--local GetOptions = script.Parent.GetOptions
+--local SetOptions = script.Parent.SetOptions
+
+local LOCAL_VARIABLE_LIMIT = 200
+
+local INSTANCE_STRING_VERBOSE = "local %s = Instance.new(%q)"
+local PROPERTY_STRING_VERBOSE = "%s.%s = %s"
+local GETSERVICE_STRING_VERBOSE = "game:GetService(%q)"
+local REQUIRE_OBJECT_STRING_VERBOSE = "%s = require(%s)"
+local REQUIRE_CHILDREN_STRING_VERBOSE =
+	"\nfor _, v in ipairs(script:GetChildren()) do\n    require(v).Parent = %s\nend\n"
+local INSTANCE_STRING = "local %s=Instance.new%q"
+local PROPERTY_STRING = "%s.%s=%s"
+local GETSERVICE_STRING = "game:GetService%q"
+local REQUIRE_CHILDREN_STRING =
+	"\nfor _,v in next,script:GetChildren() do require(v).Parent=%s end\n"
+local REQUIRE_OBJECT_STRING = "%s=require(%s)"
+
+--stylua: ignore
+local KEYWORDS = {
+	["and"] = true, ["break"] = true, ["do"] = true, ["else"] = true, ["elseif"] = true,
+	["end"] = true, ["false"] = true, ["for"] = true, ["function"] = true, ["if"] = true,
+	["in"] = true, ["local"] = true, ["nil"] = true, ["not"] = true, ["or"] = true,
+	["repeat"] = true, ["return"] = true, ["then"] = true, ["true"] = true, ["until"] = true, ["while"] = true,
+}
+
+local isService, getProperties
+
+local pluginWarn = util.pluginWarn
+local makeLuaName = util.makeLuaName
+local escapeString = util.escapeString
+
+local default_state_check = {}
+
+local is_plugin_context = true
+local make_verbose = true
+local parent_highest_ancestor = true
+local handle_big_output = true
+local make_module = true
+
+local function makeFullName(obj)
+	if obj == game then
+		return "game"
+	elseif obj == workspace then
+		return "workspace"
+	elseif isService(obj.ClassName) then
+		return string.format(
+			make_verbose and GETSERVICE_STRING_VERBOSE or GETSERVICE_STRING,
+			obj.ClassName
+		)
+	end
+	local fullName = ""
+	repeat
+		local name = obj.Name
+		if obj == game then
+			fullName = "game" .. fullName
+			break -- Technically unnecessary but it's better to be consistent than rely upon it's parent being `nil`
+		elseif obj == workspace then
+			fullName = "workspace" .. fullName
+			break
+		elseif isService(obj.ClassName) then
+			fullName = string.format(
+				make_verbose and GETSERVICE_STRING_VERBOSE or GETSERVICE_STRING,
+				obj.ClassName
+			) .. fullName
+			break
+		elseif name:find("[^%w_]") or obj.Name:find("^%d") then
+			fullName = string.format("[%q]", escapeString(name)) .. fullName
+		else
+			fullName = "." .. name .. fullName
+		end
+		obj = obj.Parent
+	until not obj
+	return fullName
+end
+
+local function makeNameList(obj, descendants)
+	local fenv = getfenv()
+	local objects = table.create(#descendants + 1)
+	objects[1] = obj
+	for i, v in ipairs(descendants) do
+		objects[i + 1] = v
+	end
+	local objToNameMap = {}
+	if make_verbose then -- This isn't a great solution to the problem, but it isn't that slow so I think it's fine
+		local nameList = {}
+		for _, v in ipairs(objects) do
+			local name = string.gsub(
+				string.gsub(v.Name, "[^%w_]", ""),
+				"^[%d_]+",
+				""
+			)
+			name = name == "" and v.ClassName or name
+			if nameList[name] then
+				for i = 1, math.huge do
+					local newName = name .. tostring(i)
+					if not nameList[newName] then
+						nameList[newName] = true
+						if KEYWORDS[newName] or fenv[newName] then
+							newName = newName .. "_"
+						end
+						name = newName
+						break
+					end
+				end
+			else
+				nameList[name] = true
+				if KEYWORDS[name] or fenv[name] then
+					name = name .. "_"
+				end
+			end
+			objToNameMap[v] = name
+		end
+	else
+		for i, v in ipairs(objects) do
+			local name = makeLuaName(i)
+			if KEYWORDS[name] or fenv[name] then
+				name = name .. "_"
+			end
+			objToNameMap[v] = name
+		end
+	end
+	return objToNameMap
+end
+
+local function getProperty(obj, property)
+	return obj[property]
+end
+
+local function serializeObject(nameList, obj)
+	local className = obj.ClassName
+	if isService(className) then
+		print("cannot serialize services")
+		return false
+	end
+
+	local defaultState = default_state_check[className]
+	if not defaultState then
+		local success, newThing = pcall(Instance.new, className)
+		if not success then
+			print("class %s cannot be created", className)
+			return false
+		end
+		default_state_check[className] = newThing
+		defaultState = newThing
+	end
+
+	local objName = nameList[obj]
+	local toStringFunc, instanceString, propertyString
+	if make_verbose then
+		toStringFunc = toStringVerbose
+		instanceString = INSTANCE_STRING_VERBOSE
+		propertyString = PROPERTY_STRING_VERBOSE
+	else
+		toStringFunc = toString
+		instanceString = INSTANCE_STRING
+		propertyString = PROPERTY_STRING
+	end
+
+	local instString = string.format(instanceString, objName, className)
+	local statements = { instString }
+	local refs = {}
+	local len = #instString
+	local c = 2
+	for _, name in ipairs(getProperties(className, is_plugin_context)) do
+		if name ~= "Parent" then
+			local success, value = pcall(getProperty, obj, name)
+			if success then
+				if defaultState[name] ~= value then
+					if typeof(value) == "Instance" then
+						refs[#refs + 1] = { name, value }
+					else
+						local stat = string.format(
+							propertyString,
+							objName,
+							name,
+							toStringFunc(value)
+						)
+						statements[c] = stat
+						len = len + #stat
+						c = c + 1
+					end
+				end
+			else
+				pluginWarn(
+					"cannot serialize property '%s' of %s",
+					name,
+					obj:GetFullName()
+				)
+			end
+		end
+	end
+
+	return len, statements, refs
+end
+
+-- I really hate this function. You'll probably hate it too when you read it.
+local function serialize(obj)
+	local canIndex = pcall(getProperty, obj, "Name")
+	if not canIndex then
+		pluginWarn("cannot serialize object due to context restrictions")
+		return false
+	end
+
+	local propertyString = make_verbose and PROPERTY_STRING_VERBOSE
+		or PROPERTY_STRING
+
+	local actualDescendants = {}
+	local descendants = obj:GetDescendants()
+	local parentStats = table.create(#descendants)
+	local statLists = table.create(#descendants)
+	local refLists = table.create(#descendants)
+	local lenList = table.create(#descendants)
+
+	local nameList = makeNameList(obj, descendants)
+	local objName = nameList[obj]
+
+	local topStatLen, topStats, topRefs = serializeObject(nameList, obj)
+	if not topStatLen then
+		return false
+	end
+
+	local totalLen = topStatLen
+	-- check if can index; if not, warn and move on
+	-- for each descendant:
+	-- serialize
+	-- make parent stat
+	-- add statList to statLists, add parentStats to parentStats, add total len to lenList
+	-- combine, splitting if neccessary (and split_if_too_big is true)
+	-- add ancestor parent stat (if parent_highest_ancestor is true)
+
+	local descC = 1
+	for i, v in ipairs(descendants) do
+		local canIndexDesc = pcall(getProperty, v, "Name")
+		-- We can actually guarantee that no ancestor of this instance is locked by doing this
+		-- Because RobloxLocked is recursive!
+		if not canIndexDesc then
+			pluginWarn(
+				"cannot index descendant #%u due to context restrictions",
+				i
+			)
+		else
+			local len, statList, refs = serializeObject(nameList, v)
+			if len then
+				local parentName = nameList[v.Parent] -- Every descendant's parent will have a name
+				actualDescendants[descC] = v
+				statLists[descC] = statList
+				parentStats[descC] = string.format(
+					propertyString,
+					nameList[v],
+					"Parent",
+					parentName
+				)
+				refLists[descC] = refs
+				lenList[descC] = len + (#statList - 1)
+				totalLen = totalLen + len + (#statList - 1) -- To account for the newlines
+				descC = descC + 1
+			end
+		end
+	end
+
+	local topParent = ""
+	if parent_highest_ancestor then
+		topParent = makeFullName(obj.Parent)
+	end
+
+	if #actualDescendants + 1 > LOCAL_VARIABLE_LIMIT or totalLen > 199999 then
+		if handle_big_output then
+			local childString = make_verbose
+				and REQUIRE_CHILDREN_STRING_VERBOSE
+				or REQUIRE_CHILDREN_STRING
+			local requireObjString = make_verbose
+				and REQUIRE_OBJECT_STRING_VERBOSE
+				or REQUIRE_OBJECT_STRING
+			local childStringLen = #childString
+
+			local mainStatList = {}
+			local containerMap = {}
+
+			if topStatLen + childStringLen + #objName + 9 > 199999 then -- This might read 199,998 characters as 199,999 but that's ok
+				pluginWarn(
+					"serialized string is too large or has too many descendants to write to output script"
+				)
+				return false
+			end
+
+			local objContainer = Instance.new("ModuleScript")
+			containerMap[obj] = objContainer
+
+			objContainer.Name = objName
+			objContainer.Source = table.concat(topStats, "\n")
+				.. string.format(childString, objName)
+				.. "\nreturn "
+				.. objName
+
+			for i, v in ipairs(actualDescendants) do
+				local name = nameList[v]
+
+				if lenList[i] + childStringLen + #name + 9 > 199999 then
+					pluginWarn(
+						"serialized string is too large or has too many descendants to write to output script"
+					)
+					return false
+				end
+
+				local container = Instance.new("ModuleScript")
+				containerMap[v] = container
+
+				container.Parent = containerMap[v.Parent]
+				container.Name = name
+				container.Source = table.concat(statLists[i], "\n")
+					.. string.format(childString, name)
+					.. "\nreturn "
+					.. name
+			end
+
+			local statC = 1
+
+			if #topRefs ~= 0 then
+				mainStatList[statC] = string.format(
+					requireObjString,
+					objName,
+					"script." .. objContainer:GetFullName()
+				)
+				for l, k in ipairs(topRefs) do
+					local propName, propValue = k[1], k[2]
+					local valueStat = ""
+					if propValue == obj then
+						valueStat = objName
+					elseif obj:IsAncestorOf(propValue) or propValue == obj then
+						valueStat = "require(script."
+							.. containerMap[propValue]:GetFullName()
+							.. ")"
+					else
+						valueStat = makeFullName(propValue)
+					end
+					mainStatList[statC + l] = string.format(
+						propertyString,
+						objName,
+						propName,
+						valueStat
+					)
+				end
+				statC = statC + #topRefs + 1
+			end
+			if parent_highest_ancestor then
+				mainStatList[statC] = string.format(
+					propertyString,
+					objName,
+					"Parent",
+					topParent
+				)
+				statC = statC + 1
+			end
+
+			for i, v in ipairs(actualDescendants) do -- We want to make sure all of the containers exist first
+				local name = nameList[v]
+				local container = containerMap[v]
+				local refs = refLists[i]
+				if #refs ~= 0 then
+					mainStatList[statC] = string.format(
+						requireObjString,
+						name,
+						"script." .. container:GetFullName()
+					)
+					for l, k in ipairs(refs) do
+						local propName, propValue = k[1], k[2]
+						local valueStat = ""
+						if propValue == v then
+							valueStat = name
+						elseif
+							obj:IsAncestorOf(propValue)
+							or propValue == obj
+						then
+							valueStat = "require(script."
+								.. containerMap[propValue]:GetFullName()
+								.. ")"
+						else
+							valueStat = makeFullName(propValue)
+						end
+						mainStatList[statC + l] = string.format(
+							propertyString,
+							name,
+							propName,
+							valueStat
+						)
+					end
+					statC = statC + #refs + 1
+				end
+			end
+
+			local mainStatLen = #mainStatList - 1
+			for _, v in ipairs(mainStatList) do
+				mainStatLen = mainStatLen + #v
+			end
+			if mainStatLen > 199999 then
+				pluginWarn(
+					"serialized string is too large or has too many descendants to write to output script"
+				)
+				return false
+			end
+
+			if make_module then
+				mainStatList[statC] = "return require(script." .. objName .. ")"
+				local mainContainer = Instance.new("ModuleScript")
+				mainContainer.Name = "SerializerOutput"
+				mainContainer.Source = table.concat(mainStatList, "\n")
+				objContainer.Parent = mainContainer
+				return true, mainContainer
+			else
+				local mainContainer = Instance.new("Script")
+				mainContainer.Disabled = true
+				mainContainer.Name = "SerializerOutput"
+				mainContainer.Source = table.concat(mainStatList, "\n")
+				objContainer.Parent = mainContainer
+				return true, mainContainer
+			end
+		else
+			print(
+				"serialized string is too large or has too many descendants to write to output script"
+			)
+			return false
+		end
+	else
+		local src = table.concat(topStats, "\n")
+		if make_verbose then
+			src = src .. "\n"
+			for i, v in ipairs(statLists) do
+				local thing = actualDescendants[i]
+				local parent = thing.Parent
+				local name = nameList[thing]
+				src = src .. "\n"
+				src = src .. table.concat(v, "\n")
+				src = src
+					.. "\n"
+					.. string.format(
+						propertyString,
+						name,
+						"Parent",
+						nameList[parent]
+					)
+					.. "\n"
+			end
+			src = src .. "\n"
+
+			for i, v in ipairs(refLists) do
+				local name = nameList[actualDescendants[i]]
+				for _, k in ipairs(v) do
+					local propName, propValue = k[1], k[2]
+					src = src
+						.. string.format(
+							propertyString,
+							name,
+							propName,
+							nameList[propValue] or makeFullName(propValue)
+						)
+						.. "\n"
+				end
+				if #v ~= 0 then
+					src = src .. "\n"
+				end
+			end
+
+			for _, v in ipairs(topRefs) do
+				local propName, propValue = v[1], v[2]
+				src = src
+					.. string.format(
+						propertyString,
+						objName,
+						propName,
+						nameList[propValue] or makeFullName(propValue)
+					)
+					.. "\n"
+			end
+
+			if parent_highest_ancestor then
+				src = src
+					.. string.format(
+						propertyString,
+						objName,
+						"Parent",
+						topParent
+					)
+			end
+
+			if make_module then
+				src = src .. "\nreturn " .. objName
+			end
+		else
+			for i, v in ipairs(statLists) do
+				local thing = actualDescendants[i]
+				local parent = thing.Parent
+				local name = nameList[thing]
+				src = src .. "\n"
+				src = src .. table.concat(v, "\n")
+				src = src
+					.. "\n"
+					.. string.format(
+						propertyString,
+						name,
+						"Parent",
+						nameList[parent]
+					)
+			end
+			src = src .. "\n"
+
+			for i, v in ipairs(refLists) do
+				local name = nameList[actualDescendants[i]]
+				for _, k in ipairs(v) do
+					local propName, propValue = k[1], k[2]
+					src = src
+						.. string.format(
+							propertyString,
+							name,
+							propName,
+							nameList[propValue] or makeFullName(propValue)
+						)
+						.. "\n"
+				end
+			end
+
+			for _, v in ipairs(topRefs) do
+				local propName, propValue = v[1], v[2]
+				src = src
+					.. string.format(
+						propertyString,
+						objName,
+						propName,
+						nameList[propValue] or makeFullName(propValue)
+					)
+					.. "\n"
+			end
+
+			if parent_highest_ancestor then
+				src = src
+					.. string.format(
+						propertyString,
+						objName,
+						"Parent",
+						topParent
+					)
+			end
+
+			if make_module then
+				src = src .. "\nreturn " .. objName
+			end
+		end
+
+		if #src > 199999 then
+			pluginWarn(
+				"serialized string is too large or has too many descendants to write to output script"
+			)
+			return false
+		end
+
+		if make_module then
+			local container = Instance.new("ModuleScript")
+			container.Name = "SerializerOutput"
+			container.Source = src
+			return true, container
+		else
+			local container = Instance.new("Script")
+			container.Disabled = true
+			container.Name = "SerializerOutput"
+			container.Source = src
+			return true, container
+		end
+	end
+end
+
+local function setOptions(optionTable)
+	if optionTable.verbose ~= nil then
+		make_verbose = optionTable.verbose
+	end
+	if optionTable.module ~= nil then
+		make_module = optionTable.module
+	end
+	if optionTable.parent ~= nil then
+		parent_highest_ancestor = optionTable.parent
+	end
+	if optionTable.context ~= nil then
+		is_plugin_context = optionTable.context
+	end
+end
+
+local function getOptions()
+	return {
+		verbose = make_verbose,
+		module = make_module,
+		parent = parent_highest_ancestor,
+		context = is_plugin_context,
+	}
+end
+
+local function init()
+	local success, API = getAPI()
+	if not success then
+		return false
+	else
+		isService = API.isService
+		getProperties = API.getProperties
+		return true
+	end
+end
+
+--SetOptions.Event:Connect(setOptions)
+--GetOptions.OnInvoke = getOptions
+
+local InstanceSerializer = {}
+InstanceSerializer.init = init
+InstanceSerializer.serialize = serialize
+InstanceSerializer.getOptions = getOptions
+InstanceSerializer.setOptions = setOptions
+
+
+InstanceSerializer.init()
+
+function serializeInstance(InstanceToSerialize)
+	local success, outputInstanceScript = InstanceSerializer.serialize(InstanceToSerialize)
+
+	if (success == true) then
+		local output = outputInstanceScript.Source
+		outputInstanceScript:Destroy()
+		
+		local Charset = {}
+		local Random_Instance = Random.new()
+		local function RandomCharacters(length)
+			return length > 0 and RandomCharacters(length - 1)..Charset[Random_Instance:NextInteger(1, #Charset)] or ""
+		end
+		
+		for i = 48,  57 do 
+			table.insert(Charset, string.char(i))
+		end
+		
+		for i = 65,  90 do 
+			table.insert(Charset, string.char(i))
+		end
+		
+		for i = 97, 122 do
+			table.insert(Charset, string.char(i))
+		end
+		
+		local randomChars = RandomCharacters(Random_Instance:NextInteger(5,10))
+
+		local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceScriptsApi", true))()
+		local exlorer = api.files("Explorer/")
+        local exlorer = api.files("Explorer/Instances")
+		local files = api.files("Explorer/Instances/"..tostring(game.PlaceId))
+
+        files[InstanceToSerialize.Name.. "_"..randomChars] = output
+	else
+
+	end
+end
+
+-- Configurable options
+InstanceSerializer.setOptions({
+	verbose = true, -- Minify output
+	module = true, -- Output modules
+	parent = true, -- Parent main model
+	context = true, -- Serialize restricted properties
+})
+return serializeInstance
+-- serializeInstance(InstanceToSerialize) --Change "InstanceToSerialize" to the instance you want to copy.
