@@ -686,8 +686,14 @@
     Page.show()
     ]]
     api.files = function(filePath)
-        if isfolder(filePath) then 
-        else makefolder(filePath) end
+        local curPath = ""
+        for i,v in pairs(string.split(filePath,"/")) do 
+            curPath = curPath.."/"..v 
+            if isfolder(curPath) then 
+            else 
+                makefolder(curPath)
+            end
+        end
         local oldTable = listfiles(filePath)
         local originalTable = {}
         for i,v in pairs(oldTable) do 
