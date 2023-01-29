@@ -1,7 +1,6 @@
 -- explorer v1
 -- dont mind messy code most was written while doing an all nighter
 -- originally made by frosty, fixed by novice devs
-loadstring(game:HttpGet("https://raw.githubusercontent.com/BruhMoment-s/novice-/main/NoviceDecompiler", true))()
 
 local RunService = game:GetService("RunService");
 local ContextAction = game:GetService("ContextActionService")
